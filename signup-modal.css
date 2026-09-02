@@ -1,0 +1,372 @@
+/* The inline quiz is moved into this native dialog, never cloned. */
+html.signup-modal-open {
+  scroll-behavior: auto;
+}
+
+body.signup-modal-open .mobile-actions {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.signup-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  width: min(880px, calc(100% - 32px));
+  max-width: none;
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  min-width: 0;
+  min-height: 0;
+  margin: auto;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  padding: 0;
+  overflow: hidden;
+  color: var(--white, #fffdf7);
+  background: #0c0c0e;
+  box-shadow: 0 28px 100px rgba(0, 0, 0, 0.65);
+  text-align: left;
+  overscroll-behavior: contain;
+}
+
+.signup-modal[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.signup-modal::backdrop {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
+}
+
+.signup-modal__bar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 60px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 7px 12px 7px 36px;
+  background: #101012;
+}
+
+.signup-modal__bar::before {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 72px;
+  height: 2px;
+  background: var(--accent-hot, #ff2740);
+  content: "";
+}
+
+.signup-modal__bar > span {
+  min-width: 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.signup-modal__close {
+  display: inline-flex;
+  flex: 0 0 44px;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  padding: 0;
+  color: var(--white, #fffdf7);
+  background: rgba(255, 255, 255, 0.025);
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease;
+}
+
+.signup-modal__close:hover {
+  border-color: rgba(255, 255, 255, 0.42);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.signup-modal__close:focus-visible {
+  outline: 2px solid var(--white, #fffdf7);
+  outline-offset: 3px;
+}
+
+.signup-modal__close svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.signup-modal__content {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scroll-behavior: auto;
+  scroll-padding: 20px;
+  scrollbar-width: thin;
+  scrollbar-color: #555 #101012;
+  -webkit-overflow-scrolling: touch;
+}
+
+.signup.signup-quiz .signup-modal .signup__form-wrap.signup-quiz__panel {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  padding: 28px 36px 32px;
+  overflow: visible;
+  background: linear-gradient(155deg, #131315, #0a0a0c);
+  box-shadow: none;
+  backdrop-filter: none;
+  clip-path: none;
+  /* Page-entry effects must not hide a panel opened before scrolling to signup. */
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+  transition: none !important;
+  will-change: auto;
+}
+
+.signup.signup-quiz .signup-modal .signup-quiz__panel::before,
+.signup.signup-quiz .signup-modal .signup-quiz__panel::after {
+  display: none;
+}
+
+.signup-modal .signup-quiz__form,
+.signup-modal .signup-quiz__step,
+.signup-modal .field {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.signup-modal .signup-quiz__step {
+  min-height: 0;
+}
+
+.signup-modal .signup-quiz__step legend {
+  max-width: 100%;
+  font-size: clamp(30px, 4vw, 40px);
+  line-height: 1;
+}
+
+.signup-modal .signup-quiz__progress {
+  margin-bottom: 24px;
+}
+
+.signup-modal .signup-quiz__nav {
+  min-width: 0;
+  margin-top: 24px;
+  padding-top: 0;
+}
+
+.signup-modal .signup-quiz__options {
+  gap: 12px;
+}
+
+.signup-modal .signup-quiz__option > span,
+.signup-modal .signup-quiz__review strong {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.signup-modal .signup-quiz__review > div {
+  min-width: 0;
+}
+
+.signup-modal .signup-quiz__next.swipe-button {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.signup.signup-quiz .signup-modal .field :is(input, select, textarea) {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.signup.signup-quiz .signup-modal .signup__direct {
+  margin-top: 26px;
+}
+
+.signup-modal .signup__direct a {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 680px) {
+  .signup-modal {
+    width: calc(100% - 16px);
+    max-height: calc(100vh - 16px);
+    max-height: calc(100dvh - 16px);
+    border-radius: 6px;
+  }
+
+  .signup-modal__bar {
+    min-height: 58px;
+    gap: 10px;
+    padding: 6px 8px 6px 18px;
+  }
+
+  .signup-modal__bar > span {
+    font-size: 9px;
+  }
+
+  .signup.signup-quiz .signup-modal .signup__form-wrap.signup-quiz__panel {
+    padding: 20px 18px calc(24px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .signup.signup-quiz .signup-modal .signup__form-intro {
+    margin-bottom: 14px;
+  }
+
+  .signup.signup-quiz .signup-modal .signup__form-intro strong {
+    max-width: none;
+    font-size: 17px;
+  }
+
+  .signup-modal .signup-quiz__progress {
+    margin-bottom: 22px;
+  }
+
+  .signup-modal .signup-quiz__progress > span {
+    min-height: 46px;
+    padding: 7px 4px 8px;
+  }
+
+  .signup-modal .signup-quiz__progress small {
+    display: block;
+    font-size: 6px;
+  }
+
+  .signup-modal .signup-quiz__step legend {
+    font-size: clamp(29px, 8vw, 36px);
+  }
+
+  .signup-modal .signup-quiz__hint {
+    margin: 12px 0 18px;
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .signup-modal .signup-quiz__options {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 9px;
+  }
+
+  .signup-modal .signup-quiz__option {
+    min-height: 82px;
+    padding: 15px 14px;
+  }
+
+  .signup-modal .signup-quiz__options .signup-quiz__option > span {
+    padding-right: 0;
+    font-size: 22px;
+    white-space: normal;
+  }
+
+  .signup-modal .signup-quiz__option > small {
+    max-width: 30ch;
+    margin-top: 5px;
+    font-size: 11px;
+  }
+
+  .signup-modal .signup-quiz__participant-icon {
+    width: 72px;
+    height: 72px;
+  }
+
+  .signup-modal .signup-quiz__age {
+    width: 100%;
+    margin-top: 18px;
+  }
+
+  .signup.signup-quiz .signup-modal .field :is(input, select, textarea) {
+    min-height: 52px;
+    padding: 12px 14px;
+    font-size: 16px;
+  }
+
+  .signup-modal .signup-quiz__nav {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 8px;
+    margin-top: 22px;
+  }
+
+  .signup-modal .signup-quiz__nav--end,
+  .signup-modal .signup-quiz__nav--submit {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .signup-modal .signup-quiz__back {
+    min-height: 44px;
+    padding-inline: 4px;
+  }
+
+  .signup-modal .signup-quiz__nav--submit .signup-quiz__back {
+    justify-self: start;
+  }
+
+  .signup-modal .signup-quiz__next.swipe-button {
+    width: 100%;
+    min-height: 60px;
+  }
+
+  .signup-modal .signup-quiz__nav--submit .button--submit {
+    width: 100%;
+    min-width: 0;
+    min-height: 56px;
+    padding-inline: 14px;
+    font-size: 10px;
+  }
+
+  .signup-modal .signup-quiz__review > div {
+    min-height: 0;
+    gap: 6px;
+    padding: 12px 14px;
+  }
+
+  .signup.signup-quiz .signup-modal .signup__direct {
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 20px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .signup-modal[open] {
+    animation: signup-modal-in 220ms ease-out both;
+  }
+
+  @keyframes signup-modal-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signup-modal,
+  .signup-modal__close,
+  .signup-modal .signup-quiz__step.is-active {
+    animation: none;
+    transition: none;
+  }
+}

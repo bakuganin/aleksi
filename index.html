@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+      name="description"
+      content="Кикбоксинг с Александрой Джикаевой в Силламяэ и Нарве: дети, подростки, малыши до 4 лет, индивидуальные тренировки и женская группа."
+    >
+    <meta name="theme-color" content="#0b0b0c">
+    <meta property="og:title" content="Кикбоксинг с Александрой Джикаевой — Силламяэ и Нарва">
+    <meta
+      property="og:description"
+      content="Набор в группы в Силламяэ и Нарве: дети, подростки, малыши до 4 лет, индивидуальные тренировки и женский кикбоксинг."
+    >
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="assets/images/sasha-hero-arena-v2.png">
+
+    <title>Кикбоксинг с Александрой Джикаевой — Силламяэ и Нарва</title>
+
+    <script>
+      (() => {
+        const root = document.documentElement;
+        root.classList.add("js");
+
+        try {
+          const params = new URLSearchParams(window.location.search);
+          const forceLoader = params.get("loader") === "1";
+          const skipLoader = params.has("preview") || params.get("capture") === "1" || params.get("loader") === "0";
+          const loaderSeen = window.sessionStorage.getItem("dzhikaeva-loader-seen") === "1";
+
+          if (forceLoader || (!skipLoader && !loaderSeen)) root.classList.add("loader-active");
+        } catch {
+          root.classList.add("loader-active");
+        }
+
+        window.__siteLoaderFailsafe = window.setTimeout(() => {
+          root.classList.remove("loader-active");
+        }, 8000);
+      })();
+    </script>
+
+    <link rel="icon" href="assets/brand-mark.svg?v=20260902-ad" type="image/svg+xml" sizes="any">
+    <link rel="preload" as="image" href="assets/boxing-glove-loader.svg" type="image/svg+xml">
+    <link
+      rel="preload"
+      as="image"
+      href="assets/images/hero-layers/broadcast-field-v4.png"
+      fetchpriority="high"
+    >
+    <link
+      rel="preload"
+      as="image"
+      href="assets/images/hero-layers/hero-sasha-spotlight-v5.png"
+      media="(min-width: 881px)"
+      fetchpriority="high"
+    >
+    <link
+      rel="preload"
+      as="image"
+      href="assets/images/hero-layers/hero-sasha-mobile-v1.png"
+      media="(max-width: 880px)"
+      fetchpriority="high"
+    >
+    <link
+      rel="preload"
+      as="image"
+      href="assets/images/hero-slide-2/sasha-thai-tiger-v3.png"
+      fetchpriority="high"
+    >
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Condensed:wght@700;800;900&display=swap"
+      rel="stylesheet"
+    >
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    >
+    <link rel="stylesheet" href="styles.css?v=20260902-champion-ribbon">
+    <link rel="stylesheet" href="groups-layout.css?v=20260902-editorial-groups">
+    <link rel="stylesheet" href="signup-modal.css?v=20260902-signup-modal-v2">
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SportsActivityLocation",
+        "name": "Кикбоксинг с Александрой Джикаевой",
+        "description": "Тренировки по кикбоксингу для детей, подростков и взрослых в Силламяэ и Нарве.",
+        "telephone": "+37255554649",
+        "email": "Dzhikaevalex@gmail.com",
+        "sameAs": ["https://www.instagram.com/aleksi1703/"],
+        "address": [
+          {
+            "@type": "PostalAddress",
+            "streetAddress": "Kalda 14",
+            "addressLocality": "Sillamäe",
+            "postalCode": "40231",
+            "addressCountry": "EE"
+          },
+          {
+            "@type": "PostalAddress",
+            "streetAddress": "Rakvere 22D",
+            "addressLocality": "Narva",
+            "addressCountry": "EE"
+          }
+        ]
+      }
+    </script>
+  </head>
+
+  <body>
+    <div
+      class="site-loader"
+      role="status"
+      aria-live="polite"
+      aria-label="Сайт загружается"
+      data-site-loader
+    >
+      <div class="site-loader__screen" aria-hidden="true">
+        <svg class="site-loader__snake" viewBox="0 0 1600 1000" preserveAspectRatio="none" focusable="false">
+          <defs>
+            <mask id="site-loader-erase-mask" maskUnits="userSpaceOnUse" style="mask-type: luminance;">
+              <rect width="1600" height="1000" fill="white"></rect>
+              <path
+                class="site-loader__erase-path"
+                pathLength="1"
+                d="M-180 80C240 14 1370 138 1765 74C1324 232 274 140 -168 262C252 386 1366 260 1772 416C1320 566 286 444 -170 596C256 728 1360 610 1774 752C1314 926 286 806 -186 942"
+              ></path>
+            </mask>
+          </defs>
+          <rect class="site-loader__snake-fill" width="1600" height="1000" mask="url(#site-loader-erase-mask)"></rect>
+        </svg>
+      </div>
+      <div class="site-loader__frame">
+        <div class="site-loader__glove-wrap" aria-hidden="true">
+          <img
+            class="site-loader__glove"
+            src="assets/boxing-glove-loader.svg"
+            alt=""
+            width="88"
+            height="88"
+            decoding="sync"
+            fetchpriority="high"
+          />
+        </div>
+        <div class="site-loader__meter sr-only">
+          <div class="site-loader__meta" aria-hidden="true">
+            <span>Подготовка ринга</span>
+            <strong><b data-loader-progress>00</b><i>/100</i></strong>
+          </div>
+          <progress
+            class="site-loader__track"
+            max="100"
+            value="0"
+            aria-label="Загрузка сайта"
+            data-loader-meter
+          >0%</progress>
+        </div>
+      </div>
+    </div>
+
+    <a class="skip-link" href="#main-content">Перейти к содержанию</a>
+
+    <header class="site-header" data-header>
+      <div class="container site-header__inner">
+        <a class="brand" href="#top" aria-label="К началу страницы">
+          <span class="brand__mark" aria-hidden="true">AD</span>
+          <span class="brand__text">
+            <strong>DZHIKAEVA</strong>
+            <small>KICKBOXING · SILLAMÄE</small>
+          </span>
+        </a>
+
+        <nav class="site-nav" id="site-navigation" aria-label="Основная навигация" data-nav>
+          <a href="#coach">Тренер</a>
+          <a href="#groups">Группы</a>
+          <a href="#hall">Зал</a>
+          <a href="#contacts">Контакты</a>
+          <div class="site-nav__meta" aria-label="Быстрая связь">
+            <span class="site-nav__meta-label">Связь без ожидания</span>
+            <a class="site-nav__contact" href="tel:+37255554649" data-cta="nav_phone">+372&nbsp;5555&nbsp;4649</a>
+            <div class="site-nav__cta-row">
+              <a
+                class="site-nav__cta"
+                href="https://wa.me/37255554649"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cta="nav_whatsapp"
+              >
+                WhatsApp
+              </a>
+              <a class="site-nav__cta site-nav__cta--accent" href="#quick-start" data-cta="nav_signup">
+                Записаться
+              </a>
+            </div>
+          </div>
+        </nav>
+
+        <div class="site-header__actions">
+          <a
+            class="header-phone"
+            href="tel:+37255554649"
+            aria-label="Позвонить Александре"
+            data-cta="header_phone"
+          >
+            +372&nbsp;5555&nbsp;4649
+          </a>
+          <div class="header-whatsapp" data-header-whatsapp>
+            <button
+              class="header-whatsapp__trigger"
+              type="button"
+              aria-label="Открыть WhatsApp"
+              aria-expanded="false"
+              aria-controls="header-whatsapp-card"
+              aria-haspopup="dialog"
+              data-whatsapp-trigger
+            >
+              <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                <path d="M16 3.5A12.25 12.25 0 0 0 5.3 21.72L3.5 28.5l6.94-1.82A12.25 12.25 0 1 0 16 3.5Z"></path>
+                <path d="M11.2 9.35c-.3-.67-.62-.68-.91-.69h-.78c-.27 0-.7.1-1.07.5-.37.4-1.4 1.37-1.4 3.34s1.44 3.87 1.64 4.14c.2.26 2.82 4.31 6.84 6.04 3.34 1.44 4.02 1.16 4.74 1.08.73-.07 2.34-.95 2.67-1.88.33-.93.33-1.72.23-1.88-.1-.17-.36-.27-.76-.47-.4-.2-2.34-1.16-2.7-1.29-.37-.13-.63-.2-.9.2-.26.4-1.02 1.29-1.25 1.56-.23.26-.46.3-.86.1-.4-.2-1.68-.62-3.2-1.98-1.18-1.05-1.98-2.35-2.21-2.75-.23-.4-.02-.61.18-.81.18-.18.4-.46.6-.7.2-.23.26-.4.4-.66.13-.27.06-.5-.04-.7-.1-.2-.88-2.18-1.22-2.98Z"></path>
+              </svg>
+            </button>
+
+            <a
+              class="header-whatsapp__mobile"
+              href="https://wa.me/37255554649"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cta="header_whatsapp_mobile"
+            >
+              <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                <path d="M16 3.5A12.25 12.25 0 0 0 5.3 21.72L3.5 28.5l6.94-1.82A12.25 12.25 0 1 0 16 3.5Z"></path>
+                <path d="M11.2 9.35c-.3-.67-.62-.68-.91-.69h-.78c-.27 0-.7.1-1.07.5-.37.4-1.4 1.37-1.4 3.34s1.44 3.87 1.64 4.14c.2.26 2.82 4.31 6.84 6.04 3.34 1.44 4.02 1.16 4.74 1.08.73-.07 2.34-.95 2.67-1.88.33-.93.33-1.72.23-1.88-.1-.17-.36-.27-.76-.47-.4-.2-2.34-1.16-2.7-1.29-.37-.13-.63-.2-.9.2-.26.4-1.02 1.29-1.25 1.56-.23.26-.46.3-.86.1-.4-.2-1.68-.62-3.2-1.98-1.18-1.05-1.98-2.35-2.21-2.75-.23-.4-.02-.61.18-.81.18-.18.4-.46.6-.7.2-.23.26-.4.4-.66.13-.27.06-.5-.04-.7-.1-.2-.88-2.18-1.22-2.98Z"></path>
+              </svg>
+              <span>Написать</span>
+            </a>
+
+            <div
+              class="header-whatsapp__card"
+              id="header-whatsapp-card"
+              role="dialog"
+              aria-modal="false"
+              aria-labelledby="header-whatsapp-title"
+              hidden
+              data-whatsapp-card
+            >
+              <button
+                class="header-whatsapp__close"
+                type="button"
+                aria-label="Закрыть окно WhatsApp"
+                data-whatsapp-close
+              >×</button>
+              <img
+                class="header-whatsapp__qr"
+                src="assets/whatsapp-qr.svg"
+                width="184"
+                height="184"
+                alt=""
+              >
+              <div class="header-whatsapp__copy">
+                <h2 id="header-whatsapp-title">WhatsApp</h2>
+                <p>Наведите камеру телефона на QR-код, чтобы написать Александре.</p>
+              </div>
+              <a
+                class="header-whatsapp__desktop-link"
+                href="https://wa.me/37255554649"
+                target="_blank"
+                rel="noopener noreferrer"
+                data-cta="header_whatsapp_desktop"
+              >
+                Написать с компьютера
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+          <a class="button button--small" href="#quick-start" data-cta="header_signup">Записаться</a>
+          <button
+            class="nav-toggle"
+            type="button"
+            aria-label="Открыть меню"
+            aria-controls="site-navigation"
+            aria-expanded="false"
+            data-nav-toggle
+          >
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+    <div class="whatsapp-backdrop" aria-hidden="true" hidden data-whatsapp-backdrop></div>
+
+    <main id="main-content">
+      <section
+        class="hero-story"
+        id="top"
+        aria-labelledby="hero-title"
+        data-funnel-section="offer"
+        data-heat="hot"
+        data-hero-story
+      >
+        <div class="hero broadcast-hero" data-hero data-active-slide="0">
+          <article
+            class="hero-slide hero-slide--primary broadcast-slide broadcast-slide--open"
+            data-hero-slide="0"
+            aria-label="Набор в секцию кикбоксинга"
+          >
+            <div class="broadcast-stage" aria-hidden="true">
+              <div class="broadcast-stage__field">
+                <picture class="broadcast-stage__photo">
+                  <source media="(max-width: 880px)" srcset="assets/images/hero-layers/hero-sasha-mobile-v1.png" width="941" height="1672">
+                  <img
+                    src="assets/images/hero-layers/hero-sasha-spotlight-v5.png"
+                    alt=""
+                    width="1672"
+                    height="941"
+                    fetchpriority="high"
+                    loading="eager"
+                    decoding="async"
+                  >
+                </picture>
+                <div class="broadcast-stage__flag-wave broadcast-stage__flag-wave--left">
+                  <img
+                    src="assets/images/hero-layers/hero-sasha-spotlight-v5.png"
+                    alt=""
+                    width="1672"
+                    height="941"
+                    decoding="async"
+                  >
+                </div>
+                <div class="broadcast-stage__flag-wave broadcast-stage__flag-wave--right">
+                  <img
+                    src="assets/images/hero-layers/hero-sasha-spotlight-v5.png"
+                    alt=""
+                    width="1672"
+                    height="941"
+                    decoding="async"
+                  >
+                </div>
+              </div>
+              <div class="broadcast-stage__ufc-motion">
+                <span
+                  class="broadcast-stage__shard broadcast-stage__shard--left-top"
+                  data-parallax
+                  data-parallax-depth="0.16"
+                ></span>
+                <span
+                  class="broadcast-stage__shard broadcast-stage__shard--left-bottom"
+                  data-parallax
+                  data-parallax-depth="0.22"
+                ></span>
+                <span
+                  class="broadcast-stage__shard broadcast-stage__shard--right-top"
+                  data-parallax
+                  data-parallax-depth="0.18"
+                ></span>
+                <span
+                  class="broadcast-stage__shard broadcast-stage__shard--right-bottom"
+                  data-parallax
+                  data-parallax-depth="0.28"
+                ></span>
+              </div>
+              <div class="broadcast-stage__spotlight" data-parallax data-parallax-depth="0.7"></div>
+              <div class="broadcast-stage__ink"></div>
+            </div>
+
+            <div class="broadcast-frame" aria-hidden="true">
+              <div class="broadcast-frame__top">
+                <span>WAKO · KICKBOXING</span>
+                <span>OPEN ENROLLMENT · 2026</span>
+                <span>SILLAMÄE · ESTONIA</span>
+              </div>
+              <div class="broadcast-frame__side broadcast-frame__side--left">
+                <span>KICKBOXING · DZHIKAEVA · KICKBOXING ·</span>
+              </div>
+              <div class="broadcast-frame__side broadcast-frame__side--right">
+                <span>6–16 · START · 17:00 · SILLAMÄE ·</span>
+              </div>
+              <div class="broadcast-frame__bottom">
+                <span>DISCIPLINE BUILDS CONFIDENCE</span>
+                <span>MON · WED · FRI / 17:00</span>
+              </div>
+            </div>
+
+            <div class="container broadcast-offer">
+              <div class="broadcast-offer__copy">
+                <p class="broadcast-offer__eyebrow"><span>Набор открыт</span> Дети и подростки 6–16 лет</p>
+                <h1 id="hero-title">
+                  <span>Кикбоксинг</span>
+                  <span>с сильным</span>
+                  <em>тренером</em>
+                </h1>
+                <p class="broadcast-offer__lead">
+                  Первая тренировка без давления: Александра покажет базу, подберёт темп и поможет
+                  ребёнку уверенно войти в зал.
+                </p>
+                <div class="broadcast-offer__actions">
+                  <a
+                    class="swipe-button"
+                    href="#quick-start"
+                    data-cta="hero_primary"
+                    data-swipe-progress="0.00"
+                    data-swipe-state="idle"
+                  >
+                    <span class="swipe-button__orb" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <path d="M6 12h10.5M12.5 7.5 17 12l-4.5 4.5"></path>
+                      </svg>
+                    </span>
+                    <span class="swipe-button__label">Записать</span>
+                    <span class="swipe-button__chevrons" aria-hidden="true"><svg viewBox="0 0 32 20" focusable="false"><path d="m3 5 5 5-5 5"></path><path d="m13 5 5 5-5 5"></path><path d="m23 5 5 5-5 5"></path></svg></span>
+                  </a>
+                  <a class="broadcast-offer__phone" href="https://wa.me/37255554649" data-cta="hero_whatsapp">
+                    WhatsApp · ответит Александра
+                  </a>
+                </div>
+              </div>
+
+              <aside class="broadcast-offer__proof" aria-label="Условия старта">
+                <div><strong>3×</strong><span>в неделю</span></div>
+                <div><strong>17:00</strong><span>ПН · СР · ПТ</span></div>
+                <div><strong>0</strong><span>опыт не нужен</span></div>
+              </aside>
+            </div>
+
+            <div class="broadcast-coach-bug">
+              <span>COACH</span>
+              <strong>Александра<br>Джикаева</strong>
+              <small>Первый чемпион Европы из Эстонии</small>
+            </div>
+
+            <button class="broadcast-next" type="button" data-hero-next aria-label="Показать следующий кадр">
+              <span>Следующий кадр</span>
+              <i aria-hidden="true"></i>
+            </button>
+          </article>
+
+          <article
+            class="hero-slide hero-slide--champion broadcast-slide broadcast-slide--trust"
+            id="hero-champion"
+            data-hero-slide="1"
+            aria-label="Александра Джикаева в боевой стойке"
+            aria-hidden="true"
+            inert
+          >
+            <div class="trust-stage trust-editorial" aria-hidden="true">
+              <div class="trust-editorial__backdrop"></div>
+            </div>
+
+            <div class="broadcast-frame broadcast-frame--trust" aria-hidden="true">
+              <div class="broadcast-frame__top">
+                <span>COACH TRUST · 02</span>
+                <span>MASTER OF SPORT</span>
+                <span>SILLAMÄE · ESTONIA</span>
+              </div>
+              <div class="broadcast-frame__side broadcast-frame__side--left">
+                <span>DISCIPLINE · TECHNIQUE · CONFIDENCE ·</span>
+              </div>
+              <div class="broadcast-frame__side broadcast-frame__side--right">
+                <span>FIRST STEP · OWN VICTORY · FIRST STEP ·</span>
+              </div>
+              <div class="broadcast-frame__bottom">
+                <span>ALEXANDRA DZHIKAEVA · COACH</span>
+                <span>ONE CHILD · ONE PACE · ONE PATH</span>
+              </div>
+            </div>
+
+            <div class="container trust-layout">
+              <div class="trust-copy">
+                <p class="trust-copy__eyebrow"><span>Тренер рядом</span> Без давления</p>
+                <h2>Первый шаг<br><em>Своя победа</em></h2>
+                <p>
+                  13 лет в спорте и 8 лет работы с детьми. Александра помогает войти
+                  в зал спокойно — в своём темпе.
+                </p>
+                <ul aria-label="Почему Александре можно доверить ребёнка">
+                  <li><strong>13 лет</strong><span>в спорте</span></li>
+                  <li><strong>8 лет</strong><span>тренирует детей</span></li>
+                  <li><strong>2 города</strong><span>Нарва и Силламяэ</span></li>
+                </ul>
+                <a
+                  class="swipe-button swipe-button--light"
+                  href="#quick-start"
+                  data-cta="hero_slide_two"
+                  data-swipe-progress="0.00"
+                  data-swipe-state="idle"
+                >
+                  <span class="swipe-button__orb" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path d="M6 12h10.5M12.5 7.5 17 12l-4.5 4.5"></path>
+                    </svg>
+                  </span>
+                  <span class="swipe-button__label">Подобрать первую тренировку</span>
+                  <span class="swipe-button__chevrons" aria-hidden="true"><svg viewBox="0 0 32 20" focusable="false"><path d="m3 5 5 5-5 5"></path><path d="m13 5 5 5-5 5"></path><path d="m23 5 5 5-5 5"></path></svg></span>
+                </a>
+              </div>
+            </div>
+          </article>
+
+          <nav class="hero-slider broadcast-pager" aria-label="Кадры первого экрана">
+            <button type="button" data-hero-goto="0" aria-current="true">
+              <span>01</span>
+              <small>Набор</small>
+            </button>
+            <button type="button" data-hero-goto="1" aria-current="false">
+              <span>02</span>
+              <small>Доверие</small>
+            </button>
+            <i aria-hidden="true"><span></span></i>
+          </nav>
+          <p class="sr-only" data-hero-live aria-live="polite">Кадр 1 из 2: набор в секцию</p>
+        </div>
+      </section>
+
+      <section
+        class="quick-start"
+        id="quick-start"
+        aria-labelledby="quick-start-title"
+        data-funnel-section="segment"
+        data-heat="hot"
+        data-path-wipe="grid"
+      >
+        <div class="path-wipe__curtain" data-path-wipe-curtain aria-hidden="true"></div>
+        <div class="container quick-start__grid">
+          <div class="quick-start__intro" data-quick-reveal>
+            <p class="eyebrow"><span></span> Один выбор</p>
+            <h2 id="quick-start-title">Кто будет заниматься?</h2>
+            <p>Выберите формат, и в заявке сразу появится подходящая группа, город и тип тренировки.</p>
+          </div>
+
+          <ul class="quick-start__options" aria-label="Выбор возрастной группы">
+            <li data-quick-reveal>
+              <a
+                class="quick-option quick-option--primary"
+                href="#signup"
+                data-group="children"
+                data-cta="segment_children"
+              >
+                <span>Силламяэ</span>
+                <strong>Дети и<br>подростки</strong>
+                <small>6–16 лет · Пн / Ср / Пт · 17:00</small>
+                <b>Выбрать <i aria-hidden="true">↗</i></b>
+              </a>
+            </li>
+            <li data-quick-reveal>
+              <a
+                class="quick-option"
+                href="#signup"
+                data-group="young"
+                data-cta="segment_young"
+              >
+                <span>Малыши до 4 лет</span>
+                <strong>Первое<br>знакомство</strong>
+                <small>45 минут · суббота · 10:00</small>
+                <b>Сообщить <i aria-hidden="true">↗</i></b>
+              </a>
+            </li>
+            <li data-quick-reveal>
+              <a
+                class="quick-option"
+                href="#signup"
+                data-group="adults"
+                data-cta="segment_adults"
+              >
+                <span>Взрослые и женская группа</span>
+                <strong>Кикбоксинг<br>17+</strong>
+                <small>Можно с нуля · расписание подтвердит Александра</small>
+                <b>Оставить контакт <i aria-hidden="true">↗</i></b>
+              </a>
+            </li>
+          </ul>
+
+          <p class="quick-start__reassurance">
+            Без оплаты на сайте · около минуты · ответит сама Александра
+          </p>
+        </div>
+      </section>
+
+      <section
+        class="section why-editorial"
+        id="why"
+        aria-labelledby="why-title"
+        data-funnel-section="outcomes"
+        data-heat="warm"
+      >
+        <div class="container">
+          <div class="section-heading reveal">
+            <div class="why-editorial__heading-copy">
+              <p class="eyebrow"><span></span> Что даёт формат</p>
+              <h2 id="why-title">
+                <span>Что</span>
+                <span>тренируется</span>
+                <span>кроме удара</span>
+              </h2>
+              <p class="why-editorial__lede">
+                На тренировке ребёнок собирает не только технику, но и движение, внимание и
+                спокойную уверенность в своих действиях.
+              </p>
+            </div>
+          </div>
+
+          <div class="benefits-grid" id="benefits-rail">
+            <article class="benefit-profile reveal">
+              <div class="benefit-profile__frame">
+                <span class="benefit-profile__tag">Движение</span>
+                <img
+                  src="assets/images/skill-coordination.webp"
+                  alt="Юные спортсменки отрабатывают удар и дистанцию на соревнованиях"
+                  width="1400"
+                  height="933"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </div>
+              <div class="benefit-profile__body">
+                <p class="benefit-profile__kicker">01 / Движение</p>
+                <h3>Координация</h3>
+                <p>Упражнения развивают чувство дистанции, баланс и согласованность движений.</p>
+                <div class="benefit-profile__meter" style="--fill: 100%;" aria-hidden="true"></div>
+              </div>
+            </article>
+            <article class="benefit-profile reveal reveal--delay-small">
+              <div class="benefit-profile__frame">
+                <span class="benefit-profile__tag">Фокус</span>
+                <img
+                  src="assets/images/skill-control.webp"
+                  alt="Юная спортсменка внимательно слушает тренера в углу ринга"
+                  width="1400"
+                  height="1867"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </div>
+              <div class="benefit-profile__body">
+                <p class="benefit-profile__kicker">02 / Фокус</p>
+                <h3>Самоконтроль</h3>
+                <p>Ребёнок учится слушать задачу, управлять темпом и доводить упражнение до конца.</p>
+                <div class="benefit-profile__meter" style="--fill: 90%;" aria-hidden="true"></div>
+              </div>
+            </article>
+            <article class="benefit-profile benefit-profile--accent reveal reveal--delay">
+              <div class="benefit-profile__frame">
+                <span class="benefit-profile__tag">Прогресс</span>
+                <img
+                  src="assets/images/skill-confidence.webp"
+                  alt="Александра Джикаева в ринге рядом с тренером после боя"
+                  width="1400"
+                  height="1014"
+                  loading="lazy"
+                  decoding="async"
+                >
+              </div>
+              <div class="benefit-profile__body">
+                <p class="benefit-profile__kicker">03 / Характер</p>
+                <h3>Уверенность</h3>
+                <p>Понятные шаги и поддержка тренера помогают видеть собственный прогресс.</p>
+                <div class="benefit-profile__meter" style="--fill: 90%;" aria-hidden="true"></div>
+              </div>
+            </article>
+          </div>
+          <div class="benefits-controls" data-benefits-controls role="group" aria-label="Переключить карточку" hidden>
+            <button type="button" data-benefits-prev aria-label="Предыдущая карточка" aria-controls="benefits-rail" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14 6-6 6 6 6"></path></svg>
+            </button>
+            <button type="button" data-benefits-next aria-label="Следующая карточка" aria-controls="benefits-rail">
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m10 6 6 6-6 6"></path></svg>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="section coach"
+        id="coach"
+        aria-labelledby="coach-title"
+        data-funnel-section="trust"
+        data-heat="warm"
+      >
+        <div class="container coach__grid">
+          <div class="coach__portrait reveal">
+            <img
+              src="assets/images/coach-portrait.webp"
+              alt="Тренер Александра Джикаева в боксерском ринге"
+              width="960"
+              height="1280"
+              loading="lazy"
+            >
+            <div class="coach__portrait-label">
+              <span>Тренер</span>
+              <strong>Александра<br>Джикаева</strong>
+            </div>
+            <div class="coach__stamp" aria-hidden="true">
+              <svg viewBox="0 0 120 120" focusable="false">
+                <defs>
+                  <path id="coach-stamp-ring" d="M60 16a44 44 0 1 1 0 88a44 44 0 1 1 0-88"></path>
+                </defs>
+                <text textLength="264" lengthAdjust="spacing">
+                  <textPath href="#coach-stamp-ring">ESTONIA · KICKBOXING · SILLAMÄE ·</textPath>
+                </text>
+              </svg>
+              <b>AD</b>
+            </div>
+          </div>
+
+          <div class="coach__content reveal reveal--delay">
+            <p class="eyebrow"><span></span> Опыт большого спорта</p>
+            <h2 id="coach-title">Опыт чемпиона:<br> в каждой тренировке</h2>
+            <p class="coach__intro">
+              Александра 13 лет занимается кикбоксингом и тайским боксом, а последние 8 лет
+              тренирует детей. Родители общаются напрямую с тренером без администраторов и
+              посредников.
+            </p>
+
+            <div class="achievement-list">
+              <article>
+                <span>01</span>
+                <div>
+                  <h3>13 лет в кикбоксе и тайском боксе</h3>
+                  <p>Путь от первых тренировок до международного ринга и личного чемпионского опыта.</p>
+                </div>
+              </article>
+              <article>
+                <span>02</span>
+                <div>
+                  <h3>8 лет тренирует детей</h3>
+                  <p>Помогает становиться сильнее, увереннее и дисциплинированнее не только в спорте.</p>
+                </div>
+              </article>
+              <article class="achievement-list__featured">
+                <span>03</span>
+                <div>
+                  <h3>МСМК · чемпион Европы</h3>
+                  <p>Большой спортивный опыт превращает в понятные и безопасные шаги для новичков.</p>
+                </div>
+              </article>
+            </div>
+
+            <a class="button button--outline" href="#quick-start" data-cta="coach_signup">
+              Подобрать группу
+              <span class="button__arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="section groups"
+        id="groups"
+        aria-labelledby="groups-title"
+        data-funnel-section="groups"
+        data-heat="hot"
+        data-groups-motion
+      >
+        <div class="container">
+          <div class="groups-editorial-head reveal" data-groups-intro>
+            <div class="groups-editorial-meta">
+              <div class="groups-editorial-facts" aria-label="Коротко о тренировках">
+                <strong>3× в неделю</strong>
+                <strong>45–60 минут</strong>
+              </div>
+              <p>
+                От первого знакомства со спортом до персональной работы — выберите возраст,
+                город и удобный темп.
+              </p>
+            </div>
+            <div class="groups-editorial-title">
+              <p>Направления тренировок</p>
+              <h2 id="groups-title">
+                <span>Выбери свой</span>
+                <span>формат</span>
+                <em>Тренируйся с целью</em>
+              </h2>
+            </div>
+          </div>
+
+          <div class="groups-grid" data-groups-grid>
+            <article class="group-card group-card--main group-card--feature reveal" data-groups-card>
+              <span class="group-card__motion-cover" aria-hidden="true"></span>
+              <div class="group-card__topline">
+                <span class="status status--open">Набор открыт</span>
+                <span>01 / 05</span>
+              </div>
+              <p class="group-card__eyebrow">Дети и подростки</p>
+              <h3>Силламяэ <span>6–16 лет</span></h3>
+              <div class="group-card__feature-body">
+                <div class="group-card__details">
+                  <div class="days" role="group" aria-label="Расписание основной группы">
+                    <div><span>Понедельник</span><strong>17:00</strong></div>
+                    <div><span>Среда</span><strong>17:00</strong></div>
+                    <div><span>Пятница</span><strong>17:00</strong></div>
+                  </div>
+                  <p class="group-card__note">Молодёжный центр ESN, Kalda 14, Силламяэ. Старт потока — 2 сентября, наличие места подтверждает Александра.</p>
+                  <a class="button" href="#signup" data-group="children" data-cta="group_children">
+                    Записать
+                    <span class="button__arrow" aria-hidden="true">↗</span>
+                  </a>
+                </div>
+                <figure class="group-card__visual" aria-hidden="true">
+                  <img src="assets/images/groups/children-team.webp" alt="" width="1200" height="1200" loading="lazy">
+                </figure>
+              </div>
+            </article>
+
+            <article class="group-card group-card--narva reveal reveal--delay-small" data-groups-card>
+              <span class="group-card__motion-cover" aria-hidden="true"></span>
+              <div class="group-card__topline">
+                <span>02 / 05</span>
+                <span class="status">KONKIRO</span>
+              </div>
+              <p class="group-card__eyebrow">Дети 5–6 лет и старше</p>
+              <h3>Нарва</h3>
+              <div class="group-card__schedule" role="group" aria-label="Расписание группы в Нарве">
+                <div><span>Вторник / Четверг</span><strong>18:00</strong></div>
+                <div><span>Суббота</span><strong>11:00</strong></div>
+              </div>
+              <div class="group-card__bottom">
+                <div class="group-card__details">
+                  <p class="group-card__description">Rakvere 22D, 2-й этаж. Александра ведёт эту группу уже 3–4 года.</p>
+                  <a class="arrow-link" href="#signup" data-group="narva" data-cta="group_narva">
+                    Выбрать Нарву <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+                <figure class="group-card__visual" aria-hidden="true">
+                  <img src="assets/images/groups/ring-training.webp" alt="" width="994" height="1200" loading="lazy">
+                </figure>
+              </div>
+            </article>
+
+            <article class="group-card group-card--young reveal reveal--delay" data-groups-card>
+              <span class="group-card__motion-cover" aria-hidden="true"></span>
+              <div class="group-card__topline">
+                <span>03 / 05</span>
+                <span class="status">Первый шаг</span>
+              </div>
+              <p class="group-card__eyebrow">Младшая группа</p>
+              <h3>До 4 лет</h3>
+              <div class="group-card__schedule" role="group" aria-label="Расписание младшей группы">
+                <div><span>Суббота</span><strong>10:00</strong></div>
+                <div><span>Длительность</span><strong>45 минут</strong></div>
+              </div>
+              <div class="group-card__details group-card__details--end">
+                <p class="group-card__description">Маленькие группы и внимание каждому. Знакомство со спортом и движением без давления.</p>
+                <a class="arrow-link" href="#signup" data-group="young" data-cta="group_young">
+                  Запросить место <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </article>
+
+            <article class="group-card group-card--individual reveal" data-groups-card>
+              <span class="group-card__motion-cover" aria-hidden="true"></span>
+              <div class="group-card__topline">
+                <span>04 / 05</span>
+                <span class="status">Индивидуально</span>
+              </div>
+              <p class="group-card__eyebrow">Дети и взрослые</p>
+              <h3>1 на 1</h3>
+              <div class="group-card__bottom">
+                <div class="group-card__details">
+                  <p class="group-card__description">Только вы, тренер и ваша цель. Дни и время подбираются индивидуально.</p>
+                  <a class="arrow-link" href="#signup" data-group="individual" data-cta="group_individual">
+                    Обсудить персонально <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+                <figure class="group-card__visual" aria-hidden="true">
+                  <img src="assets/images/groups/coach-outdoors.webp" alt="" width="961" height="1200" loading="lazy">
+                </figure>
+              </div>
+            </article>
+
+            <article class="group-card group-card--adults reveal reveal--delay-small" data-groups-card>
+              <span class="group-card__motion-cover" aria-hidden="true"></span>
+              <div class="group-card__topline">
+                <span>05 / 05</span>
+                <span class="status">Новый сезон</span>
+              </div>
+              <p class="group-card__eyebrow">Женская группа и взрослые</p>
+              <h3>17+</h3>
+              <div class="group-card__bottom">
+                <div class="group-card__details">
+                  <p class="group-card__description">Взрослые и женский кикбоксинг. Можно с нуля, в своём темпе.</p>
+                  <a class="arrow-link" href="#signup" data-group="adults" data-cta="group_adults">
+                    Оставить контакт <span aria-hidden="true">↗</span>
+                  </a>
+                </div>
+                <figure class="group-card__visual" aria-hidden="true">
+                  <img src="assets/images/groups/adult-team.webp" alt="" width="1149" height="1200" loading="lazy">
+                </figure>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="section start-plan section--light"
+        id="start-plan"
+        aria-labelledby="start-plan-title"
+        data-funnel-section="how-it-works"
+        data-heat="warm"
+      >
+        <div class="container">
+          <div class="section-heading section-heading--compact reveal">
+            <div>
+              <p class="eyebrow eyebrow--dark"><span></span> Без лишних действий</p>
+              <h2 id="start-plan-title">Три шага до первого занятия</h2>
+            </div>
+          </div>
+
+          <div class="start-plan__grid">
+            <article class="start-step reveal">
+              <span class="start-step__number">01</span>
+              <h3>Выберите тренировку</h3>
+              <p>Укажите, кто будет заниматься, возраст, удобный город и цель тренировок. В конце оставьте имя и телефон — ответы войдут в сообщение Александре.</p>
+            </article>
+
+            <article class="start-step reveal reveal--delay-small">
+              <span class="start-step__number">02</span>
+              <h3>Отправьте сообщение</h3>
+              <p>Нажмите «Открыть WhatsApp» — сайт подготовит сообщение Александре с вашими ответами. Проверьте текст, при необходимости дополните и отправьте его в WhatsApp.</p>
+            </article>
+
+            <article class="start-step reveal reveal--delay">
+              <span class="start-step__number">03</span>
+              <h3>Согласуйте занятие</h3>
+              <p>Александра уточнит наличие мест и подходящую группу. Вместе согласуете день и время первого занятия; перед визитом можно задать вопросы о тренировке.</p>
+            </article>
+          </div>
+
+          <div class="start-plan__actions reveal reveal--delay">
+            <a class="button button--primary" href="#signup" data-cta="startplan_signup">
+              Записаться
+              <span class="button__arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="section hall"
+        id="hall"
+        aria-labelledby="hall-title"
+        data-funnel-section="objection-equipment"
+        data-heat="warm"
+      >
+        <div class="container hall__grid">
+          <div class="hall__content reveal">
+            <p class="eyebrow"><span></span> Всё для первой тренировки уже в зале</p>
+            <h2 id="hall-title">Начни кикбокс без лишних покупок</h2>
+            <p>
+              На первую тренировку по кикбоксингу не нужно заранее покупать перчатки и
+              инвентарь. Всё базовое уже подготовлено, а подходящий размер Александра уточнит
+              при записи.
+            </p>
+
+            <ul class="equipment-list" data-equipment-field>
+              <li class="equipment-item equipment-item--space" data-equipment-item data-equipment-index="01">
+                <span class="equipment-item__number">01</span>
+                <span class="equipment-item__label">Татами и большое зеркало</span>
+              </li>
+              <li class="equipment-item equipment-item--bags" data-equipment-item data-equipment-index="02">
+                <span class="equipment-item__number">02</span>
+                <span class="equipment-item__label">3–4 небольших мешка</span>
+              </li>
+              <li class="equipment-item equipment-item--rhythm" data-equipment-item data-equipment-index="03">
+                <span class="equipment-item__number">03</span>
+                <span class="equipment-item__label">Лапы и скакалки</span>
+              </li>
+              <li class="equipment-item equipment-item--starter" data-equipment-item data-equipment-index="04">
+                <span class="equipment-item__number">04</span>
+                <span class="equipment-item__label">Детские перчатки на первое время</span>
+              </li>
+            </ul>
+
+            <a
+              class="text-link text-link--light"
+              href="https://wa.me/37255554649?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9F%D0%BE%D0%B4%D1%81%D0%BA%D0%B0%D0%B6%D0%B8%D1%82%D0%B5%2C%20%D0%BF%D0%BE%D0%B6%D0%B0%D0%BB%D1%83%D0%B9%D1%81%D1%82%D0%B0%2C%20%D1%87%D1%82%D0%BE%20%D0%B2%D0%B7%D1%8F%D1%82%D1%8C%20%D0%BD%D0%B0%20%D0%BF%D0%B5%D1%80%D0%B2%D1%83%D1%8E%20%D1%82%D1%80%D0%B5%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D1%83."
+              target="_blank"
+              rel="noreferrer"
+              data-cta="hall_question"
+            >
+              Уточнить, что взять с собой
+            </a>
+          </div>
+
+          <figure class="hall__photo hall__photo--video reveal reveal--delay">
+            <video
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              poster="assets/images/training-hall.webp"
+              aria-label="Вертикальное видео из тренировочного зала"
+              data-training-video
+            >
+              <source src="assets/media/training.mp4" type="video/mp4">
+              <source src="assets/media/training.mov" type="video/quicktime">
+              Ваш браузер не поддерживает воспроизведение этого видео.
+            </video>
+            <p class="video-fallback" data-video-fallback>
+              Если ролик не запустился встроенно, его можно открыть отдельно.
+              <a href="assets/media/training.mp4" target="_blank" rel="noopener noreferrer">
+                Открыть видео ↗
+              </a>
+            </p>
+            <figcaption>
+              <span>Силламяэ · 2 этаж</span>
+              <strong>
+                <small class="hall__venue-brand">ESN ·</small>
+                тренировочный зал
+                <b class="hall__venue-address">Kalda 14</b>
+              </strong>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <div class="champion-ribbon" data-champion-ribbon>
+        <div class="champion-ribbon__track" aria-hidden="true">
+          <div class="champion-ribbon__group">
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+          </div>
+          <div class="champion-ribbon__group">
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+            <span class="champion-ribbon__item">Чемпион</span>
+          </div>
+        </div>
+        <button class="champion-ribbon__toggle" type="button" aria-label="Приостановить бегущую строку «Чемпион»" aria-pressed="false" data-champion-ribbon-toggle hidden>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path class="champion-ribbon__pause" d="M8 5v14M16 5v14"></path>
+            <path class="champion-ribbon__play" d="m9 5 10 7-10 7Z"></path>
+          </svg>
+        </button>
+      </div>
+
+      <section
+        class="section moments"
+        id="moments"
+        aria-labelledby="moments-title"
+        data-funnel-section="visual-proof"
+        data-heat="warm"
+      >
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="eyebrow"><span></span> ESN Силламяэ · Kalda 14</p>
+            <h2 id="moments-title">Первая тренировка</h2>
+          </div>
+
+          <div class="moments-grid">
+            <figure class="moment moment--video reveal reveal--delay">
+              <div class="moment__embed">
+                <iframe
+                  id="news-video-player"
+                  src="https://www.youtube-nocookie.com/embed/yEHh9nZ8KKc?rel=0&amp;playsinline=1&amp;enablejsapi=1&amp;autoplay=0&amp;loop=0&amp;controls=1&amp;fs=1"
+                  title="Видео: первая тренировка по кикбоксингу в ESN Силламяэ"
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen
+                  data-news-video
+                ></iframe>
+              </div>
+              <figcaption class="moment__caption">
+                Александра приглашает на первую тренировку по кикбоксингу в ESN, Силламяэ.
+                Познакомься с тренером, попробуй базовые движения и начни в своём темпе.
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="section location"
+        id="contacts"
+        aria-labelledby="location-title"
+        data-funnel-section="location"
+        data-heat="cool"
+      >
+        <div class="container location-hub">
+          <header class="location-hub__header reveal">
+            <div class="location-hub__meta">
+              <p class="eyebrow eyebrow--dark"><span></span> Где тренироваться</p>
+            </div>
+            <div class="location-hub__title">
+              <h2 id="location-title">Два зала<br><span>Выбери свой</span></h2>
+              <p>Силламяэ или Нарва — выберите удобную точку, посмотрите её на карте и сразу постройте маршрут.</p>
+            </div>
+          </header>
+
+          <div class="location-hub__layout">
+            <div class="location-venues reveal" role="group" aria-label="Выберите зал на карте" data-location-switcher>
+              <article class="venue-card is-active" data-location-card="sillamae">
+                <button
+                  class="venue-card__select"
+                  type="button"
+                  aria-pressed="true"
+                  aria-controls="training-map"
+                  data-location-select="sillamae"
+                >
+                  <span>01 / Молодёжный центр ESN</span>
+                  <b>На карте <svg class="location-control__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"></path><circle cx="12" cy="10" r="2.5"></circle></svg></b>
+                </button>
+                <h3>Силламяэ</h3>
+                <p class="venue-card__address">Kalda 14 · 2-й этаж</p>
+                <div class="venue-card__schedule">
+                  <div class="venue-card__schedule-row"><span>Пн / Ср / Пт</span><strong>17:00</strong></div>
+                </div>
+              </article>
+
+              <article class="venue-card" data-location-card="narva">
+                <button
+                  class="venue-card__select"
+                  type="button"
+                  aria-pressed="false"
+                  aria-controls="training-map"
+                  data-location-select="narva"
+                >
+                  <span>02 / Клуб KONKIRO</span>
+                  <b>На карте <svg class="location-control__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"></path><circle cx="12" cy="10" r="2.5"></circle></svg></b>
+                </button>
+                <h3>Нарва</h3>
+                <p class="venue-card__address">Rakvere 22D · 2-й этаж</p>
+                <div class="venue-card__schedule venue-card__schedule--split">
+                  <div class="venue-card__schedule-row"><span>Вт / Чт</span><strong>18:00</strong></div>
+                  <div class="venue-card__schedule-row"><span>Суббота</span><strong>11:00</strong></div>
+                </div>
+              </article>
+
+              <aside class="location-contact">
+                <div>
+                  <span>Не уверены, какой зал выбрать?</span>
+                  <strong>Александра подскажет лично</strong>
+                </div>
+                <a
+                  href="https://wa.me/37255554649?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%9F%D0%BE%D0%BC%D0%BE%D0%B3%D0%B8%D1%82%D0%B5%20%D0%B2%D1%8B%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D0%B7%D0%B0%D0%BB%20%D0%B8%20%D0%B3%D1%80%D1%83%D0%BF%D0%BF%D1%83."
+                  target="_blank"
+                  rel="noreferrer"
+                  data-cta="location_whatsapp"
+                >
+                  Написать <span aria-hidden="true">↗</span>
+                </a>
+              </aside>
+            </div>
+
+            <div class="location-map-shell reveal reveal--delay" data-location-map-shell>
+              <div class="location-map__hud">
+                <button type="button" data-map-fit>Показать обе</button>
+              </div>
+
+              <div
+                class="location-map"
+                id="training-map"
+                role="region"
+                aria-label="Интерактивная карта залов в Силламяэ и Нарве"
+                data-location-map
+              ></div>
+
+              <div class="location-map__fallback" data-map-fallback>
+                <strong>Карта загружается</strong>
+                <p>Маршрут для выбранного зала доступен ниже.</p>
+              </div>
+
+              <div class="location-map__active" aria-live="polite" data-map-active>
+                <span data-map-name>Молодёжный центр ESN</span>
+                <strong data-map-city>01 / Силламяэ</strong>
+                <small data-map-address>Kalda 14 · 2-й этаж</small>
+                <a
+                  class="location-route swipe-button"
+                  data-swipe-route
+                  href="https://www.google.com/maps/dir/?api=1&amp;destination=Kalda+14%2C+Sillam%C3%A4e%2C+Estonia"
+                  target="_blank"
+                  rel="noreferrer"
+                  data-map-route
+                  data-cta="location_map_route"
+                >
+                  <span class="swipe-button__orb" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Zm6-3v15m6-12v15"></path></svg></span>
+                  <span class="swipe-button__label">Маршрут</span>
+                  <span class="swipe-button__chevrons" aria-hidden="true"><svg viewBox="0 0 32 20" focusable="false"><path d="m3 5 5 5-5 5"></path><path d="m13 5 5 5-5 5"></path><path d="m23 5 5 5-5 5"></path></svg></span>
+                </a>
+              </div>
+
+              <noscript>
+                <p class="location-map__noscript">
+                  <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Kalda+14%2C+Sillam%C3%A4e%2C+Estonia">Силламяэ</a>
+                  <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Rakvere+22D%2C+Narva%2C+Estonia">Нарва</a>
+                </p>
+              </noscript>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="signup signup-quiz"
+        id="signup"
+        aria-labelledby="signup-title"
+        data-funnel-section="conversion"
+        data-heat="hot"
+        data-signup-motion="editorial"
+      >
+        <div class="signup-quiz__visual-shell" data-signup-visual>
+          <div class="signup__media-content" data-signup-copy>
+            <p class="eyebrow" data-signup-detail><span></span> Подбор тренировки</p>
+            <h2 id="signup-title">
+              <span class="signup-title__line"><span data-signup-title-text>Найдём</span></span>
+              <span class="signup-title__line"><span data-signup-title-text>ваш формат</span></span>
+            </h2>
+            <p data-signup-detail>Ответьте на четыре вопроса — Александра предложит подходящую группу и город.</p>
+          </div>
+
+          <figure class="signup-quiz__photo-card" data-signup-photo>
+            <img
+              class="signup-quiz__coach"
+              src="assets/images/signup-sasha-ring.png"
+              alt="Александра Джикаева в боксерском ринге"
+              width="1440"
+              height="1920"
+              loading="lazy"
+              decoding="async"
+            >
+            <figcaption class="signup-quiz__photo-caption">
+              <span>Coach / Sillamae & Narva</span>
+              <strong>Александра Джикаева</strong>
+              <small>Подбор первой тренировки, группы и формата связи</small>
+            </figcaption>
+          </figure>
+        </div>
+
+        <div class="signup__form-wrap signup-quiz__panel" data-signup-panel>
+          <div class="signup__form-intro">
+            <span>Персональный маршрут</span>
+            <strong>4 шага · около минуты</strong>
+          </div>
+
+          <div
+            class="signup-quiz__progress"
+            role="progressbar"
+            aria-label="Прогресс подбора тренировки"
+            aria-valuemin="1"
+            aria-valuemax="4"
+            aria-valuenow="1"
+            data-quiz-progress
+          >
+            <span data-quiz-progress-item="0" aria-current="step"><b>01</b><small>Кто</small></span>
+            <span data-quiz-progress-item="1"><b>02</b><small>Где</small></span>
+            <span data-quiz-progress-item="2"><b>03</b><small>Цель</small></span>
+            <span data-quiz-progress-item="3"><b>04</b><small>Контакт</small></span>
+          </div>
+
+          <form class="lead-form signup-quiz__form" data-lead-form data-quiz-form>
+            <fieldset class="signup-quiz__step is-active" data-quiz-step="0">
+              <legend>Кто идёт в зал?</legend>
+              <p class="signup-quiz__hint">Выберите участника и укажите возраст — так мы сразу сузим подходящие группы.</p>
+
+              <div class="signup-quiz__options signup-quiz__options--three">
+                <label class="signup-quiz__option">
+                  <input type="radio" name="participant" value="child" data-quiz-group="children" required>
+                  <svg class="signup-quiz__participant-icon" data-participant-icon="child" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+                    <circle cx="32" cy="24" r="11"></circle>
+                    <path d="M28 27a5 5 0 0 0 8 0M16 55v-4c0-7 7-12 16-12s16 5 16 12v4"></path>
+                    <path d="M28 22h.01M36 22h.01"></path>
+                  </svg>
+                  <span>Ребёнок</span>
+                  <small>До 16 лет · с нуля или с опытом</small>
+                </label>
+                <label class="signup-quiz__option">
+                  <input type="radio" name="participant" value="adult" data-quiz-group="adults" required>
+                  <svg class="signup-quiz__participant-icon" data-participant-icon="adult" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+                    <circle cx="32" cy="20" r="11"></circle>
+                    <path d="M12 55v-5c0-9 9-15 20-15s20 6 20 15v5"></path>
+                  </svg>
+                  <span>Взрослый</span>
+                  <small>17+ · общая или женская группа</small>
+                </label>
+                <label class="signup-quiz__option">
+                  <input type="radio" name="participant" value="individual" data-quiz-group="individual" required>
+                  <svg class="signup-quiz__participant-icon" data-participant-icon="individual" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+                    <circle cx="23" cy="22" r="9"></circle>
+                    <path d="M6 55v-5c0-8 7-14 17-14s17 6 17 14v5M43 13a9 9 0 0 1 0 18M46 36c7 1 12 7 12 14v5"></path>
+                  </svg>
+                  <span>Индивидуально</span>
+                  <small>Один на один · под вашу цель</small>
+                </label>
+              </div>
+
+              <div class="field signup-quiz__age">
+                <label for="lead-age">Возраст участника</label>
+                <input
+                  id="lead-age"
+                  name="age"
+                  type="number"
+                  inputmode="numeric"
+                  min="1"
+                  max="99"
+                  placeholder="Например, 9"
+                  required
+                >
+              </div>
+
+              <div class="signup-quiz__nav signup-quiz__nav--end">
+                <button class="signup-quiz__next swipe-button signup-quiz__swipe" type="button" data-quiz-next data-cta="quiz_next">
+                  <span class="swipe-button__orb" data-quiz-swipe-thumb aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m9 5 7 7-7 7"></path></svg></span>
+                  <span class="swipe-button__label">Далее</span>
+                  <span class="swipe-button__chevrons" aria-hidden="true"><svg viewBox="0 0 32 20" focusable="false"><path d="m3 5 5 5-5 5"></path><path d="m13 5 5 5-5 5"></path><path d="m23 5 5 5-5 5"></path></svg></span>
+                </button>
+              </div>
+            </fieldset>
+
+            <fieldset class="signup-quiz__step" data-quiz-step="1" hidden>
+              <legend>Где вам удобнее?</legend>
+              <p class="signup-quiz__hint">Выберите город. Если пока не уверены — Александра поможет сопоставить расписание.</p>
+
+              <div class="signup-quiz__options signup-quiz__options--cities">
+                <label class="signup-quiz__option signup-quiz__option--city">
+                  <input type="radio" name="city" value="sillamae" required>
+                  <span>Силламяэ</span>
+                  <small>ESN · Kalda 14</small>
+                  <b aria-hidden="true">59.397° N</b>
+                </label>
+                <label class="signup-quiz__option signup-quiz__option--city">
+                  <input type="radio" name="city" value="narva" required>
+                  <span>Нарва</span>
+                  <small>KONKIRO · Rakvere 22D</small>
+                  <b aria-hidden="true">59.377° N</b>
+                </label>
+                <label class="signup-quiz__option signup-quiz__option--city">
+                  <input type="radio" name="city" value="flexible" required>
+                  <span>Нужен совет</span>
+                  <small>Подберём точку по группе и времени</small>
+                  <b aria-hidden="true">A / B</b>
+                </label>
+              </div>
+
+              <div class="signup-quiz__nav">
+                <button class="signup-quiz__back" type="button" data-quiz-back><svg class="signup-quiz__nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14 6-6 6 6 6"></path></svg>Назад</button>
+                <button class="signup-quiz__next swipe-button signup-quiz__swipe" type="button" data-quiz-next data-cta="quiz_next">
+                  <span class="swipe-button__orb" data-quiz-swipe-thumb aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m9 5 7 7-7 7"></path></svg></span>
+                  <span class="swipe-button__label">Далее</span>
+                  <span class="swipe-button__chevrons" aria-hidden="true"><svg viewBox="0 0 32 20" focusable="false"><path d="m3 5 5 5-5 5"></path><path d="m13 5 5 5-5 5"></path><path d="m23 5 5 5-5 5"></path></svg></span>
+                </button>
+              </div>
+            </fieldset>
+
+            <fieldset class="signup-quiz__step" data-quiz-step="2" hidden>
+              <legend>Для чего тренировка?</legend>
+              <p class="signup-quiz__hint">Это поможет Александре предложить правильный темп первого занятия.</p>
+
+              <div class="signup-quiz__options signup-quiz__options--purpose">
+                <label class="signup-quiz__option">
+                  <input type="radio" name="purpose" value="confidence" required>
+                  <span>Уверенность</span>
+                  <small>Дисциплина, координация, характер</small>
+                  <b aria-hidden="true">✦</b>
+                </label>
+                <label class="signup-quiz__option">
+                  <input type="radio" name="purpose" value="fitness" required>
+                  <span>Форма</span>
+                  <small>Стать сильнее и выносливее</small>
+                  <b aria-hidden="true">✦</b>
+                </label>
+                <label class="signup-quiz__option">
+                  <input type="radio" name="purpose" value="competition" required>
+                  <span>Результат</span>
+                  <small>Техника, прогресс, соревнования</small>
+                  <b aria-hidden="true">✦</b>
+                </label>
+                <label class="signup-quiz__option">
+                  <input type="radio" name="purpose" value="try" required>
+                  <span>Попробовать</span>
+                  <small>Спокойная первая тренировка без давления</small>
+                  <b aria-hidden="true">✦</b>
+                </label>
+              </div>
+
+              <div class="signup-quiz__nav">
+                <button class="signup-quiz__back" type="button" data-quiz-back><svg class="signup-quiz__nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14 6-6 6 6 6"></path></svg>Назад</button>
+                <button class="signup-quiz__next swipe-button signup-quiz__swipe" type="button" data-quiz-next data-cta="quiz_next">
+                  <span class="swipe-button__orb" data-quiz-swipe-thumb aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="m9 5 7 7-7 7"></path></svg></span>
+                  <span class="swipe-button__label">Далее</span>
+                  <span class="swipe-button__chevrons" aria-hidden="true"><svg viewBox="0 0 32 20" focusable="false"><path d="m3 5 5 5-5 5"></path><path d="m13 5 5 5-5 5"></path><path d="m23 5 5 5-5 5"></path></svg></span>
+                </button>
+              </div>
+            </fieldset>
+
+            <fieldset class="signup-quiz__step" data-quiz-step="3" hidden>
+              <legend>Куда ответить?</legend>
+              <p class="signup-quiz__hint">Сайт подготовит сообщение. Отправку вы подтвердите сами в WhatsApp.</p>
+
+              <div class="signup-quiz__review" aria-live="polite">
+                <div><span>Кто</span><strong data-group-summary>Силламяэ · дети и подростки 6–16 лет</strong></div>
+                <div><span>Где</span><strong data-quiz-city-summary>Выберите город</strong></div>
+                <div><span>Цель</span><strong data-quiz-purpose-summary>Выберите цель</strong></div>
+              </div>
+
+              <div class="signup-quiz__contact-fields">
+                <div class="field">
+                  <label for="lead-name">Ваше имя</label>
+                  <input id="lead-name" name="name" type="text" autocomplete="name" required>
+                </div>
+
+                <div class="field">
+                  <label for="lead-contact">Телефон / WhatsApp</label>
+                  <input
+                    id="lead-contact"
+                    name="contact"
+                    type="tel"
+                    autocomplete="tel"
+                    placeholder="+372 ..."
+                    required
+                  >
+                </div>
+              </div>
+
+              <input id="lead-group" name="group" type="hidden" value="children">
+
+              <div class="signup-quiz__nav signup-quiz__nav--submit">
+                <button class="signup-quiz__back" type="button" data-quiz-back><svg class="signup-quiz__nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14 6-6 6 6 6"></path></svg>Назад</button>
+                <button class="button button--primary button--submit" type="submit" data-cta="form_submit">
+                  <span data-submit-label>Открыть WhatsApp</span>
+                  <svg class="signup-quiz__nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 11.7a8.2 8.2 0 0 1-12 7.3L4 20.5l1.5-4.4a8.2 8.2 0 1 1 15-4.4Z"></path><path d="m9 7.5 1.5 3-1 1c.8 1.3 1.7 2.2 3 3l1-1 3 1.5c-.5 1.5-1.5 2-3 1.5-3-1-5.5-3.5-6.5-6.5-.5-1.5 0-2.5 2-2.5Z"></path></svg>
+                </button>
+              </div>
+
+              <p class="lead-form__privacy">
+                Данные не сохраняются: они используются только для текста сообщения Александре.
+              </p>
+            </fieldset>
+          </form>
+
+          <div class="signup__direct">
+            <span>Можно сразу связаться:</span>
+            <a href="tel:+37255554649" data-cta="signup_phone">+372&nbsp;5555&nbsp;4649</a>
+            <a href="mailto:Dzhikaevalex@gmail.com" data-cta="signup_email">Dzhikaevalex@gmail.com</a>
+          </div>
+        </div>
+        <dialog class="signup-modal" id="signup-modal" aria-label="Запись на тренировку" data-signup-modal>
+          <div class="signup-modal__bar">
+            <span>Запись на тренировку</span>
+            <button class="signup-modal__close" type="button" aria-label="Закрыть форму" data-signup-modal-close autofocus>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+            </button>
+          </div>
+          <div class="signup-modal__content" data-signup-modal-content></div>
+        </dialog>
+      </section>
+
+      <section
+        class="section faq"
+        aria-labelledby="faq-title"
+        data-funnel-section="objections"
+        data-heat="warm"
+      >
+        <div class="container faq__grid">
+          <div class="faq__heading reveal">
+            <p class="eyebrow"><span></span> Перед записью</p>
+            <h2 id="faq-title">Ответы на главные сомнения</h2>
+            <a
+              class="text-link text-link--light"
+              href="https://wa.me/37255554649?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A3%20%D0%BC%D0%B5%D0%BD%D1%8F%20%D0%B5%D1%81%D1%82%D1%8C%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%20%D0%BE%20%D1%82%D1%80%D0%B5%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0%D1%85."
+              target="_blank"
+              rel="noreferrer"
+              data-cta="faq_whatsapp"
+            >
+              Задать свой вопрос в WhatsApp
+            </a>
+          </div>
+
+          <div class="faq__list reveal reveal--delay">
+            <details open>
+              <summary>Можно прийти без опыта?<span aria-hidden="true"></span></summary>
+              <div class="faq__answer">
+                <div class="faq__answer-inner">
+                  <p>Да. И в детские, и во взрослые форматы можно прийти с нуля. Александра подбирает темп спокойно и без давления.</p>
+                </div>
+              </div>
+            </details>
+            <details>
+              <summary>Какие форматы есть в этом сезоне?<span aria-hidden="true"></span></summary>
+              <div class="faq__answer">
+                <div class="faq__answer-inner">
+                  <p>Есть группа для малышей до 4 лет, занятия для детей и подростков в двух городах, индивидуальные тренировки, а также взрослый и женский кикбоксинг.</p>
+                </div>
+              </div>
+            </details>
+            <details>
+              <summary>Что делать, если ребёнку ещё нет четырёх?<span aria-hidden="true"></span></summary>
+              <div class="faq__answer">
+                <div class="faq__answer-inner">
+                  <p>Для самых маленьких уже есть формат: маленькие группы, 45 минут, суббота в 10:00, с акцентом на движение, уверенность и знакомство со спортом.</p>
+                </div>
+              </div>
+            </details>
+            <details>
+              <summary>Можно выбрать Нарву или Силламяэ?<span aria-hidden="true"></span></summary>
+              <div class="faq__answer">
+                <div class="faq__answer-inner">
+                  <p>Да. В заявке можно сразу указать удобный город. В Силламяэ тренировки идут в ESN на Kalda 14, в Нарве — в клубе KONKIRO на Rakvere 22D.</p>
+                </div>
+              </div>
+            </details>
+            <details>
+              <summary>Как проходят индивидуальные тренировки?<span aria-hidden="true"></span></summary>
+              <div class="faq__answer">
+                <div class="faq__answer-inner">
+                  <p>Это формат без толпы и общего темпа: только вы, тренер и ваша цель. Дни и время Александра подбирает индивидуально для детей и взрослых.</p>
+                </div>
+              </div>
+            </details>
+            <details>
+              <summary>Нужно сразу покупать перчатки?<span aria-hidden="true"></span></summary>
+              <div class="faq__answer">
+                <div class="faq__answer-inner">
+                  <p>
+                    Нет. Детские перчатки и базовый инвентарь выдадут в зале. Подходящий размер
+                    согласуйте при записи.
+                  </p>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__top">
+        <a class="brand brand--footer" href="#top" aria-label="К началу страницы">
+          <span class="brand__mark" aria-hidden="true">AD</span>
+          <span class="brand__text">
+            <strong>DZHIKAEVA</strong>
+            <small>KICKBOXING · SILLAMÄE</small>
+          </span>
+        </a>
+
+        <div class="site-footer__links">
+          <a
+            href="https://wa.me/37255554649"
+            target="_blank"
+            rel="noreferrer"
+            data-cta="footer_whatsapp"
+          >
+            <span class="site-footer__link-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <path d="M20.25 11.75a8.25 8.25 0 0 1-12.1 7.3L3.5 20.5l1.5-4.4a8.25 8.25 0 1 1 15.25-4.35Z"></path>
+                <path d="M8.35 7.6c.35-.35.8-.24 1 .2l1.05 2.28c.12.28.05.6-.17.82l-.75.75c.94 2.03 2.66 3.7 4.72 4.55l.72-.82c.2-.24.53-.31.82-.18l2.2 1.03c.44.2.55.7.22 1.05-.68.72-1.68 1.08-2.67.94-4.72-.67-8.45-4.4-9.12-9.12-.14-.97.22-1.92.98-2.5Z"></path>
+              </svg>
+            </span>
+            <span>WhatsApp</span>
+            <span class="site-footer__link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a
+            href="https://www.instagram.com/aleksi1703/"
+            target="_blank"
+            rel="noreferrer"
+            data-cta="footer_instagram"
+          >
+            <span class="site-footer__link-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect>
+                <circle cx="12" cy="12" r="4"></circle>
+                <circle class="site-footer__icon-dot" cx="17.4" cy="6.7" r="1"></circle>
+              </svg>
+            </span>
+            <span>Instagram</span>
+            <span class="site-footer__link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a href="mailto:Dzhikaevalex@gmail.com" data-cta="footer_email">
+            <span class="site-footer__link-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                <path d="m4.5 7 7.5 6 7.5-6"></path>
+              </svg>
+            </span>
+            <span>E-mail</span>
+            <span class="site-footer__link-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="container site-footer__bottom">
+        <p>© <span data-year></span> Кикбоксинг с Александрой Джикаевой</p>
+        <p>Kalda 14 · Sillamäe · Estonia</p>
+      </div>
+    </footer>
+
+    <nav class="mobile-actions" aria-label="Быстрые действия">
+      <a href="https://wa.me/37255554649" target="_blank" rel="noreferrer" data-cta="mobile_whatsapp">
+        Задать вопрос
+      </a>
+      <a href="#quick-start" data-cta="mobile_signup">Записаться <span aria-hidden="true">↗</span></a>
+    </nav>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+      defer
+    ></script>
+    <script src="script.js?v=20260902-champion-ribbon" defer></script>
+  </body>
+</html>

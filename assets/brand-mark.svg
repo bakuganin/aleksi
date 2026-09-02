@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">AD — Александра Джикаева</title>
+  <rect width="64" height="64" rx="4" fill="#e8172b"/>
+  <g fill="#0b0b0c" fill-rule="evenodd">
+    <path d="M6 50 16 14h8l10 36h-9l-2-8h-6l-2 8H6Zm11.7-16h4.6L20 24l-2.3 10Z"/>
+    <path d="M36 14h9c8 0 13 6 13 18s-5 18-13 18h-9V14Zm8 8v20h1c4 0 5-3 5-10s-1-10-5-10h-1Z"/>
+  </g>
+</svg>
