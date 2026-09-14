@@ -86,7 +86,7 @@ async function installDragProbe(page) {
       const target = event.target instanceof Element ? event.target : null;
       window.__paletteHandleDragProbe.push({
         type: event.type,
-        target: target?.matches('[data-schedule-palette-drag-handle]')
+        target: target?.closest('[data-schedule-palette-drag-handle]')
           ? 'handle'
           : target?.closest('[data-schedule-palette-card]')
             ? 'palette-card'
@@ -165,8 +165,17 @@ async function verifyVisibleHandleDrag(page) {
     (event.type === 'pointerdown' || event.type === 'dragstart') && event.target === 'handle'
   ));
   assert.equal(startedFromHandle, true, `The real mouse gesture must begin on the visible handle. Event trace: ${JSON.stringify(trace)}`);
+  const nativeStarted = trace.some((event) => event.type === 'dragstart');
   const acceptedNativeDrop = trace.some((event) => event.type === 'drop' && event.target === 'slot');
   const completedPointerDrop = trace.some((event) => event.type === 'pointerup');
+  const endedAsForbiddenNativeDrag = nativeStarted
+    && !acceptedNativeDrop
+    && trace.some((event) => event.type === 'dragend' && event.dropEffect === 'none');
+  assert.equal(
+    endedAsForbiddenNativeDrag,
+    false,
+    `The handle must not finish as a native no-drop operation. Event trace: ${JSON.stringify(trace)}`,
+  );
   assert.equal(
     acceptedNativeDrop || completedPointerDrop,
     true,
