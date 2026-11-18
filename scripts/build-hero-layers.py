@@ -9,11 +9,13 @@ replaces the redrawn figure with a real photograph:
   hero-stage-light-v1.webp  the spotlight, haze and stone floor of v5 (screen blend)
   hero-athlete-v3.webp      Sasha at full length from the studio photo, face untouched
   hero-athlete-phone-v1.webp  half-length Sasha for phones, from the second studio photo
+  ../hero-slide-2/sasha-flex-phone-v1.webp  Sasha flexing, the second slide on phones
   ../og-hero-v1.jpg         1200x630 link preview composed from the same layers
 
 Sources (all in the repository; the studio photos are not published):
   assets/images/sasha-studio-topten.jpg                  studio photo, full length
   assets/images/sasha-studio-punch.jpg                   studio photo, half length, punching
+  assets/images/sasha-studio-flex.jpg                    studio photo, half length, flexing
   assets/images/hero-layers/hero-sasha-spotlight-v5.png  the old composite (light, floor)
   assets/images/hero-layers/broadcast-field-v4.png       its shard plate without a person
 
@@ -41,6 +43,7 @@ CACHE = ROOT / "tmp/hero-layers"
 
 PHOTO = ROOT / "assets/images/sasha-studio-topten.jpg"
 PHONE_PHOTO = ROOT / "assets/images/sasha-studio-punch.jpg"
+TRUST_PHONE_PHOTO = ROOT / "assets/images/sasha-studio-flex.jpg"
 COMPOSITE = OUT / "hero-sasha-spotlight-v5.png"
 PLATE = OUT / "broadcast-field-v4.png"
 
@@ -239,6 +242,30 @@ def build_phone_athlete():
             "width": round(a.shape[1] * scale, 1), "height": round(height, 1),
             "bottom": round(941 - top_px - height, 1),
         },
+    }
+
+
+def build_trust_phone():
+    """The second slide on phones: Sasha flexing, half length, in the same light.
+
+    hero-scene.css is not involved; styles.css centres the head of this picture and
+    fades it out towards the cut at the waist, so report where both are.
+    """
+    colour, alpha = cut_out(TRUST_PHONE_PHOTO, "birefnet-portrait-mask-flex.png")
+    colour = relight_for_stage(colour, alpha, falloff=0.3, red_light=0.08, balance=0.0, face_end=0.27)
+    a = save_figure(colour, alpha, "../hero-slide-2/sasha-flex-phone-v1.webp", 1.0)
+
+    solid = a > 0.3
+    rows = np.nonzero(solid.max(axis=1))[0]
+    head_top = int(rows.min())
+    head = solid[head_top:head_top + round(0.06 * a.shape[0])]
+    head_cols = np.nonzero(head.max(axis=0))[0]
+    cols = np.nonzero(solid.max(axis=0))[0]
+    return {
+        "size": [a.shape[1], a.shape[0]],
+        "head_x": round((head_cols.min() + head_cols.max()) / 2 / a.shape[1], 4),
+        "head_top": round(head_top / a.shape[0], 4),
+        "figure_x": [round(cols.min() / a.shape[1], 4), round(cols.max() / a.shape[1], 4)],
     }
 
 
@@ -442,7 +469,12 @@ def compose(report, width, height, athlete_x):
 
 
 if __name__ == "__main__":
-    report = {**build_shards(), "athlete": build_athlete(), "phone": build_phone_athlete()}
+    report = {
+        **build_shards(),
+        "athlete": build_athlete(),
+        "phone": build_phone_athlete(),
+        "trust_phone": build_trust_phone(),
+    }
     build_stage_light()
     og = compose(report, 1792, 941, athlete_x=0.6).resize((1200, 630), Image.LANCZOS)
     og.save(OUT.parent / "og-hero-v1.jpg", quality=86, optimize=True, progressive=True)

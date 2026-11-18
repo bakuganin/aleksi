@@ -259,14 +259,14 @@ html.js .broadcast-hero:not(.is-live) .hero-scene__athlete {
   /* Her head (x=1041 of the phone figure, whose box starts at x=748.9) on the
      middle of the screen. The top of her head (5.8 plate px below the top of the
      box) sits just under the header; on tall screens she comes down so that her
-     punching fist (339 plate px lower) ends at 30% of the stage and her body runs
+     punching fist (339 plate px lower) ends at 27% of the stage and her body runs
      on behind the copy instead of floating above it. */
   .hero-scene__athlete {
     /* Fully visible down to the top line of the headline (measured by script.js
-       as --athlete-fade-start), then fading out before the cut at her waist; her
-       head and fists always stay visible. */
-    --fade-start: max(var(--athlete-fade-start, 72%), 46%);
-    top: calc(max(6cqh, 30cqh - 339 * var(--rig-u)) - 5.8 * var(--rig-u));
+       as --athlete-fade-start), then fading out before the cut at her waist; the
+       fade is at least 64px long, and her head and fists always stay visible. */
+    --fade-start: max(min(var(--athlete-fade-start, 72%), calc(100% - 64px)), 46%);
+    top: calc(max(2.5cqh, 27cqh - 339 * var(--rig-u)) - 5.8 * var(--rig-u));
     bottom: auto;
     left: calc(50% - 292.1 * var(--rig-u));
     height: calc(747.8 * var(--rig-u));

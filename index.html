@@ -100,13 +100,13 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin=""
     >
-    <link rel="stylesheet" href="/styles.css?v=20261118-consent-mobile">
+    <link rel="stylesheet" href="/styles.css?v=20261118-trust-flex-3">
     <link rel="stylesheet" href="/groups-layout.css?v=20260902-editorial-groups">
     <link rel="stylesheet" href="/signup-modal.css?v=20260902-signup-modal-v2">
     <link rel="stylesheet" href="/cta-controls.css?v=20260902-unified-controls">
     <link rel="stylesheet" href="/hero-mobile.css?v=20261113-hero-scene">
     <link rel="stylesheet" href="/hero-desktop.css?v=20261117-studio-light">
-    <link rel="stylesheet" href="/hero-scene.css?v=20261118-phone-fade">
+    <link rel="stylesheet" href="/hero-scene.css?v=20261118-phone-raise-2">
     <link rel="stylesheet" href="/schedule.css?v=20260916-schedule-ux-v8">
 
     <script type="application/ld+json">
@@ -474,14 +474,24 @@
             <div class="trust-stage trust-editorial" aria-hidden="true">
               <div class="trust-editorial__backdrop trust-editorial__backdrop--composite">
                 <div class="trust-editorial__scene">
-                  <img
-                    class="trust-editorial__sasha"
-                    src="/assets/images/hero-slide-2/sasha-user-cutout-v1.png"
-                    width="1376"
-                    height="768"
-                    alt=""
-                    decoding="async"
-                  >
+                  <!-- Phones get Sasha flexing (half length); wider screens keep the stance cutout. -->
+                  <picture class="trust-editorial__sasha-frame">
+                    <source
+                      media="(max-width: 880px)"
+                      srcset="/assets/images/hero-slide-2/sasha-flex-phone-v1.webp?v=20261118-flex"
+                      width="873"
+                      height="909"
+                      type="image/webp"
+                    >
+                    <img
+                      class="trust-editorial__sasha"
+                      src="/assets/images/hero-slide-2/sasha-user-cutout-v1.png"
+                      width="1376"
+                      height="768"
+                      alt=""
+                      decoding="async"
+                    >
+                  </picture>
                 </div>
                 <div class="trust-editorial__shade"></div>
               </div>

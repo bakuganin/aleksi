@@ -15144,6 +15144,11 @@ body:has(.broadcast-hero[data-active-slide="1"]) .site-header {
   pointer-events: none;
 }
 
+/* The <picture> that swaps in the phone photo adds no box of its own. */
+.trust-editorial__sasha-frame {
+  display: contents;
+}
+
 @media (max-width: 880px) {
   /* Real layout rows reserve portrait space instead of putting the face behind copy. */
   .broadcast-hero .broadcast-slide--trust {
@@ -15153,6 +15158,7 @@ body:has(.broadcast-hero[data-active-slide="1"]) .site-header {
     padding-bottom: clamp(20px, 3svh, 32px);
   }
 
+  /* The picture area lets Sasha run on behind the copy, as on the first slide. */
   .broadcast-hero .broadcast-slide--trust .trust-stage {
     position: relative;
     inset: auto;
@@ -15160,6 +15166,7 @@ body:has(.broadcast-hero[data-active-slide="1"]) .site-header {
     width: 100%;
     height: 100%;
     min-height: 0;
+    overflow: visible;
   }
 
   .broadcast-hero .broadcast-slide--trust .trust-layout {
@@ -15171,21 +15178,45 @@ body:has(.broadcast-hero[data-active-slide="1"]) .site-header {
     align-items: flex-start;
   }
 
+  /* The artwork fades into the black copy area in its own background, so the
+     darkening stays behind Sasha instead of lying over her. */
   .broadcast-hero .broadcast-slide--trust .trust-editorial__backdrop--composite {
-    background: #000 url("assets/images/hero-slide-2/thai-tiger-background-v1.png") right top / auto 100% no-repeat;
+    overflow: visible;
+    background:
+      linear-gradient(180deg, transparent 68%, rgba(0, 0, 0, 0.45) 86%, #000 100%),
+      #000 url("assets/images/hero-slide-2/thai-tiger-background-v1.png") right top / auto 100% no-repeat;
   }
 
   .trust-editorial__scene {
-    top: 0;
-    left: 45%;
-    width: auto;
-    height: min(200%, 176vw);
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
     background: none;
-    transform: translateX(-61%);
+    transform: none;
+  }
+
+  /* Sasha flexing (sasha-flex-phone-v1.webp, 873 × 909, elbow to elbow 98% of
+     its width): her head (48.85% across) on the middle of the screen, about
+     three quarters of the screen wide. Like on the first slide her waist goes
+     on behind the copy (100px below the picture area) and she fades out from
+     the top of the headline (about 45px below it) down; her head never rises
+     above the picture area. */
+  .broadcast-hero .broadcast-slide--trust .trust-editorial__sasha {
+    top: auto;
+    right: auto;
+    bottom: -100px;
+    left: 50%;
+    width: auto;
+    height: calc(min(76vw, 390px) * 1.058);
+    max-height: calc(100% + 96px);
+    transform: translateX(-48.85%);
+    -webkit-mask-image: linear-gradient(180deg, #000 calc(100% - 58px), transparent calc(100% - 4px));
+    mask-image: linear-gradient(180deg, #000 calc(100% - 58px), transparent calc(100% - 4px));
   }
 
   .trust-editorial__shade {
-    background: linear-gradient(180deg, transparent 68%, rgba(0, 0, 0, 0.45) 86%, #000 100%);
+    display: none;
   }
 }
 
@@ -15233,9 +15264,13 @@ body:has(.broadcast-hero[data-active-slide="1"]) .site-header {
     opacity: 1;
   }
 
-  .trust-editorial__scene {
-    left: 50%;
-    height: 100%;
+  /* The copy stands beside her here, so she stays inside the picture area. */
+  .broadcast-hero .broadcast-slide--trust .trust-editorial__sasha {
+    bottom: 0;
+    height: min(92%, calc(min(66vw, 340px) * 1.058));
+    max-height: none;
+    -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent 97%);
+    mask-image: linear-gradient(180deg, #000 70%, transparent 97%);
   }
 }
 
