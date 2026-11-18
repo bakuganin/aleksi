@@ -65,6 +65,8 @@
 !/scripts/build-hero-layers.py
 !/qa/
 /qa/*
+!/qa/prepare-release.cjs
+!/qa/i18n-build-tools.cjs
 !/qa/schedule-client-sync-check.cjs
 !/qa/schedule-custom-select-e2e-check.cjs
 !/qa/schedule-remote-sync-contract-check.cjs

@@ -2,9 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "trailingSlash": true,
-  "buildCommand": "",
+  "buildCommand": "node qa/prepare-release.cjs --out dist",
   "installCommand": "npm ci",
-  "outputDirectory": ".",
+  "outputDirectory": "dist",
   "headers": [
     {
       "source": "/schedule/:path*",

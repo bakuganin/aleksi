@@ -1,6 +1,11 @@
 # Upload only website files; exclude local references, checks and settings.
 /*
 !vercel.json
+!.vercelignore
+!qa
+qa/*
+!qa/prepare-release.cjs
+!qa/i18n-build-tools.cjs
 !package.json
 !package-lock.json
 !middleware.js
