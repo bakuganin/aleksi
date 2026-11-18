@@ -2,6 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
+const vm = require('node:vm');
 
 const root = path.resolve(__dirname, '..');
 const read = (file) => fs.readFileSync(path.join(root, file), 'utf8');
@@ -31,8 +32,22 @@ test('schedule-dates exposes deterministic Tallinn, week, holiday, and occurrenc
   const modulePath = path.join(root, 'schedule-dates.js');
   assert.ok(fs.existsSync(modulePath), 'schedule-dates.js must exist before the multi-week calendar can run');
 
-  delete require.cache[require.resolve(modulePath)];
-  const dates = require(modulePath);
+  const sandbox = {
+    module: { exports: {} },
+    exports: {},
+    Date,
+    Intl,
+    Object,
+    Math,
+    Number,
+    String,
+    TypeError,
+    RangeError,
+    Error,
+    isFinite,
+  };
+  vm.runInNewContext(fs.readFileSync(modulePath, 'utf8'), sandbox, { filename: modulePath });
+  const dates = sandbox.module.exports;
   const expectedExports = [
     'getTallinnToday',
     'isoDate',
@@ -59,7 +74,7 @@ test('schedule-dates exposes deterministic Tallinn, week, holiday, and occurrenc
   assert.equal(dates.addDays('2026-09-14', 7), '2026-09-21', 'next-week navigation must add seven days');
   assert.equal(dates.addDays('2026-09-14', -7), '2026-09-07', 'previous-week navigation must subtract seven days');
   assert.deepEqual(
-    dates.weekDates('2026-09-14'),
+    Array.from(dates.weekDates('2026-09-14')),
     [
       '2026-09-14',
       '2026-09-15',

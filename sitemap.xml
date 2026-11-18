@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://aleksi1.ee/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://aleksi1.ee/" />
+    <xhtml:link rel="alternate" hreflang="et" href="https://aleksi1.ee/et/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://aleksi1.ee/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://aleksi1.ee/" />
+  </url>
+  <url>
+    <loc>https://aleksi1.ee/et/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://aleksi1.ee/" />
+    <xhtml:link rel="alternate" hreflang="et" href="https://aleksi1.ee/et/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://aleksi1.ee/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://aleksi1.ee/" />
+  </url>
+  <url>
+    <loc>https://aleksi1.ee/en/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://aleksi1.ee/" />
+    <xhtml:link rel="alternate" hreflang="et" href="https://aleksi1.ee/et/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://aleksi1.ee/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://aleksi1.ee/" />
+  </url>
+  <url>
+    <loc>https://aleksi1.ee/calendar/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://aleksi1.ee/calendar/" />
+    <xhtml:link rel="alternate" hreflang="et" href="https://aleksi1.ee/calendar/et/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://aleksi1.ee/calendar/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://aleksi1.ee/calendar/" />
+  </url>
+  <url>
+    <loc>https://aleksi1.ee/calendar/et/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://aleksi1.ee/calendar/" />
+    <xhtml:link rel="alternate" hreflang="et" href="https://aleksi1.ee/calendar/et/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://aleksi1.ee/calendar/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://aleksi1.ee/calendar/" />
+  </url>
+  <url>
+    <loc>https://aleksi1.ee/calendar/en/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://aleksi1.ee/calendar/" />
+    <xhtml:link rel="alternate" hreflang="et" href="https://aleksi1.ee/calendar/et/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://aleksi1.ee/calendar/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://aleksi1.ee/calendar/" />
+  </url>
+</urlset>

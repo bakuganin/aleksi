@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ru" class="schedule-auth-page" data-auth-language="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#09090a">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+    <meta name="referrer" content="same-origin">
+    <meta http-equiv="Cache-Control" content="no-store">
+    <meta name="description" content="Вход в защищённый редактор расписания.">
+    <title>Вход в редактор расписания — DZHIKAEVA</title>
+
+    <link rel="icon" href="/assets/brand-mark.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Roboto+Condensed:wght@700;800;900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/schedule-auth.css?v=20260916-minimal-entry-v4">
+    <script src="/schedule-auth.js?v=20260915-editor-entry-v2" defer></script>
+  </head>
+  <body>
+    <a class="auth-skip" href="#auth-username" data-auth-i18n="skip">Перейти к форме входа</a>
+
+    <div class="auth-app" data-auth-app data-session-state="checking">
+      <header class="auth-header">
+        <a class="auth-brand" href="/" data-auth-home-link data-auth-i18n-aria="brandHome" aria-label="На главную">
+          <span class="auth-brand__mark" aria-hidden="true"><span></span></span>
+          <span class="auth-brand__text">
+            <strong>DZHIKAEVA</strong>
+            <small>KICKBOXING</small>
+          </span>
+        </a>
+
+        <nav class="auth-languages" aria-label="Язык страницы" data-auth-i18n-aria="languageLabel" data-active-language="ru">
+          <button type="button" data-auth-language-button="ru" aria-pressed="true" aria-label="Русский" data-auth-i18n-aria="languageRu">RU</button>
+          <button type="button" data-auth-language-button="et" aria-pressed="false" aria-label="Эстонский" data-auth-i18n-aria="languageEt">ET</button>
+          <button type="button" data-auth-language-button="en" aria-pressed="false" aria-label="Английский" data-auth-i18n-aria="languageEn">EN</button>
+        </nav>
+      </header>
+
+      <main class="auth-main" data-auth-transition-content>
+        <section class="auth-card" aria-labelledby="auth-form-title">
+          <div class="auth-card__head">
+            <p class="auth-kicker" data-auth-i18n="cardEyebrow">ТОЛЬКО ДЛЯ ТРЕНЕРА</p>
+            <h1 class="auth-visually-hidden" id="auth-form-title" tabindex="-1" data-auth-i18n="formTitle">РЕДАКТОР РАСПИСАНИЯ</h1>
+          </div>
+
+          <div class="auth-checking" data-auth-checking role="status" aria-live="polite">
+            <span class="auth-spinner" aria-hidden="true"></span>
+            <span data-auth-i18n="checking">Проверяем вход…</span>
+          </div>
+
+          <form class="auth-form" data-auth-form novalidate>
+            <label for="auth-username">
+              <span data-auth-i18n="username">Логин</span>
+              <input id="auth-username" name="username" type="text" autocomplete="username" autocapitalize="none" spellcheck="false" inputmode="text" maxlength="80" required aria-describedby="auth-status">
+            </label>
+
+            <label for="auth-password">
+              <span data-auth-i18n="password">Пароль</span>
+              <span class="auth-password-field">
+                <input id="auth-password" name="password" type="password" autocomplete="current-password" maxlength="256" required aria-describedby="auth-status">
+                <button class="auth-password-toggle" type="button" data-auth-password-toggle aria-label="Показать пароль" data-auth-i18n-aria="showPassword" aria-pressed="false">
+                  <svg class="auth-eye auth-eye--show" viewBox="0 0 24 24" aria-hidden="true"><path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6Z"></path><circle cx="12" cy="12" r="2.5"></circle></svg>
+                  <svg class="auth-eye auth-eye--hide" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 4 16 16M9.7 6.4A10 10 0 0 1 12 6c6 0 9.5 6 9.5 6a15 15 0 0 1-2.1 2.8M14.5 14.5A3.5 3.5 0 0 1 9.5 9.5M6.5 8.2A16 16 0 0 0 2.5 12s3.5 6 9.5 6a10 10 0 0 0 3.1-.5"></path></svg>
+                </button>
+              </span>
+            </label>
+
+            <p class="auth-status" id="auth-status" data-auth-status role="alert" aria-live="assertive"></p>
+
+            <button class="auth-submit" type="submit" data-auth-submit>
+              <span class="auth-submit__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"></path></svg>
+              </span>
+              <span data-auth-submit-label data-auth-i18n="submit">ВОЙТИ В РЕДАКТОР</span>
+            </button>
+          </form>
+
+          <div class="auth-session" data-auth-session hidden>
+            <div class="auth-session__state">
+              <span class="auth-session__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></svg>
+              </span>
+              <span data-auth-i18n="alreadyTitle">ДОСТУП ПОДТВЕРЖДЁН</span>
+            </div>
+            <a class="auth-submit auth-submit--editor" href="/schedule/" data-auth-next-link>
+              <span class="auth-submit__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M14 7l5 5-5 5"></path></svg>
+              </span>
+              <span data-auth-i18n="openEditor">ОТКРЫТЬ РЕДАКТОР</span>
+            </a>
+          </div>
+
+          <a class="auth-back" href="/" data-auth-home-link>
+            <span aria-hidden="true">←</span>
+            <span data-auth-i18n="backHome">Вернуться на сайт</span>
+          </a>
+        </section>
+      </main>
+
+      <footer class="auth-footer">
+        <span>© 2026 DZHIKAEVA · KONKIRO</span>
+        <span data-auth-i18n="footer">ЗАЩИЩЁННАЯ ПАНЕЛЬ</span>
+      </footer>
+    </div>
+  </body>
+</html>

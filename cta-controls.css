@@ -1,0 +1,159 @@
+/* One capsule system. Contexts retain enough specificity to replace the older
+   hero/form overrides without making dimensions depend on the slide or theme. */
+.swipe-button {
+  --control-height: 60px;
+  --control-inset: 6px;
+  --control-orb: 48px;
+  --control-side: 60px;
+  --control-width: 320px;
+  --control-label-size: 11px;
+  --control-chevron-width: 28px;
+  --control-chevron-right: 17px;
+  --control-background: var(--accent);
+  --control-color: var(--white);
+  --control-orb-background: var(--white);
+  --control-orb-color: var(--ink);
+}
+
+.swipe-button--light {
+  --control-background: var(--white);
+  --control-color: var(--ink);
+  --control-orb-background: var(--accent);
+  --control-orb-color: var(--white);
+}
+
+.signup-quiz__next.swipe-button {
+  --control-width: 240px;
+}
+
+.swipe-button--compact {
+  --control-height: 48px;
+  --control-orb: 36px;
+  --control-side: 44px;
+  --control-width: 148px;
+  --control-label-size: 9.5px;
+  --control-chevron-width: 20px;
+  --control-chevron-right: 8px;
+}
+
+:is(body, .broadcast-hero .broadcast-slide--trust .trust-copy, .signup.signup-quiz .signup-quiz__nav) .swipe-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  width: min(100%, var(--control-width));
+  min-width: 0;
+  max-width: 100%;
+  height: var(--control-height);
+  min-height: var(--control-height);
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 var(--control-side);
+  color: var(--control-color);
+  background: var(--control-background);
+  box-shadow: none;
+  font-family: var(--body);
+  font-size: var(--control-label-size);
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  transform: none;
+}
+
+:is(body, .broadcast-hero .broadcast-slide--trust .trust-copy, .signup.signup-quiz .signup-quiz__nav) .swipe-button .swipe-button__orb {
+  top: 50%;
+  left: var(--control-inset);
+  width: var(--control-orb);
+  height: var(--control-orb);
+  border: 0;
+  border-radius: 50%;
+  color: var(--control-orb-color);
+  background: var(--control-orb-background);
+  box-shadow: none;
+  transform: translate3d(var(--swipe-offset), -50%, 0);
+}
+
+:is(body, .broadcast-hero .broadcast-slide--trust .trust-copy, .signup.signup-quiz .signup-quiz__nav) .swipe-button .swipe-button__orb svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+:is(body, .broadcast-hero .broadcast-slide--trust .trust-copy, .signup.signup-quiz .signup-quiz__nav) .swipe-button .swipe-button__label {
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: calc(100% - var(--control-side) * 2);
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: var(--control-label-size);
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  line-height: 1.25;
+  text-align: center;
+  white-space: normal;
+  transform: translate(-50%, -50%);
+}
+
+:is(body, .broadcast-hero .broadcast-slide--trust .trust-copy, .signup.signup-quiz .signup-quiz__nav) .swipe-button .swipe-button__chevrons {
+  top: 50%;
+  right: var(--control-chevron-right);
+  width: var(--control-chevron-width);
+  height: 20px;
+  color: var(--control-color);
+  transform: translateY(-50%);
+}
+
+:is(body, .broadcast-hero .broadcast-slide--trust .trust-copy, .signup.signup-quiz .signup-quiz__nav) .swipe-button:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 4px;
+}
+
+.signup-quiz__submit {
+  justify-self: end;
+}
+
+@media (max-width: 620px) {
+  .signup-quiz__nav .swipe-button {
+    --control-width: 100%;
+  }
+
+  .signup-quiz__nav--submit {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .signup-quiz__nav--submit .signup-quiz__back {
+    justify-self: start;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :is(body, .broadcast-hero .broadcast-slide--trust .trust-copy, .signup.signup-quiz .signup-quiz__nav) .swipe-button:hover {
+    color: var(--control-color);
+    background: var(--control-background);
+    filter: brightness(1.04);
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .swipe-button,
+  .swipe-button .swipe-button__orb,
+  .swipe-button .swipe-button__label,
+  .swipe-button .swipe-button__chevrons {
+    transition: none;
+  }
+}

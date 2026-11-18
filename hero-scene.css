@@ -1,0 +1,310 @@
+/* Opening hero scene.
+   Separate layers instead of one baked picture: an empty stage plate, five shard
+   groups pinned to the screen edges, and a rig with the stage light, the stone
+   floor and Sasha cut out of the studio photo. scripts/build-hero-layers.py
+   produces the images; all numbers below are pixels of the 1672 × 941 source plate. */
+
+.hero-scene {
+  /* Sizes follow the stage itself (it starts under the fixed header), not the window.
+     --u sizes the edge shards: height-led on wide screens, width-led on narrow ones,
+     so they never crowd the copy. --rig-u keeps Sasha, her light and the floor at
+     full stage height, as in the original composition. */
+  --u: min(calc(100cqh / 941), calc(100cqw / 1400));
+  --rig-u: calc(100cqh / 941);
+  /* Where the middle of Sasha (x=1000, the axis of the spotlight) stands: her fist
+     (x=882) comes 24px after the end of the headline, which starts on the logo line
+     of the site grid (.container). Only when her left foot (x=902) would reach the
+     start cards at the bottom of the grid does she step right, just enough to clear
+     them. The headline and card sizes come from hero-desktop.css. */
+  --hero-copy-left: max(24px, (100% - var(--container)) / 2);
+  --athlete-x: max(
+    calc(var(--hero-copy-left) + var(--hero-headline-ratio, 0) * var(--hero-h1-size, 0px) + 24px + 118 * var(--rig-u)),
+    calc(var(--hero-copy-left) + var(--hero-proof-width, 0px) + 16px + 98 * var(--rig-u))
+  );
+  --scene-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  container-type: size;
+  background: #050506;
+  pointer-events: none;
+}
+
+.hero-scene > *,
+.hero-scene__rig > * {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+}
+
+.hero-scene__plate {
+  z-index: 0;
+  inset: 0;
+  background: #050506 url("assets/images/hero-layers/hero-stage-plate-v1.webp") center / cover no-repeat;
+}
+
+/* Shards: pinned to the nearest screen corner, floating on their own rhythm.
+   `transform` carries pointer/scroll parallax from script.js, while `translate`
+   and `rotate` carry the idle float, so both motions add up instead of fighting. */
+.hero-scene__shard {
+  --parallax-item-x: 0px;
+  --parallax-item-y: 0px;
+  --parallax-scroll-y: 0px;
+  z-index: 1;
+  display: block;
+  max-width: none;
+  height: auto;
+  transform: translate3d(
+    var(--parallax-item-x),
+    calc(var(--parallax-item-y) + var(--parallax-scroll-y)),
+    0
+  );
+  transition:
+    opacity 1100ms var(--scene-ease) var(--enter-delay, 0ms),
+    scale 1700ms var(--scene-ease) var(--enter-delay, 0ms);
+  will-change: transform, translate, rotate;
+}
+
+.hero-scene__shard--lt {
+  --float-x: 9px;
+  --float-y: 14px;
+  --float-rotate: 0.9deg;
+  --float-duration: 7.8s;
+  --float-delay: -2.4s;
+  --enter-delay: 60ms;
+  top: calc(-32 * var(--u));
+  left: calc(-32 * var(--u));
+  width: calc(629 * var(--u));
+  transform-origin: 0 0;
+}
+
+.hero-scene__shard--lb {
+  --float-x: 12px;
+  --float-y: -11px;
+  --float-rotate: -0.8deg;
+  --float-duration: 9.4s;
+  --float-delay: -6.1s;
+  --enter-delay: 220ms;
+  bottom: calc(-32 * var(--u));
+  left: calc(-32 * var(--u));
+  width: calc(642 * var(--u));
+  transform-origin: 0 100%;
+}
+
+.hero-scene__shard--rt {
+  --float-x: -10px;
+  --float-y: 13px;
+  --float-rotate: -1deg;
+  --float-duration: 8.6s;
+  --float-delay: -4.3s;
+  --enter-delay: 140ms;
+  top: calc(30 * var(--u));
+  right: calc(-32 * var(--u));
+  width: calc(427 * var(--u));
+  transform-origin: 100% 0;
+}
+
+.hero-scene__shard--rm {
+  --float-x: -14px;
+  --float-y: -8px;
+  --float-rotate: 0.6deg;
+  --float-duration: 10.2s;
+  --float-delay: -1.2s;
+  --enter-delay: 300ms;
+  right: calc(-32 * var(--u));
+  bottom: calc(64 * var(--u));
+  width: calc(971 * var(--u));
+  transform-origin: 100% 60%;
+}
+
+.hero-scene__shard--rb {
+  --float-x: -9px;
+  --float-y: 10px;
+  --float-rotate: -0.7deg;
+  --float-duration: 8.2s;
+  --float-delay: -5.6s;
+  --enter-delay: 380ms;
+  right: calc(-32 * var(--u));
+  bottom: calc(-32 * var(--u));
+  width: calc(1055 * var(--u));
+  transform-origin: 100% 100%;
+}
+
+.broadcast-hero.is-live .hero-scene__shard {
+  animation: hero-shard-float var(--float-duration) cubic-bezier(0.37, 0, 0.63, 1) var(--float-delay) infinite alternate;
+}
+
+@keyframes hero-shard-float {
+  from {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+
+  to {
+    translate: var(--float-x) var(--float-y);
+    rotate: var(--float-rotate);
+  }
+}
+
+/* The rig is the spotlight composition around Sasha: its x=1000 is where she
+   stands. It is not a stacking context, so the z-index of its children
+   interleaves with the shards and the shade. */
+.hero-scene__rig {
+  bottom: 0;
+  left: calc(var(--athlete-x) - 1000 * var(--rig-u));
+  width: calc(1672 * var(--rig-u));
+  height: calc(941 * var(--rig-u));
+}
+
+/* Spotlight cone, haze and the stone floor; black means no light. */
+.hero-scene__light {
+  z-index: 2;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  mix-blend-mode: screen;
+}
+
+/* Keeps the headline readable over the left shards; Sasha stays untouched. */
+.hero-scene__shade {
+  z-index: 3;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(5, 5, 6, 0.66) 0%, rgba(5, 5, 6, 0.48) 34%, rgba(5, 5, 6, 0.08) 56%, rgba(5, 5, 6, 0.1) 100%),
+    linear-gradient(0deg, rgba(5, 5, 6, 0.45), transparent 22%);
+}
+
+/* Contact shadow where the feet meet the floor (feet x=902..1103, sole line y=910). */
+.hero-scene__shadow {
+  z-index: 4;
+  top: calc(892 * var(--rig-u));
+  left: calc(872 * var(--rig-u));
+  width: calc(262 * var(--rig-u));
+  height: calc(34 * var(--rig-u));
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.74), rgba(0, 0, 0, 0.34) 58%, transparent);
+}
+
+/* The <picture> that swaps in the phone photo adds no box of its own: the image
+   is placed in the rig as if it were its direct child. */
+.hero-scene__athlete-frame {
+  display: contents;
+}
+
+.hero-scene__athlete {
+  --parallax-item-x: 0px;
+  --parallax-item-y: 0px;
+  --parallax-scroll-y: 0px;
+  position: absolute;
+  z-index: 5;
+  bottom: calc(25.8 * var(--rig-u));
+  left: calc(875 * var(--rig-u));
+  display: block;
+  width: auto;
+  max-width: none;
+  height: calc(810.5 * var(--rig-u));
+  transform: translate3d(
+    var(--parallax-item-x),
+    calc(var(--parallax-item-y) + (var(--parallax-scroll-y) * 0.4)),
+    0
+  );
+  transform-origin: 50% 100%;
+  transition: translate 1400ms var(--scene-ease) 120ms;
+  will-change: transform;
+}
+
+/* Entrance after the loader: shards settle in, Sasha rises onto her mark.
+   Sasha is never hidden, so the largest image paints at once (LCP). */
+html.js .broadcast-hero:not(.is-live) .hero-scene__shard {
+  opacity: 0;
+  scale: 1.07;
+}
+
+html.js .broadcast-hero:not(.is-live) .hero-scene__athlete {
+  translate: 0 1.6%;
+}
+
+/* Phones and small tablets: the half-length photo (hero-athlete-phone-v1.webp,
+   cut at the waist) stands small and centred under the spotlight and fades out
+   behind the copy; shards frame the upper corners. */
+@media (max-width: 880px) {
+  .hero-scene {
+    --u: calc(100cqw / 980);
+    /* The phone figure (490 plate px from elbow to elbow) is about as wide as the
+       headline below it. */
+    --rig-u: calc(min(62cqw, 300px) / 490);
+    /* The spotlight keeps its own, larger size: its beam and haze fill the top of
+       the screen and its floor stays behind the copy, with no edge in sight. */
+    --light-u: calc(min(82cqh, 168cqw) / 800);
+  }
+
+  /* Light and figure are sized apart here, so both are placed on the stage
+     itself instead of in the shared rig. */
+  .hero-scene__rig {
+    position: static;
+  }
+
+  /* The axis of the beam (x=1032) over the middle of the screen. */
+  .hero-scene__light {
+    inset: auto;
+    top: calc(4cqh - 110 * var(--light-u));
+    left: calc(50% - 1032 * var(--light-u));
+    width: calc(1672 * var(--light-u));
+    max-width: none;
+    height: calc(941 * var(--light-u));
+  }
+
+  /* Her head (x=1041 of the phone figure, whose box starts at x=748.9) on the
+     middle of the screen. The top of her head (5.8 plate px below the top of the
+     box) sits just under the header; on tall screens she comes down so that her
+     punching fist (339 plate px lower) ends at 30% of the stage and her body runs
+     on behind the copy instead of floating above it. */
+  .hero-scene__athlete {
+    /* Fully visible down to the top line of the headline (measured by script.js
+       as --athlete-fade-start), then fading out before the cut at her waist; her
+       head and fists always stay visible. */
+    --fade-start: max(var(--athlete-fade-start, 72%), 46%);
+    top: calc(max(6cqh, 30cqh - 339 * var(--rig-u)) - 5.8 * var(--rig-u));
+    bottom: auto;
+    left: calc(50% - 292.1 * var(--rig-u));
+    height: calc(747.8 * var(--rig-u));
+    -webkit-mask-image: linear-gradient(180deg, #000 var(--fade-start), transparent min(calc(var(--fade-start) + 90px), 100%));
+    mask-image: linear-gradient(180deg, #000 var(--fade-start), transparent min(calc(var(--fade-start) + 90px), 100%));
+  }
+
+  .hero-scene__shade {
+    z-index: 3;
+    background:
+      linear-gradient(180deg, transparent 30%, rgba(5, 5, 6, 0.5) 42%, rgba(5, 5, 6, 0.78) 56%, rgba(5, 5, 6, 0.6) 80%, rgba(5, 5, 6, 0.35));
+  }
+
+  .hero-scene__shadow {
+    display: none;
+  }
+}
+
+/* Landscape phones have a very short stage: size the shards by its height. */
+@media (max-width: 880px) and (orientation: landscape) {
+  .hero-scene {
+    --u: min(calc(100cqh / 700), calc(100cqw / 1400));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scene__shard,
+  .hero-scene__athlete {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+.static-preview .hero-scene__shard,
+.static-preview .hero-scene__athlete {
+  animation: none !important;
+  transition: none !important;
+  opacity: 1 !important;
+  scale: none !important;
+  translate: none !important;
+}

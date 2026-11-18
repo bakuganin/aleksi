@@ -20,9 +20,8 @@ assert.ok(adminPassword, 'Set SCHEDULE_ADMIN_PASSWORD (or TEST_ADMIN_PASSWORD).'
 
 const selectors = Object.freeze({
   app: '[data-schedule-app]',
-  calendarMode: 'button[data-schedule-mode="schedule"]',
   calendarPanel: '[data-schedule-panel="schedule"]',
-  editorPanel: '[data-schedule-panel="editor"]',
+  sessionDialog: 'dialog[data-schedule-session-dialog]',
   calendar: '[data-schedule-calendar]',
   paletteCard: '[data-schedule-palette-card][data-template-id]',
   paletteHandle: '[data-schedule-palette-drag-handle]',
@@ -72,7 +71,6 @@ async function waitForEditor(page) {
   await page.waitForFunction((selector) => (
     document.querySelector(selector)?.getAttribute('data-schedule-ready') === 'true'
   ), selectors.app);
-  await page.locator(selectors.calendarMode).click();
   await page.locator(selectors.calendarPanel).waitFor({ state: 'visible' });
   await page.waitForFunction((selector) => (
     document.querySelector(selector)?.getAttribute('data-schedule-calendar-mounted') === 'true'
@@ -129,11 +127,31 @@ async function realMouseDrag(page, source, target) {
 
 async function verifyVisibleHandleDrag(page) {
   await waitForEditor(page);
-  const sourceCard = page.locator(selectors.paletteCard).first();
+  const templateId = `qa-palette-handle-${Date.now()}`;
+  const sessionCountBefore = await page.evaluate(() => window.DzhikaevaSchedule.getSessions().length);
+  await page.evaluate((id) => {
+    window.DzhikaevaSchedule.upsertTemplate({
+      id,
+      venue: 'sillamae',
+      title: {
+        ru: 'QA карточка для переноса',
+        et: 'QA lohistatav treeningukaart',
+        en: 'QA draggable training card',
+      },
+      audience: { ru: 'QA', et: 'QA', en: 'QA' },
+      durationMinutes: 45,
+    });
+  }, templateId);
+  assert.equal(
+    await page.evaluate(() => window.DzhikaevaSchedule.getSessions().length),
+    sessionCountBefore,
+    'Creating the drag fixture as a reusable card must not create a scheduled session',
+  );
+
+  const sourceCard = page.locator(`${selectors.paletteCard}[data-template-id="${templateId}"]`);
   const handle = sourceCard.locator(selectors.paletteHandle);
   await handle.waitFor({ state: 'visible' });
-  const templateId = await sourceCard.getAttribute('data-template-id');
-  assert.ok(templateId, 'The source card needs a stable template id');
+  assert.equal(await sourceCard.locator('time').count(), 0, 'The draggable reusable card must not render a time');
 
   const target = page.locator('[data-calendar-day="7"] [data-calendar-slot][data-time="15:15"]');
   assert.equal(await target.count(), 1, 'The calendar needs one concrete Sunday 15:15 target');
@@ -143,10 +161,10 @@ async function verifyVisibleHandleDrag(page) {
   await installDragProbe(page);
   await realMouseDrag(page, handle, target);
 
-  const editorPanel = page.locator(selectors.editorPanel);
+  const sessionDialog = page.locator(selectors.sessionDialog);
   let opened = true;
   try {
-    await editorPanel.waitFor({ state: 'visible', timeout: 2500 });
+    await sessionDialog.waitFor({ state: 'visible', timeout: 2500 });
   } catch {
     opened = false;
   }
@@ -157,7 +175,7 @@ async function verifyVisibleHandleDrag(page) {
     `Dragging the visible handle must open a draft at the target instead of ending in a forbidden/no-drop state. Event trace: ${JSON.stringify(trace)}`,
   );
 
-  const form = editorPanel.locator(selectors.form);
+  const form = sessionDialog.locator(selectors.form);
   assert.equal(await form.locator('[name="date"]').inputValue(), expectedDate, 'The draft must use the slot date');
   assert.equal(await form.locator('[name="start"]').inputValue(), '15:15', 'The draft must use the exact 15-minute slot');
 

@@ -5,18 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta
       name="description"
-      content="Кикбоксинг с Александрой Джикаевой в Силламяэ и Нарве: дети, подростки, малыши до 4 лет, индивидуальные тренировки и женская группа."
+      content="Кикбоксинг с Александрой Джикаевой — воспитанницей и тренером школы KONKIRO — в Силламяэ и Нарве: группы для детей и взрослых."
     >
     <meta name="theme-color" content="#0b0b0c">
     <meta property="og:title" content="Кикбоксинг с Александрой Джикаевой — Силламяэ и Нарва">
     <meta
       property="og:description"
-      content="Набор в группы в Силламяэ и Нарве: дети, подростки, малыши до 4 лет, индивидуальные тренировки и женский кикбоксинг."
+      content="Продолжение школы KONKIRO в Силламяэ: занятия с Александрой Джикаевой для детей и взрослых в Силламяэ и Нарве."
     >
     <meta property="og:type" content="website">
-    <meta property="og:image" content="assets/images/sasha-hero-arena-v2.png">
+    <meta property="og:image" content="https://aleksi1.ee/assets/images/og-hero-v1.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://aleksi1.ee/">
+    <meta property="og:locale" content="ru_EE">
+    <meta property="og:locale:alternate" content="et_EE">
+    <meta property="og:locale:alternate" content="en_EE">
+    <meta name="robots" content="index, follow, max-image-preview:large">
 
     <title>Кикбоксинг с Александрой Джикаевой — Силламяэ и Нарва</title>
+    <link rel="canonical" href="https://aleksi1.ee/">
+    <link rel="alternate" hreflang="ru" href="https://aleksi1.ee/">
+    <link rel="alternate" hreflang="et" href="https://aleksi1.ee/et/">
+    <link rel="alternate" hreflang="en" href="https://aleksi1.ee/en/">
+    <link rel="alternate" hreflang="x-default" href="https://aleksi1.ee/">
 
     <script>
       (() => {
@@ -40,34 +52,42 @@
       })();
     </script>
 
-    <link rel="icon" href="assets/brand-mark.svg?v=20260902-ad" type="image/svg+xml" sizes="any">
-    <link rel="preload" as="image" href="assets/boxing-glove-loader.svg" type="image/svg+xml">
+    <style>
+      /* The loading surface is solid even before the main stylesheet is ready. */
+      .site-loader { display: none; }
+      html.loader-active .site-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background: #e8172b;
+      }
+      html.loader-active .site-loader.is-complete { background: transparent; }
+      html.loader-active, html.loader-active body { overflow: hidden; }
+    </style>
+
+    <link rel="icon" href="/assets/brand-mark.svg?v=20260902-boxing-glove" type="image/svg+xml" sizes="any">
+    <link rel="preload" as="image" href="/assets/boxing-glove-loader.svg" type="image/svg+xml">
     <link
       rel="preload"
       as="image"
-      href="assets/images/hero-layers/broadcast-field-v4.png"
-      fetchpriority="high"
-    >
-    <link
-      rel="preload"
-      as="image"
-      href="assets/images/hero-layers/hero-sasha-spotlight-v5.png"
+      href="/assets/images/hero-layers/hero-athlete-v3.webp?v=20261118-relight"
+      type="image/webp"
       media="(min-width: 881px)"
       fetchpriority="high"
     >
     <link
       rel="preload"
       as="image"
-      href="assets/images/hero-layers/hero-sasha-mobile-v1.png"
+      href="/assets/images/hero-layers/hero-athlete-phone-v1.webp?v=20261118-phone"
+      type="image/webp"
       media="(max-width: 880px)"
       fetchpriority="high"
     >
-    <link
-      rel="preload"
-      as="image"
-      href="assets/images/hero-slide-2/sasha-thai-tiger-v3.png"
-      fetchpriority="high"
-    >
+    <link rel="preload" as="image" href="/assets/images/hero-layers/hero-stage-light-v1.webp" type="image/webp">
+    <link rel="preload" as="image" href="/assets/images/hero-layers/hero-stage-plate-v1.webp" type="image/webp">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -80,19 +100,30 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin=""
     >
-    <link rel="stylesheet" href="styles.css?v=20260902-champion-ribbon">
-    <link rel="stylesheet" href="groups-layout.css?v=20260902-editorial-groups">
-    <link rel="stylesheet" href="signup-modal.css?v=20260902-signup-modal-v2">
+    <link rel="stylesheet" href="/styles.css?v=20261113-hero-scene">
+    <link rel="stylesheet" href="/groups-layout.css?v=20260902-editorial-groups">
+    <link rel="stylesheet" href="/signup-modal.css?v=20260902-signup-modal-v2">
+    <link rel="stylesheet" href="/cta-controls.css?v=20260902-unified-controls">
+    <link rel="stylesheet" href="/hero-mobile.css?v=20261113-hero-scene">
+    <link rel="stylesheet" href="/hero-desktop.css?v=20261117-studio-light">
+    <link rel="stylesheet" href="/hero-scene.css?v=20261118-phone-fade">
+    <link rel="stylesheet" href="/schedule.css?v=20260916-schedule-ux-v8">
 
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "SportsActivityLocation",
+        "@id": "https://aleksi1.ee/#sports-club",
+        "url": "https://aleksi1.ee/",
+        "inLanguage": "ru",
         "name": "Кикбоксинг с Александрой Джикаевой",
-        "description": "Тренировки по кикбоксингу для детей, подростков и взрослых в Силламяэ и Нарве.",
+        "description": "Тренировки по кикбоксингу с Александрой Джикаевой — воспитанницей и тренером школы KONKIRO — для детей и взрослых в Силламяэ и Нарве.",
         "telephone": "+37255554649",
         "email": "Dzhikaevalex@gmail.com",
-        "sameAs": ["https://www.instagram.com/aleksi1703/"],
+        "sameAs": [
+          "https://www.instagram.com/aleksi1703/",
+          "https://konkiro.ee/our-team/aleksandra-dzhikaeva/"
+        ],
         "address": [
           {
             "@type": "PostalAddress",
@@ -128,18 +159,25 @@
               <path
                 class="site-loader__erase-path"
                 pathLength="1"
+                fill="none"
+                stroke="black"
+                stroke-width="260"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-dasharray="1"
+                stroke-dashoffset="1"
                 d="M-180 80C240 14 1370 138 1765 74C1324 232 274 140 -168 262C252 386 1366 260 1772 416C1320 566 286 444 -170 596C256 728 1360 610 1774 752C1314 926 286 806 -186 942"
               ></path>
             </mask>
           </defs>
-          <rect class="site-loader__snake-fill" width="1600" height="1000" mask="url(#site-loader-erase-mask)"></rect>
+          <rect class="site-loader__snake-fill" width="1600" height="1000" fill="#e8172b" mask="url(#site-loader-erase-mask)"></rect>
         </svg>
       </div>
       <div class="site-loader__frame">
         <div class="site-loader__glove-wrap" aria-hidden="true">
           <img
             class="site-loader__glove"
-            src="assets/boxing-glove-loader.svg"
+            src="/assets/boxing-glove-loader.svg"
             alt=""
             width="88"
             height="88"
@@ -168,30 +206,45 @@
     <header class="site-header" data-header>
       <div class="container site-header__inner">
         <a class="brand" href="#top" aria-label="К началу страницы">
-          <span class="brand__mark" aria-hidden="true">AD</span>
+          <span class="brand__mark" aria-hidden="true"><span class="brand__glove"></span></span>
           <span class="brand__text">
             <strong>DZHIKAEVA</strong>
-            <small>KICKBOXING · SILLAMÄE</small>
+            <small>KICKBOXING</small>
           </span>
         </a>
 
         <nav class="site-nav" id="site-navigation" aria-label="Основная навигация" data-nav>
+          <div
+            class="language-switcher language-switcher--mobile"
+            role="group"
+            aria-label="Язык сайта"
+            data-active-language="ru"
+          >
+            <a href="/" hreflang="ru" lang="ru" data-language-switch data-language="ru" aria-current="page">RU</a>
+            <a href="/et/" hreflang="et" lang="et" data-language-switch data-language="et">ET</a>
+            <a href="/en/" hreflang="en" lang="en" data-language-switch data-language="en">EN</a>
+          </div>
           <a href="#coach">Тренер</a>
           <a href="#groups">Группы</a>
           <a href="#hall">Зал</a>
+          <a href="/calendar/" data-schedule-page-link data-cta="nav_schedule">Расписание</a>
           <a href="#contacts">Контакты</a>
           <div class="site-nav__meta" aria-label="Быстрая связь">
             <span class="site-nav__meta-label">Связь без ожидания</span>
             <a class="site-nav__contact" href="tel:+37255554649" data-cta="nav_phone">+372&nbsp;5555&nbsp;4649</a>
             <div class="site-nav__cta-row">
               <a
-                class="site-nav__cta"
+                class="site-nav__cta site-nav__cta--whatsapp"
                 href="https://wa.me/37255554649"
                 target="_blank"
                 rel="noopener noreferrer"
                 data-cta="nav_whatsapp"
               >
-                WhatsApp
+                <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+                  <path d="M16 3.5A12.25 12.25 0 0 0 5.3 21.72L3.5 28.5l6.94-1.82A12.25 12.25 0 1 0 16 3.5Z"></path>
+                  <path d="M11.2 9.35c-.3-.67-.62-.68-.91-.69h-.78c-.27 0-.7.1-1.07.5-.37.4-1.4 1.37-1.4 3.34s1.44 3.87 1.64 4.14c.2.26 2.82 4.31 6.84 6.04 3.34 1.44 4.02 1.16 4.74 1.08.73-.07 2.34-.95 2.67-1.88.33-.93.33-1.72.23-1.88-.1-.17-.36-.27-.76-.47-.4-.2-2.34-1.16-2.7-1.29-.37-.13-.63-.2-.9.2-.26.4-1.02 1.29-1.25 1.56-.23.26-.46.3-.86.1-.4-.2-1.68-.62-3.2-1.98-1.18-1.05-1.98-2.35-2.21-2.75-.23-.4-.02-.61.18-.81.18-.18.4-.46.6-.7.2-.23.26-.4.4-.66.13-.27.06-.5-.04-.7-.1-.2-.88-2.18-1.22-2.98Z"></path>
+                </svg>
+                <span>WhatsApp</span>
               </a>
               <a class="site-nav__cta site-nav__cta--accent" href="#quick-start" data-cta="nav_signup">
                 Записаться
@@ -201,6 +254,15 @@
         </nav>
 
         <div class="site-header__actions">
+          <nav
+            class="language-switcher language-switcher--desktop"
+            aria-label="Язык сайта"
+            data-active-language="ru"
+          >
+            <a href="/" hreflang="ru" lang="ru" data-language-switch data-language="ru" aria-current="page">RU</a>
+            <a href="/et/" hreflang="et" lang="et" data-language-switch data-language="et">ET</a>
+            <a href="/en/" hreflang="en" lang="en" data-language-switch data-language="en">EN</a>
+          </nav>
           <a
             class="header-phone"
             href="tel:+37255554649"
@@ -256,7 +318,7 @@
               >×</button>
               <img
                 class="header-whatsapp__qr"
-                src="assets/whatsapp-qr.svg"
+                src="/assets/whatsapp-qr.svg"
                 width="184"
                 height="184"
                 alt=""
@@ -273,7 +335,7 @@
                 data-cta="header_whatsapp_desktop"
               >
                 Написать с компьютера
-                <span aria-hidden="true">↗</span>
+                <span aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></span>
               </a>
             </div>
           </div>
@@ -294,7 +356,7 @@
     </header>
     <div class="whatsapp-backdrop" aria-hidden="true" hidden data-whatsapp-backdrop></div>
 
-    <main id="main-content">
+    <main id="main-content" data-language-transition-content>
       <section
         class="hero-story"
         id="top"
@@ -309,80 +371,42 @@
             data-hero-slide="0"
             aria-label="Набор в секцию кикбоксинга"
           >
-            <div class="broadcast-stage" aria-hidden="true">
-              <div class="broadcast-stage__field">
-                <picture class="broadcast-stage__photo">
-                  <source media="(max-width: 880px)" srcset="assets/images/hero-layers/hero-sasha-mobile-v1.png" width="941" height="1672">
+            <!-- Layers come from scripts/build-hero-layers.py: an empty stage, five shard
+                 groups that float at the edges, and a rig with the stage light, stone floor
+                 and Sasha cut out of the studio photo. -->
+            <div class="broadcast-stage hero-scene" aria-hidden="true">
+              <div class="hero-scene__plate"></div>
+              <img class="hero-scene__shard hero-scene__shard--lt" src="/assets/images/hero-layers/hero-shard-lt-v1.webp" width="629" height="629" alt="" decoding="async" data-parallax data-parallax-depth="1.5">
+              <img class="hero-scene__shard hero-scene__shard--lb" src="/assets/images/hero-layers/hero-shard-lb-v1.webp" width="642" height="466" alt="" decoding="async" data-parallax data-parallax-depth="1.1">
+              <img class="hero-scene__shard hero-scene__shard--rt" src="/assets/images/hero-layers/hero-shard-rt-v1.webp" width="427" height="465" alt="" decoding="async" data-parallax data-parallax-depth="1.35">
+              <img class="hero-scene__shard hero-scene__shard--rm" src="/assets/images/hero-layers/hero-shard-rm-v1.webp" width="971" height="524" alt="" decoding="async" data-parallax data-parallax-depth="0.8">
+              <img class="hero-scene__shard hero-scene__shard--rb" src="/assets/images/hero-layers/hero-shard-rb-v1.webp" width="1055" height="358" alt="" decoding="async" data-parallax data-parallax-depth="1.2">
+              <div class="hero-scene__shade"></div>
+              <div class="hero-scene__rig">
+                <img class="hero-scene__light" src="/assets/images/hero-layers/hero-stage-light-v1.webp" width="1672" height="941" alt="" decoding="async">
+                <div class="hero-scene__shadow"></div>
+                <!-- Phones get the half-length photo; the full-length one is for wider screens. -->
+                <picture class="hero-scene__athlete-frame">
+                  <source
+                    media="(max-width: 880px)"
+                    srcset="/assets/images/hero-layers/hero-athlete-phone-v1.webp?v=20261118-phone"
+                    width="605"
+                    height="901"
+                    type="image/webp"
+                  >
                   <img
-                    src="assets/images/hero-layers/hero-sasha-spotlight-v5.png"
+                    class="hero-scene__athlete"
+                    src="/assets/images/hero-layers/hero-athlete-v3.webp?v=20261118-relight"
+                    width="384"
+                    height="1238"
                     alt=""
-                    width="1672"
-                    height="941"
                     fetchpriority="high"
                     loading="eager"
                     decoding="async"
+                    data-parallax
+                    data-parallax-depth="0.3"
                   >
                 </picture>
-                <div class="broadcast-stage__flag-wave broadcast-stage__flag-wave--left">
-                  <img
-                    src="assets/images/hero-layers/hero-sasha-spotlight-v5.png"
-                    alt=""
-                    width="1672"
-                    height="941"
-                    decoding="async"
-                  >
-                </div>
-                <div class="broadcast-stage__flag-wave broadcast-stage__flag-wave--right">
-                  <img
-                    src="assets/images/hero-layers/hero-sasha-spotlight-v5.png"
-                    alt=""
-                    width="1672"
-                    height="941"
-                    decoding="async"
-                  >
-                </div>
-              </div>
-              <div class="broadcast-stage__ufc-motion">
-                <span
-                  class="broadcast-stage__shard broadcast-stage__shard--left-top"
-                  data-parallax
-                  data-parallax-depth="0.16"
-                ></span>
-                <span
-                  class="broadcast-stage__shard broadcast-stage__shard--left-bottom"
-                  data-parallax
-                  data-parallax-depth="0.22"
-                ></span>
-                <span
-                  class="broadcast-stage__shard broadcast-stage__shard--right-top"
-                  data-parallax
-                  data-parallax-depth="0.18"
-                ></span>
-                <span
-                  class="broadcast-stage__shard broadcast-stage__shard--right-bottom"
-                  data-parallax
-                  data-parallax-depth="0.28"
-                ></span>
-              </div>
-              <div class="broadcast-stage__spotlight" data-parallax data-parallax-depth="0.7"></div>
-              <div class="broadcast-stage__ink"></div>
-            </div>
-
-            <div class="broadcast-frame" aria-hidden="true">
-              <div class="broadcast-frame__top">
-                <span>WAKO · KICKBOXING</span>
-                <span>OPEN ENROLLMENT · 2026</span>
-                <span>SILLAMÄE · ESTONIA</span>
-              </div>
-              <div class="broadcast-frame__side broadcast-frame__side--left">
-                <span>KICKBOXING · DZHIKAEVA · KICKBOXING ·</span>
-              </div>
-              <div class="broadcast-frame__side broadcast-frame__side--right">
-                <span>6–16 · START · 17:00 · SILLAMÄE ·</span>
-              </div>
-              <div class="broadcast-frame__bottom">
-                <span>DISCIPLINE BUILDS CONFIDENCE</span>
-                <span>MON · WED · FRI / 17:00</span>
               </div>
             </div>
 
@@ -423,7 +447,7 @@
               <aside class="broadcast-offer__proof" aria-label="Условия старта">
                 <div><strong>3×</strong><span>в неделю</span></div>
                 <div><strong>17:00</strong><span>ПН · СР · ПТ</span></div>
-                <div><strong>0</strong><span>опыт не нужен</span></div>
+                <div><strong>С нуля</strong><span>объясним базу</span></div>
               </aside>
             </div>
 
@@ -448,24 +472,18 @@
             inert
           >
             <div class="trust-stage trust-editorial" aria-hidden="true">
-              <div class="trust-editorial__backdrop"></div>
-            </div>
-
-            <div class="broadcast-frame broadcast-frame--trust" aria-hidden="true">
-              <div class="broadcast-frame__top">
-                <span>COACH TRUST · 02</span>
-                <span>MASTER OF SPORT</span>
-                <span>SILLAMÄE · ESTONIA</span>
-              </div>
-              <div class="broadcast-frame__side broadcast-frame__side--left">
-                <span>DISCIPLINE · TECHNIQUE · CONFIDENCE ·</span>
-              </div>
-              <div class="broadcast-frame__side broadcast-frame__side--right">
-                <span>FIRST STEP · OWN VICTORY · FIRST STEP ·</span>
-              </div>
-              <div class="broadcast-frame__bottom">
-                <span>ALEXANDRA DZHIKAEVA · COACH</span>
-                <span>ONE CHILD · ONE PACE · ONE PATH</span>
+              <div class="trust-editorial__backdrop trust-editorial__backdrop--composite">
+                <div class="trust-editorial__scene">
+                  <img
+                    class="trust-editorial__sasha"
+                    src="/assets/images/hero-slide-2/sasha-user-cutout-v1.png"
+                    width="1376"
+                    height="768"
+                    alt=""
+                    decoding="async"
+                  >
+                </div>
+                <div class="trust-editorial__shade"></div>
               </div>
             </div>
 
@@ -474,13 +492,13 @@
                 <p class="trust-copy__eyebrow"><span>Тренер рядом</span> Без давления</p>
                 <h2>Первый шаг<br><em>Своя победа</em></h2>
                 <p>
-                  13 лет в спорте и 8 лет работы с детьми. Александра помогает войти
-                  в зал спокойно — в своём темпе.
+                  Практически 13 лет мы вместе с KONKIRO, а 8 лет работаем с детьми —
+                  развиваем кикбоксинг и тайский бокс в Нарве и Силламяэ.
                 </p>
                 <ul aria-label="Почему Александре можно доверить ребёнка">
-                  <li><strong>13 лет</strong><span>в спорте</span></li>
-                  <li><strong>8 лет</strong><span>тренирует детей</span></li>
-                  <li><strong>2 города</strong><span>Нарва и Силламяэ</span></li>
+                  <li><strong>13 лет</strong><span>С KONKIRO</span></li>
+                  <li><strong>8 лет</strong><span>Тренирует детей</span></li>
+                  <li><strong>2 города</strong><span>Силламяэ и Нарва</span></li>
                 </ul>
                 <a
                   class="swipe-button swipe-button--light"
@@ -540,10 +558,10 @@
                 data-group="children"
                 data-cta="segment_children"
               >
-                <span>Силламяэ</span>
+                <span>KONKIRO SILLAMÄE</span>
                 <strong>Дети и<br>подростки</strong>
                 <small>6–16 лет · Пн / Ср / Пт · 17:00</small>
-                <b>Выбрать <i aria-hidden="true">↗</i></b>
+                <b>Выбрать <i aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></i></b>
               </a>
             </li>
             <li data-quick-reveal>
@@ -556,7 +574,7 @@
                 <span>Малыши до 4 лет</span>
                 <strong>Первое<br>знакомство</strong>
                 <small>45 минут · суббота · 10:00</small>
-                <b>Сообщить <i aria-hidden="true">↗</i></b>
+                <b>Сообщить <i aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></i></b>
               </a>
             </li>
             <li data-quick-reveal>
@@ -569,7 +587,7 @@
                 <span>Взрослые и женская группа</span>
                 <strong>Кикбоксинг<br>17+</strong>
                 <small>Можно с нуля · расписание подтвердит Александра</small>
-                <b>Оставить контакт <i aria-hidden="true">↗</i></b>
+                <b>Оставить контакт <i aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></i></b>
               </a>
             </li>
           </ul>
@@ -577,6 +595,96 @@
           <p class="quick-start__reassurance">
             Без оплаты на сайте · около минуты · ответит сама Александра
           </p>
+        </div>
+      </section>
+
+      <section
+        class="section schedule-section"
+        id="schedule"
+        aria-labelledby="schedule-title"
+        data-schedule-section
+        data-schedule-calendar-view
+        data-schedule-active-filter="sillamae"
+      >
+        <div class="container schedule-section__inner">
+          <header class="schedule-section__heading reveal">
+            <div>
+              <p class="eyebrow"><span></span> Расписание</p>
+              <h2 id="schedule-title" data-schedule-heading>Выберите удобный день <em>для тренировки</em></h2>
+            </div>
+          </header>
+
+          <div class="schedule-toolbar" role="group" aria-label="Фильтр расписания по городу">
+            <button type="button" data-schedule-filter="sillamae" aria-pressed="true">
+              <span data-schedule-filter-label>Силламяэ</span>
+            </button>
+            <button type="button" data-schedule-filter="narva" aria-pressed="false">
+              <span data-schedule-filter-label>Нарва</span>
+            </button>
+          </div>
+
+          <div
+            class="schedule-calendar schedule-calendar--homepage"
+            data-schedule-calendar
+            data-schedule-calendar-readonly
+            data-schedule-calendar-homepage
+            data-step="15"
+            data-day-start="10:00"
+            data-day-end="20:00"
+            aria-label="Недельный календарь тренировок"
+          >
+            <div class="schedule-list schedule-calendar__fallback" aria-live="polite">
+              <article class="schedule-card" data-schedule-venue="sillamae">
+                <div class="schedule-card__top">
+                  <p class="schedule-card__day">Понедельник · Среда · Пятница</p>
+                  <p class="schedule-card__venue">Силламяэ · Kalda 14</p>
+                </div>
+                <time class="schedule-card__time" datetime="17:00">17:00</time>
+                <h3 class="schedule-card__title">Дети и подростки</h3>
+                <p class="schedule-card__audience">6–16 лет · 60 минут</p>
+              </article>
+
+              <article class="schedule-card" data-schedule-venue="sillamae">
+                <div class="schedule-card__top">
+                  <p class="schedule-card__day">Суббота</p>
+                  <p class="schedule-card__venue">Силламяэ · Kalda 14</p>
+                </div>
+                <time class="schedule-card__time" datetime="10:00">10:00</time>
+                <h3 class="schedule-card__title">Первое знакомство</h3>
+                <p class="schedule-card__audience">Малыши до 4 лет · 45 минут</p>
+              </article>
+
+              <article class="schedule-card" data-schedule-venue="narva">
+                <div class="schedule-card__top">
+                  <p class="schedule-card__day">Вторник · Четверг</p>
+                  <p class="schedule-card__venue">Нарва · Rakvere 22D</p>
+                </div>
+                <time class="schedule-card__time" datetime="18:00">18:00</time>
+                <h3 class="schedule-card__title">Детская группа</h3>
+                <p class="schedule-card__audience">От 5–6 лет · 60 минут</p>
+              </article>
+
+              <article class="schedule-card" data-schedule-venue="narva">
+                <div class="schedule-card__top">
+                  <p class="schedule-card__day">Суббота</p>
+                  <p class="schedule-card__venue">Нарва · Rakvere 22D</p>
+                </div>
+                <time class="schedule-card__time" datetime="11:00">11:00</time>
+                <h3 class="schedule-card__title">Детская группа</h3>
+                <p class="schedule-card__audience">От 5–6 лет · 60 минут</p>
+              </article>
+            </div>
+          </div>
+
+          <footer class="schedule-section__footer reveal">
+            <p>Время взрослых и индивидуальных занятий Александра подтвердит лично.</p>
+            <a class="button schedule-section__button" href="/calendar/" data-schedule-page-link data-cta="schedule_calendar_open">
+              <span data-schedule-page-link-label>Открыть календарь</span>
+              <svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+                <path d="m7 17 10-10M7 7h10v10"></path>
+              </svg>
+            </a>
+          </footer>
         </div>
       </section>
 
@@ -608,7 +716,7 @@
               <div class="benefit-profile__frame">
                 <span class="benefit-profile__tag">Движение</span>
                 <img
-                  src="assets/images/skill-coordination.webp"
+                  src="/assets/images/skill-coordination.webp"
                   alt="Юные спортсменки отрабатывают удар и дистанцию на соревнованиях"
                   width="1400"
                   height="933"
@@ -627,7 +735,7 @@
               <div class="benefit-profile__frame">
                 <span class="benefit-profile__tag">Фокус</span>
                 <img
-                  src="assets/images/skill-control.webp"
+                  src="/assets/images/skill-control.webp"
                   alt="Юная спортсменка внимательно слушает тренера в углу ринга"
                   width="1400"
                   height="1867"
@@ -646,7 +754,7 @@
               <div class="benefit-profile__frame">
                 <span class="benefit-profile__tag">Прогресс</span>
                 <img
-                  src="assets/images/skill-confidence.webp"
+                  src="/assets/images/skill-confidence.webp"
                   alt="Александра Джикаева в ринге рядом с тренером после боя"
                   width="1400"
                   height="1014"
@@ -681,46 +789,71 @@
         data-heat="warm"
       >
         <div class="container coach__grid">
-          <div class="coach__portrait reveal">
-            <img
-              src="assets/images/coach-portrait.webp"
-              alt="Тренер Александра Джикаева в боксерском ринге"
-              width="960"
-              height="1280"
-              loading="lazy"
-            >
-            <div class="coach__portrait-label">
-              <span>Тренер</span>
-              <strong>Александра<br>Джикаева</strong>
+          <div class="coach__portrait-column reveal">
+            <div class="coach__portrait">
+              <img
+                src="/assets/images/coach-portrait.webp"
+                alt="Тренер Александра Джикаева в боксерском ринге"
+                width="960"
+                height="1280"
+                loading="lazy"
+              >
+              <div class="coach__portrait-label">
+                <span>Тренер</span>
+                <strong>Александра<br>Джикаева</strong>
+              </div>
+              <div class="coach__stamp" aria-hidden="true">
+                <svg viewBox="0 0 120 120" focusable="false">
+                  <defs>
+                    <path id="coach-stamp-ring" d="M60 16a44 44 0 1 1 0 88a44 44 0 1 1 0-88"></path>
+                  </defs>
+                  <text textLength="264" lengthAdjust="spacing">
+                    <textPath href="#coach-stamp-ring">ESTONIA · KICKBOXING · SILLAMÄE ·</textPath>
+                  </text>
+                </svg>
+                <span class="brand__glove"></span>
+              </div>
             </div>
-            <div class="coach__stamp" aria-hidden="true">
-              <svg viewBox="0 0 120 120" focusable="false">
-                <defs>
-                  <path id="coach-stamp-ring" d="M60 16a44 44 0 1 1 0 88a44 44 0 1 1 0-88"></path>
-                </defs>
-                <text textLength="264" lengthAdjust="spacing">
-                  <textPath href="#coach-stamp-ring">ESTONIA · KICKBOXING · SILLAMÄE ·</textPath>
-                </text>
-              </svg>
-              <b>AD</b>
-            </div>
+
+            <aside class="coach-lineage" aria-label="Школа и наставник Александры">
+              <span class="coach-lineage__mark" aria-hidden="true">K</span>
+              <div class="coach-lineage__copy">
+                <span>Школа и наставник</span>
+                <h3>KONKIRO · Сергей Тимофеев</h3>
+                <p>
+                  Основатель и главный тренер KONKIRO, наставник Александры. Под его
+                  руководством она прошла путь от первых тренировок до международных титулов
+                  и сама стала тренером.
+                </p>
+              </div>
+              <a
+                class="coach-lineage__link"
+                href="https://konkiro.ee/our-team/sergey-timofeev/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Подробнее о Сергее Тимофееве на сайте KONKIRO"
+              >
+                О Сергее и клубе
+                <svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg>
+              </a>
+            </aside>
           </div>
 
           <div class="coach__content reveal reveal--delay">
             <p class="eyebrow"><span></span> Опыт большого спорта</p>
             <h2 id="coach-title">Опыт чемпиона:<br> в каждой тренировке</h2>
             <p class="coach__intro">
-              Александра 13 лет занимается кикбоксингом и тайским боксом, а последние 8 лет
-              тренирует детей. Родители общаются напрямую с тренером без администраторов и
-              посредников.
+              Практически 13 лет спортивного пути Александры связаны со школой KONKIRO.
+              Сегодня она сама тренирует детей и взрослых и вместе с командой развивает
+              кикбоксинг и тайский бокс в Нарве и KONKIRO SILLAMÄE.
             </p>
 
             <div class="achievement-list">
               <article>
                 <span>01</span>
                 <div>
-                  <h3>13 лет в кикбоксе и тайском боксе</h3>
-                  <p>Путь от первых тренировок до международного ринга и личного чемпионского опыта.</p>
+                  <h3>Путь в большом спорте</h3>
+                  <p>Кикбоксинг, тайский бокс и личный чемпионский опыт, накопленный в школе KONKIRO.</p>
                 </div>
               </article>
               <article>
@@ -741,7 +874,7 @@
 
             <a class="button button--outline" href="#quick-start" data-cta="coach_signup">
               Подобрать группу
-              <span class="button__arrow" aria-hidden="true">↗</span>
+              <span class="button__arrow" aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></span>
             </a>
           </div>
         </div>
@@ -784,7 +917,7 @@
                 <span class="status status--open">Набор открыт</span>
                 <span>01 / 05</span>
               </div>
-              <p class="group-card__eyebrow">Дети и подростки</p>
+              <p class="group-card__eyebrow">KONKIRO SILLAMÄE · дети и подростки</p>
               <h3>Силламяэ <span>6–16 лет</span></h3>
               <div class="group-card__feature-body">
                 <div class="group-card__details">
@@ -793,14 +926,14 @@
                     <div><span>Среда</span><strong>17:00</strong></div>
                     <div><span>Пятница</span><strong>17:00</strong></div>
                   </div>
-                  <p class="group-card__note">Молодёжный центр ESN, Kalda 14, Силламяэ. Старт потока — 2 сентября, наличие места подтверждает Александра.</p>
+                  <p class="group-card__note">Продолжение школы KONKIRO в Силламяэ: Молодёжный центр ESN, Kalda 14. Тренировки ведёт Александра Джикаева.</p>
                   <a class="button" href="#signup" data-group="children" data-cta="group_children">
                     Записать
-                    <span class="button__arrow" aria-hidden="true">↗</span>
+                    <span class="button__arrow" aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></span>
                   </a>
                 </div>
                 <figure class="group-card__visual" aria-hidden="true">
-                  <img src="assets/images/groups/children-team.webp" alt="" width="1200" height="1200" loading="lazy">
+                  <img src="/assets/images/groups/children-team.webp" alt="" width="1200" height="1200" loading="lazy">
                 </figure>
               </div>
             </article>
@@ -821,11 +954,11 @@
                 <div class="group-card__details">
                   <p class="group-card__description">Rakvere 22D, 2-й этаж. Александра ведёт эту группу уже 3–4 года.</p>
                   <a class="arrow-link" href="#signup" data-group="narva" data-cta="group_narva">
-                    Выбрать Нарву <span aria-hidden="true">↗</span>
+                    Выбрать Нарву <span aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></span>
                   </a>
                 </div>
                 <figure class="group-card__visual" aria-hidden="true">
-                  <img src="assets/images/groups/ring-training.webp" alt="" width="994" height="1200" loading="lazy">
+                  <img src="/assets/images/groups/ring-training.webp" alt="" width="994" height="1200" loading="lazy">
                 </figure>
               </div>
             </article>
@@ -845,7 +978,7 @@
               <div class="group-card__details group-card__details--end">
                 <p class="group-card__description">Маленькие группы и внимание каждому. Знакомство со спортом и движением без давления.</p>
                 <a class="arrow-link" href="#signup" data-group="young" data-cta="group_young">
-                  Запросить место <span aria-hidden="true">↗</span>
+                  Запросить место <span aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></span>
                 </a>
               </div>
             </article>
@@ -862,11 +995,11 @@
                 <div class="group-card__details">
                   <p class="group-card__description">Только вы, тренер и ваша цель. Дни и время подбираются индивидуально.</p>
                   <a class="arrow-link" href="#signup" data-group="individual" data-cta="group_individual">
-                    Обсудить персонально <span aria-hidden="true">↗</span>
+                    Обсудить персонально <span aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></span>
                   </a>
                 </div>
                 <figure class="group-card__visual" aria-hidden="true">
-                  <img src="assets/images/groups/coach-outdoors.webp" alt="" width="961" height="1200" loading="lazy">
+                  <img src="/assets/images/groups/coach-outdoors.webp" alt="" width="961" height="1200" loading="lazy">
                 </figure>
               </div>
             </article>
@@ -883,11 +1016,11 @@
                 <div class="group-card__details">
                   <p class="group-card__description">Взрослые и женский кикбоксинг. Можно с нуля, в своём темпе.</p>
                   <a class="arrow-link" href="#signup" data-group="adults" data-cta="group_adults">
-                    Оставить контакт <span aria-hidden="true">↗</span>
+                    Оставить контакт <span aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></span>
                   </a>
                 </div>
                 <figure class="group-card__visual" aria-hidden="true">
-                  <img src="assets/images/groups/adult-team.webp" alt="" width="1149" height="1200" loading="lazy">
+                  <img src="/assets/images/groups/adult-team.webp" alt="" width="1149" height="1200" loading="lazy">
                 </figure>
               </div>
             </article>
@@ -933,7 +1066,7 @@
           <div class="start-plan__actions reveal reveal--delay">
             <a class="button button--primary" href="#signup" data-cta="startplan_signup">
               Записаться
-              <span class="button__arrow" aria-hidden="true">↗</span>
+              <span class="button__arrow" aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></span>
             </a>
           </div>
         </div>
@@ -993,24 +1126,24 @@
               loop
               playsinline
               preload="metadata"
-              poster="assets/images/training-hall.webp"
+              poster="/assets/images/training-hall.webp"
               aria-label="Вертикальное видео из тренировочного зала"
               data-training-video
             >
-              <source src="assets/media/training.mp4" type="video/mp4">
-              <source src="assets/media/training.mov" type="video/quicktime">
+              <source src="/assets/media/training.mp4" type="video/mp4">
+              <source src="/assets/media/training.mov" type="video/quicktime">
               Ваш браузер не поддерживает воспроизведение этого видео.
             </video>
             <p class="video-fallback" data-video-fallback>
               Если ролик не запустился встроенно, его можно открыть отдельно.
-              <a href="assets/media/training.mp4" target="_blank" rel="noopener noreferrer">
-                Открыть видео ↗
+              <a href="/assets/media/training.mp4" target="_blank" rel="noopener noreferrer">
+                Открыть видео <svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg>
               </a>
             </p>
             <figcaption>
-              <span>Силламяэ · 2 этаж</span>
+              <span>KONKIRO SILLAMÄE · 2 этаж</span>
               <strong>
-                <small class="hall__venue-brand">ESN ·</small>
+                <small class="hall__venue-brand">На базе ESN ·</small>
                 тренировочный зал
                 <b class="hall__venue-address">Kalda 14</b>
               </strong>
@@ -1050,12 +1183,6 @@
             <span class="champion-ribbon__item">Чемпион</span>
           </div>
         </div>
-        <button class="champion-ribbon__toggle" type="button" aria-label="Приостановить бегущую строку «Чемпион»" aria-pressed="false" data-champion-ribbon-toggle hidden>
-          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <path class="champion-ribbon__pause" d="M8 5v14M16 5v14"></path>
-            <path class="champion-ribbon__play" d="m9 5 10 7-10 7Z"></path>
-          </svg>
-        </button>
       </div>
 
       <section
@@ -1067,7 +1194,7 @@
       >
         <div class="container">
           <div class="section-heading reveal">
-            <p class="eyebrow"><span></span> ESN Силламяэ · Kalda 14</p>
+            <p class="eyebrow"><span></span> KONKIRO SILLAMÄE · Kalda 14</p>
             <h2 id="moments-title">Первая тренировка</h2>
           </div>
 
@@ -1077,7 +1204,7 @@
                 <iframe
                   id="news-video-player"
                   src="https://www.youtube-nocookie.com/embed/yEHh9nZ8KKc?rel=0&amp;playsinline=1&amp;enablejsapi=1&amp;autoplay=0&amp;loop=0&amp;controls=1&amp;fs=1"
-                  title="Видео: первая тренировка по кикбоксингу в ESN Силламяэ"
+                  title="Видео: первая тренировка KONKIRO SILLAMÄE на базе ESN"
                   loading="lazy"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   referrerpolicy="strict-origin-when-cross-origin"
@@ -1086,7 +1213,7 @@
                 ></iframe>
               </div>
               <figcaption class="moment__caption">
-                Александра приглашает на первую тренировку по кикбоксингу в ESN, Силламяэ.
+                Александра приглашает на первую тренировку KONKIRO SILLAMÄE на базе ESN.
                 Познакомься с тренером, попробуй базовые движения и начни в своём темпе.
               </figcaption>
             </figure>
@@ -1107,8 +1234,8 @@
               <p class="eyebrow eyebrow--dark"><span></span> Где тренироваться</p>
             </div>
             <div class="location-hub__title">
-              <h2 id="location-title">Два зала<br><span>Выбери свой</span></h2>
-              <p>Силламяэ или Нарва — выберите удобную точку, посмотрите её на карте и сразу постройте маршрут.</p>
+              <h2 id="location-title">Два зала<br><span>Выбери зал</span></h2>
+              <p>Занятия школы KONKIRO в Силламяэ и Нарве: выберите удобную точку, посмотрите её на карте и сразу постройте маршрут.</p>
             </div>
           </header>
 
@@ -1122,7 +1249,7 @@
                   aria-controls="training-map"
                   data-location-select="sillamae"
                 >
-                  <span>01 / Молодёжный центр ESN</span>
+                  <span>01 / KONKIRO SILLAMÄE</span>
                   <b>На карте <svg class="location-control__icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"></path><circle cx="12" cy="10" r="2.5"></circle></svg></b>
                 </button>
                 <h3>Силламяэ</h3>
@@ -1162,7 +1289,8 @@
                   rel="noreferrer"
                   data-cta="location_whatsapp"
                 >
-                  Написать <span aria-hidden="true">↗</span>
+                  <span class="location-contact__label">Написать</span>
+                  <span class="location-contact__arrow" aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></span>
                 </a>
               </aside>
             </div>
@@ -1186,11 +1314,11 @@
               </div>
 
               <div class="location-map__active" aria-live="polite" data-map-active>
-                <span data-map-name>Молодёжный центр ESN</span>
+                <span data-map-name>KONKIRO SILLAMÄE · ESN</span>
                 <strong data-map-city>01 / Силламяэ</strong>
                 <small data-map-address>Kalda 14 · 2-й этаж</small>
                 <a
-                  class="location-route swipe-button"
+                  class="location-route swipe-button swipe-button--compact"
                   data-swipe-route
                   href="https://www.google.com/maps/dir/?api=1&amp;destination=Kalda+14%2C+Sillam%C3%A4e%2C+Estonia"
                   target="_blank"
@@ -1236,7 +1364,7 @@
           <figure class="signup-quiz__photo-card" data-signup-photo>
             <img
               class="signup-quiz__coach"
-              src="assets/images/signup-sasha-ring.png"
+              src="/assets/images/signup-sasha-ring.png"
               alt="Александра Джикаева в боксерском ринге"
               width="1440"
               height="1920"
@@ -1339,7 +1467,7 @@
                 <label class="signup-quiz__option signup-quiz__option--city">
                   <input type="radio" name="city" value="sillamae" required>
                   <span>Силламяэ</span>
-                  <small>ESN · Kalda 14</small>
+                  <small>KONKIRO SILLAMÄE · ESN, Kalda 14</small>
                   <b aria-hidden="true">59.397° N</b>
                 </label>
                 <label class="signup-quiz__option signup-quiz__option--city">
@@ -1412,18 +1540,30 @@
               <p class="signup-quiz__hint">Сайт подготовит сообщение. Отправку вы подтвердите сами в WhatsApp.</p>
 
               <div class="signup-quiz__review" aria-live="polite">
-                <div><span>Кто</span><strong data-group-summary>Силламяэ · дети и подростки 6–16 лет</strong></div>
+                <div><span>Кто</span><strong data-group-summary>KONKIRO SILLAMÄE · дети и подростки 6–16 лет</strong></div>
                 <div><span>Где</span><strong data-quiz-city-summary>Выберите город</strong></div>
                 <div><span>Цель</span><strong data-quiz-purpose-summary>Выберите цель</strong></div>
               </div>
 
               <div class="signup-quiz__contact-fields">
                 <div class="field">
-                  <label for="lead-name">Ваше имя</label>
+                  <label for="lead-name" data-lead-name-label>Ваше имя</label>
                   <input id="lead-name" name="name" type="text" autocomplete="name" required>
                 </div>
 
-                <div class="field">
+                <div class="field" data-parent-name-field hidden>
+                  <label for="lead-parent-name">Имя родителя</label>
+                  <input
+                    id="lead-parent-name"
+                    name="parentName"
+                    type="text"
+                    autocomplete="section-parent name"
+                    maxlength="100"
+                    disabled
+                  >
+                </div>
+
+                <div class="field" data-contact-field>
                   <label for="lead-contact">Телефон / WhatsApp</label>
                   <input
                     id="lead-contact"
@@ -1440,14 +1580,17 @@
 
               <div class="signup-quiz__nav signup-quiz__nav--submit">
                 <button class="signup-quiz__back" type="button" data-quiz-back><svg class="signup-quiz__nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m14 6-6 6 6 6"></path></svg>Назад</button>
-                <button class="button button--primary button--submit" type="submit" data-cta="form_submit">
-                  <span data-submit-label>Открыть WhatsApp</span>
-                  <svg class="signup-quiz__nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.5 11.7a8.2 8.2 0 0 1-12 7.3L4 20.5l1.5-4.4a8.2 8.2 0 1 1 15-4.4Z"></path><path d="m9 7.5 1.5 3-1 1c.8 1.3 1.7 2.2 3 3l1-1 3 1.5c-.5 1.5-1.5 2-3 1.5-3-1-5.5-3.5-6.5-6.5-.5-1.5 0-2.5 2-2.5Z"></path></svg>
+                <button class="swipe-button signup-quiz__submit" type="submit" data-cta="form_submit">
+                  <span class="swipe-button__orb" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 12h10.5M12.5 7.5 17 12l-4.5 4.5"></path></svg></span>
+                  <span class="swipe-button__label" data-submit-label>Открыть WhatsApp</span>
+                  <span class="swipe-button__chevrons" aria-hidden="true"><svg viewBox="0 0 32 20" focusable="false"><path d="m3 5 5 5-5 5"></path><path d="m13 5 5 5-5 5"></path><path d="m23 5 5 5-5 5"></path></svg></span>
                 </button>
               </div>
 
               <p class="lead-form__privacy">
-                Данные не сохраняются: они используются только для текста сообщения Александре.
+                При открытии WhatsApp текст анкеты передаётся этому сервису. Отправку Александре вы подтверждаете сами.
+                <a href="/privacy.html" target="_blank" rel="noopener noreferrer">Политика конфиденциальности (новая вкладка)</a>.
+                <a href="/cookies.html" target="_blank" rel="noopener noreferrer">Cookie и сервисы (новая вкладка)</a>.
               </p>
             </fieldset>
           </form>
@@ -1519,7 +1662,7 @@
               <summary>Можно выбрать Нарву или Силламяэ?<span aria-hidden="true"></span></summary>
               <div class="faq__answer">
                 <div class="faq__answer-inner">
-                  <p>Да. В заявке можно сразу указать удобный город. В Силламяэ тренировки идут в ESN на Kalda 14, в Нарве — в клубе KONKIRO на Rakvere 22D.</p>
+                  <p>Да. В заявке можно сразу указать удобный город. В Силламяэ занятия KONKIRO SILLAMÄE проходят на базе Молодёжного центра ESN, Kalda 14; в Нарве — в клубе KONKIRO на Rakvere 22D.</p>
                 </div>
               </div>
             </details>
@@ -1550,10 +1693,10 @@
     <footer class="site-footer">
       <div class="container site-footer__top">
         <a class="brand brand--footer" href="#top" aria-label="К началу страницы">
-          <span class="brand__mark" aria-hidden="true">AD</span>
+          <span class="brand__mark" aria-hidden="true"><span class="brand__glove"></span></span>
           <span class="brand__text">
             <strong>DZHIKAEVA</strong>
-            <small>KICKBOXING · SILLAMÄE</small>
+            <small>KICKBOXING</small>
           </span>
         </a>
 
@@ -1571,7 +1714,7 @@
               </svg>
             </span>
             <span>WhatsApp</span>
-            <span class="site-footer__link-arrow" aria-hidden="true">↗</span>
+            <span class="site-footer__link-arrow" aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></span>
           </a>
           <a
             href="https://www.instagram.com/aleksi1703/"
@@ -1587,7 +1730,7 @@
               </svg>
             </span>
             <span>Instagram</span>
-            <span class="site-footer__link-arrow" aria-hidden="true">↗</span>
+            <span class="site-footer__link-arrow" aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></span>
           </a>
           <a href="mailto:Dzhikaevalex@gmail.com" data-cta="footer_email">
             <span class="site-footer__link-icon" aria-hidden="true">
@@ -1597,24 +1740,90 @@
               </svg>
             </span>
             <span>E-mail</span>
-            <span class="site-footer__link-arrow" aria-hidden="true">↗</span>
+            <span class="site-footer__link-arrow" aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></span>
           </a>
         </div>
       </div>
 
       <div class="container site-footer__bottom">
-        <p>© <span data-year></span> Кикбоксинг с Александрой Джикаевой</p>
-        <p>Kalda 14 · Sillamäe · Estonia</p>
-        <p>Code&amp;Design by <a href="https://tarkva.ee/" target="_blank" rel="noopener">Tarkva.ee</a></p>
+        <p>© <span data-year></span> Александра Джикаева · школа KONKIRO</p>
+        <a
+          class="site-footer__school-link"
+          href="https://konkiro.ee/our-team/sergey-timofeev/"
+          target="_blank"
+          rel="noreferrer"
+        >Сергей Тимофеев · основатель и главный тренер KONKIRO</a>
+        <button
+          class="site-footer__analytics-settings"
+          type="button"
+          data-analytics-settings
+          aria-controls="analytics-consent"
+          aria-expanded="false"
+          hidden
+        >
+          Настройки аналитики
+        </button>
       </div>
+      <nav class="container site-footer__legal" aria-label="Правовая информация">
+        <a href="/privacy.html">Политика конфиденциальности</a>
+        <a href="/cookies.html">Cookie и внешние сервисы</a>
+      </nav>
+      <p class="container site-footer__credit">
+        Code&amp;Design by <a href="https://tarkva.ee/" target="_blank" rel="noopener">Tarkva.ee</a>
+      </p>
     </footer>
 
     <nav class="mobile-actions" aria-label="Быстрые действия">
       <a href="https://wa.me/37255554649" target="_blank" rel="noreferrer" data-cta="mobile_whatsapp">
         Задать вопрос
       </a>
-      <a href="#quick-start" data-cta="mobile_signup">Записаться <span aria-hidden="true">↗</span></a>
+      <a href="#quick-start" data-cta="mobile_signup">Записаться <span aria-hidden="true"><svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></span></a>
     </nav>
+
+    <aside
+      class="analytics-consent"
+      id="analytics-consent"
+      data-analytics-consent
+      role="dialog"
+      aria-labelledby="analytics-consent-title"
+      aria-describedby="analytics-consent-description"
+      hidden
+    >
+      <div class="analytics-consent__card">
+        <button
+          class="analytics-consent__close"
+          type="button"
+          data-analytics-close
+          aria-label="Закрыть настройки аналитики"
+        >
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="m6 6 12 12M18 6 6 18"></path>
+          </svg>
+        </button>
+        <p class="analytics-consent__eyebrow">Настройки аналитики</p>
+        <h2 id="analytics-consent-title">Помочь улучшить сайт?</h2>
+        <p class="analytics-consent__description" id="analytics-consent-description">
+          С вашего разрешения Google Analytics будет считать просмотры и действия на сайте.
+          Имя, телефон, возраст и текст анкеты в аналитику не передаются.
+        </p>
+        <div class="analytics-consent__actions">
+          <button class="analytics-consent__accept" type="button" data-analytics-accept>
+            Разрешить аналитику
+          </button>
+          <button class="analytics-consent__reject" type="button" data-analytics-reject>
+            Только необходимые
+          </button>
+        </div>
+        <a
+          class="analytics-consent__policy"
+          href="https://policies.google.com/privacy"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Политика конфиденциальности Google
+        </a>
+      </div>
+    </aside>
 
     <script
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -1622,6 +1831,12 @@
       crossorigin=""
       defer
     ></script>
-    <script src="script.js?v=20260902-champion-ribbon" defer></script>
+    <script id="site-i18n-pack" type="application/json">{"code":"ru","locale":"ru_EE","path":"/","meta":{},"strings":{},"dynamic":{}}</script>
+    <script src="/i18n.js?v=20260913-page-config-v1" defer></script>
+    <script src="/schedule-dates.js?v=20260915-cloud-v1" defer></script>
+    <script src="/schedule-data.js?v=20260916-schedule-ux-v8" defer></script>
+    <script src="/schedule-widget.js?v=20260916-schedule-ux-v8" defer></script>
+    <script src="/schedule-calendar.js?v=20260916-schedule-ux-v8" defer></script>
+    <script src="/script.js?v=20261118-phone-fade-2" defer></script>
   </body>
 </html>

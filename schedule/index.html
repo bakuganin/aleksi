@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="ru" class="schedule-page" data-schedule-language="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#e8172b">
+    <meta name="description" content="Защищённая панель управления расписанием тренировок.">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Расписание">
+    <meta name="application-name" content="Расписание">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Редактор расписания — DZHIKAEVA">
+    <meta property="og:description" content="Защищённое управление расписанием тренировок.">
+    <meta property="og:url" content="https://aleksi1.ee/schedule/">
+    <meta property="og:locale" content="ru_EE">
+    <title>Редактор расписания — DZHIKAEVA</title>
+
+    <link rel="canonical" href="https://aleksi1.ee/schedule/">
+    <link rel="alternate" hreflang="ru" href="https://aleksi1.ee/schedule/">
+    <link rel="alternate" hreflang="et" href="https://aleksi1.ee/schedule/et/">
+    <link rel="alternate" hreflang="en" href="https://aleksi1.ee/schedule/en/">
+    <link rel="alternate" hreflang="x-default" href="https://aleksi1.ee/schedule/">
+    <link rel="manifest" href="/schedule/manifest.webmanifest?v=20260916-name-v1">
+    <link rel="icon" href="/assets/brand-mark.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/assets/pwa/apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto+Condensed:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/schedule.css?v=20260916-schedule-ux-v8">
+
+    <script id="site-i18n-page" type="application/json">
+      {
+        "paths": {
+          "ru": "/schedule/",
+          "et": "/schedule/et/",
+          "en": "/schedule/en/"
+        },
+        "meta": {
+          "ru": {
+            "title": "Редактор расписания — DZHIKAEVA",
+            "description": "Защищённая панель управления расписанием тренировок.",
+            "ogTitle": "Редактор расписания — DZHIKAEVA",
+            "ogDescription": "Защищённое управление расписанием тренировок."
+          },
+          "et": {
+            "title": "Tunniplaani haldus — DZHIKAEVA",
+            "description": "Kaitstud paneel treeningute tunniplaani haldamiseks.",
+            "ogTitle": "Tunniplaani haldus — DZHIKAEVA",
+            "ogDescription": "Treeningute tunniplaani kaitstud haldamine."
+          },
+          "en": {
+            "title": "Schedule editor — DZHIKAEVA",
+            "description": "Protected panel for managing the training schedule.",
+            "ogTitle": "Schedule editor — DZHIKAEVA",
+            "ogDescription": "Protected training schedule management."
+          }
+        },
+        "structuredData": false
+      }
+    </script>
+    <style>
+      .schedule-logout {
+        display: inline-flex;
+        min-height: 38px;
+        align-items: center;
+        gap: 7px;
+        border: 1px solid var(--schedule-line);
+        border-radius: 999px;
+        padding: 8px 13px;
+        background: rgba(0, 0, 0, 0.35);
+        color: #ddd9d2;
+        font: inherit;
+        font-size: 9px;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        line-height: 1;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .schedule-logout svg {
+        width: 15px;
+        height: 15px;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.8;
+      }
+
+      .schedule-logout:hover {
+        border-color: rgba(237, 23, 48, 0.75);
+        color: #fff;
+      }
+
+      .schedule-logout:disabled {
+        cursor: wait;
+        opacity: 0.55;
+      }
+
+      @media (max-width: 620px) {
+        .schedule-header__inner {
+          gap: 8px;
+        }
+
+        .schedule-logout {
+          width: 38px;
+          min-width: 38px;
+          justify-content: center;
+          padding: 0;
+          border-radius: 50%;
+        }
+
+        .schedule-logout__label {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+          clip: rect(0 0 0 0);
+          clip-path: inset(50%);
+          white-space: nowrap;
+        }
+      }
+
+      @media (max-width: 370px) {
+        .schedule-brand {
+          gap: 8px;
+        }
+
+        .schedule-brand__text small {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body class="schedule-page">
+    <a class="schedule-skip" href="#schedule-main" data-schedule-i18n="skip">Перейти к содержанию</a>
+
+    <div class="schedule-app" data-schedule-app data-schedule-ready="false" data-schedule-storage-key="aleksi.schedule.v1" aria-busy="true">
+      <header class="schedule-header">
+        <div class="schedule-shell schedule-header__inner">
+          <a class="schedule-brand" href="/" data-schedule-home-link aria-label="На главную" data-schedule-i18n-aria-label="brand.home">
+            <span class="schedule-brand__mark" aria-hidden="true"><span></span></span>
+            <span class="schedule-brand__text">
+              <strong>DZHIKAEVA</strong>
+              <small data-schedule-i18n="brand.caption">Расписание</small>
+            </span>
+          </a>
+
+          <div class="schedule-header__actions">
+            <a class="schedule-home" href="/" data-schedule-home-link data-schedule-i18n="nav.home">Главная</a>
+            <button class="schedule-logout" type="button" data-schedule-logout aria-label="Выйти из панели" data-schedule-i18n-aria-label="auth.logoutAria">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5M14 8l4 4-4 4m4-4H9"></path></svg>
+              <span class="schedule-logout__label" data-schedule-i18n="auth.logout">Выйти</span>
+            </button>
+            <nav class="schedule-language-switcher language-switcher" aria-label="Язык страницы" data-schedule-i18n-aria-label="language.label" data-active-language="ru">
+              <a href="/schedule/" hreflang="ru" lang="ru" data-language-switch data-schedule-language-switch data-language="ru" aria-current="page" aria-label="Русский" data-schedule-i18n-aria-label="language.ru">RU</a>
+              <a href="/schedule/et/" hreflang="et" lang="et" data-language-switch data-schedule-language-switch data-language="et" aria-label="Эстонский" data-schedule-i18n-aria-label="language.et">ET</a>
+              <a href="/schedule/en/" hreflang="en" lang="en" data-language-switch data-schedule-language-switch data-language="en" aria-label="Английский" data-schedule-i18n-aria-label="language.en">EN</a>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+      <main id="schedule-main" data-language-transition-content>
+        <section id="schedule-public" class="schedule-public" aria-labelledby="schedule-public-title" data-schedule-panel="schedule" data-schedule-calendar-view data-schedule-active-filter="sillamae">
+          <div class="schedule-shell schedule-shell--calendar">
+            <div class="schedule-section-head">
+              <div>
+                <p class="schedule-kicker" data-schedule-i18n="public.eyebrow">НЕДЕЛЬНОЕ РАСПИСАНИЕ</p>
+                <h1 id="schedule-public-title" data-schedule-heading data-schedule-i18n="public.title">КАЛЕНДАРЬ ЗАНЯТИЙ</h1>
+              </div>
+              <div class="schedule-section-head__actions">
+                <div class="schedule-filters" role="group" aria-label="Фильтр по залу" data-schedule-i18n-aria-label="filter.label">
+                  <button type="button" data-schedule-filter="sillamae" aria-pressed="true"><span data-schedule-filter-label data-schedule-i18n="filter.sillamae">Силламяэ</span></button>
+                  <button type="button" data-schedule-filter="narva" aria-pressed="false"><span data-schedule-filter-label data-schedule-i18n="filter.narva">Нарва</span></button>
+                </div>
+                <button class="schedule-manage-trigger" type="button" data-schedule-open-manage aria-label="Управление расписанием" data-schedule-i18n-aria-label="modal.manage" aria-haspopup="dialog" aria-controls="schedule-manage-dialog">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h10m4 0h2M4 17h2m4 0h10M14 4v6M6 14v6"></path></svg>
+                  <span data-schedule-i18n="modal.manage">Управление расписанием</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="schedule-calendar" data-schedule-calendar data-schedule-calendar-editable="true" data-calendar-sync-url data-schedule-list data-step="15" data-day-start="08:00" data-day-end="22:00" aria-label="Недельный календарь занятий" data-schedule-i18n-aria-label="calendar.label">
+              <p class="schedule-calendar__loading" data-schedule-i18n="calendar.loading">Готовим календарь…</p>
+            </div>
+            <p class="schedule-timezone" data-schedule-i18n="timezone">Время указано по часовому поясу Europe/Tallinn.</p>
+          </div>
+        </section>
+
+        <div id="schedule-editor" class="schedule-editor-host" data-schedule-panel="editor" data-schedule-editor>
+          <dialog id="schedule-session-dialog" class="schedule-editor-dialog schedule-editor-dialog--session" role="dialog" aria-modal="true" aria-labelledby="schedule-form-dialog-title" tabindex="-1" data-schedule-session-dialog data-schedule-modal-dialog>
+            <div class="schedule-editor-dialog__surface">
+              <div class="schedule-editor-dialog__topbar">
+                <span data-schedule-i18n="editor.eyebrow">ЗАЩИЩЁННАЯ ПАНЕЛЬ</span>
+                <button class="schedule-editor-dialog__close" type="button" data-schedule-close-session data-schedule-close-editor data-schedule-modal-close aria-label="Закрыть окно занятия" data-schedule-i18n-aria-label="modal.close">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+                </button>
+              </div>
+              <div class="schedule-editor-dialog__content">
+                <form class="schedule-form" data-schedule-form>
+                  <div class="schedule-form__head">
+                    <div class="schedule-form__heading-copy">
+                      <h3 id="schedule-form-dialog-title" tabindex="-1" data-schedule-form-heading data-schedule-i18n="form.new">Новое занятие</h3>
+                      <p id="schedule-form-dialog-subtitle" class="schedule-form__placement-subtitle" data-schedule-form-subtitle hidden></p>
+                    </div>
+                    <div class="schedule-form__head-actions">
+                      <button type="button" class="schedule-action schedule-action--delete schedule-form__delete" data-schedule-delete-current hidden data-schedule-i18n="modal.delete">Удалить занятие</button>
+                    </div>
+                  </div>
+
+                <p class="schedule-template-hint" data-schedule-template-only hidden data-schedule-i18n="form.templateHint">Шаблон — это готовая группа без даты и времени. Перетащите его в календарь, чтобы выбрать время и повторение. Уже добавленные занятия при изменении шаблона не меняются.</p>
+
+                <div class="schedule-form__row schedule-form__row--three" data-schedule-session-fields>
+                  <label hidden data-schedule-legacy-weekday><span data-schedule-i18n="form.day">Основной день</span><select name="weekday" required data-schedule-field="day">
+                    <option value="1" data-schedule-i18n="day.1">Понедельник</option><option value="2" data-schedule-i18n="day.2">Вторник</option><option value="3" data-schedule-i18n="day.3">Среда</option><option value="4" data-schedule-i18n="day.4">Четверг</option><option value="5" data-schedule-i18n="day.5">Пятница</option><option value="6" data-schedule-i18n="day.6">Суббота</option><option value="7" data-schedule-i18n="day.7">Воскресенье</option>
+                  </select></label>
+                  <label data-schedule-session-only><span data-schedule-i18n="form.start">Начало</span><input type="time" name="start" required data-schedule-field="start"></label>
+                  <label data-schedule-session-only><span data-schedule-i18n="form.end">Конец</span><input type="time" name="end" required data-schedule-field="end"></label>
+                  <label data-schedule-field="venue"><span data-schedule-i18n="form.venue">Зал</span><select name="venue" required data-schedule-field="location" data-schedule-control="venue"><option value="sillamae" data-schedule-i18n="form.sillamae">Силламяэ · Kalda 14</option><option value="narva" data-schedule-i18n="form.narva">Нарва · Rakvere 22D</option></select></label>
+                  <label class="schedule-template-duration" data-schedule-template-only hidden><span data-schedule-i18n="form.duration">Длительность, минут</span><input type="number" name="template-duration" min="15" max="720" step="15" value="60" required></label>
+                </div>
+
+                <fieldset class="schedule-recurrence" data-schedule-recurrence data-schedule-session-only>
+                  <legend data-schedule-i18n="form.recurrence">Повторение</legend>
+                  <label class="schedule-recurrence__toggle">
+                    <input type="checkbox" name="repeat-weekly" checked data-schedule-repeat-weekly>
+                    <span aria-hidden="true"></span>
+                    <strong data-schedule-i18n="form.repeatWeekly">Повторять каждую неделю</strong>
+                  </label>
+                  <p class="schedule-recurrence__hint" data-schedule-i18n="form.repeatHint">Отметьте все дни, в которые проходит это занятие.</p>
+                  <div class="schedule-weekdays" role="group" aria-label="Дни повторения" data-schedule-weekdays data-schedule-i18n-aria-label="form.repeatDays">
+                    <label><input type="checkbox" name="weekdays" value="1" checked><span data-schedule-i18n="day.short.1">Пн</span></label>
+                    <label><input type="checkbox" name="weekdays" value="2"><span data-schedule-i18n="day.short.2">Вт</span></label>
+                    <label><input type="checkbox" name="weekdays" value="3"><span data-schedule-i18n="day.short.3">Ср</span></label>
+                    <label><input type="checkbox" name="weekdays" value="4"><span data-schedule-i18n="day.short.4">Чт</span></label>
+                    <label><input type="checkbox" name="weekdays" value="5"><span data-schedule-i18n="day.short.5">Пт</span></label>
+                    <label><input type="checkbox" name="weekdays" value="6"><span data-schedule-i18n="day.short.6">Сб</span></label>
+                    <label><input type="checkbox" name="weekdays" value="7"><span data-schedule-i18n="day.short.7">Вс</span></label>
+                  </div>
+                  <div class="schedule-form__row schedule-form__row--two schedule-recurrence__range" data-schedule-weekly-range>
+                    <label><span data-schedule-i18n="form.startsOn">Начать с даты</span><input type="date" name="starts-on"></label>
+                    <label><span data-schedule-i18n="form.endsOn">Закончить (необязательно)</span><input type="date" name="ends-on"></label>
+                  </div>
+                  <label class="schedule-recurrence__once" data-schedule-once-date hidden>
+                    <span data-schedule-i18n="form.onceDate">Дата занятия</span>
+                    <input type="date" name="date">
+                  </label>
+                </fieldset>
+                <label data-schedule-placement-hidden><span data-schedule-i18n="form.preset">Готовая группа</span><select name="group-preset" data-schedule-field="group">
+                  <option value="custom" data-schedule-i18n="form.presetCustom">Другая / вручную</option>
+                  <option value="sillamae-children" data-schedule-i18n="form.presetSillamaeChildren">Силламяэ · дети 6–16</option>
+                  <option value="sillamae-toddlers" data-schedule-i18n="form.presetSillamaeToddlers">Силламяэ · малыши до 4</option>
+                  <option value="narva-children" data-schedule-i18n="form.presetNarvaChildren">Нарва · от 5–6 лет</option>
+                </select></label>
+                <label data-schedule-session-only data-schedule-placement-hidden><span data-schedule-i18n="form.status">Статус</span><select name="status" required data-schedule-field="status"><option value="active" data-schedule-i18n="form.active">Активно</option><option value="cancelled" data-schedule-i18n="form.cancelled">Приостановлено</option></select></label>
+
+                <details class="schedule-language-details" data-schedule-language-details data-schedule-placement-hidden>
+                  <summary data-schedule-i18n="form.languages">Тексты на трёх языках</summary>
+                  <fieldset><legend data-schedule-i18n="form.nameLegend">Название</legend><div class="schedule-form__row schedule-form__row--three">
+                    <label><span data-schedule-i18n="form.titleRu">Название · RU</span><input name="title-ru" maxlength="80" required data-schedule-field="title" data-schedule-language-field="ru"></label>
+                    <label><span data-schedule-i18n="form.titleEt">Название · ET</span><input name="title-et" maxlength="80" required data-schedule-language-field="et"></label>
+                    <label><span data-schedule-i18n="form.titleEn">Название · EN</span><input name="title-en" maxlength="80" required data-schedule-language-field="en"></label>
+                  </div></fieldset>
+                  <fieldset><legend data-schedule-i18n="form.audienceLegend">Возраст / группа</legend><div class="schedule-form__row schedule-form__row--three">
+                    <label><span data-schedule-i18n="form.audienceRu">Возраст / группа · RU</span><input name="audience-ru" maxlength="120" required data-schedule-field="audience" data-schedule-language-field="ru"></label>
+                    <label><span data-schedule-i18n="form.audienceEt">Возраст / группа · ET</span><input name="audience-et" maxlength="120" required data-schedule-language-field="et"></label>
+                    <label><span data-schedule-i18n="form.audienceEn">Возраст / группа · EN</span><input name="audience-en" maxlength="120" required data-schedule-language-field="en"></label>
+                  </div></fieldset>
+                </details>
+                <button class="schedule-primary" type="submit" data-schedule-save>
+                  <span data-schedule-i18n="form.save">Сохранить занятие</span>
+                  <span class="schedule-primary__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M7 3v4M17 3v4M4 9h16M6 5h12a2 2 0 0 1 2 2v12H4V7a2 2 0 0 1 2-2ZM12 12v5M9.5 14.5h5"></path></svg>
+                  </span>
+                </button>
+              </form>
+                <p class="schedule-alert" role="alert" tabindex="-1" data-schedule-form-error></p>
+              </div>
+            </div>
+          </dialog>
+
+          <dialog id="schedule-manage-dialog" class="schedule-editor-dialog schedule-editor-dialog--manage" role="dialog" aria-modal="true" aria-labelledby="schedule-manage-dialog-title" tabindex="-1" data-schedule-manage-dialog data-schedule-modal-dialog>
+            <div class="schedule-editor-dialog__surface">
+              <div class="schedule-editor-dialog__topbar">
+                <span data-schedule-i18n="editor.eyebrow">ЗАЩИЩЁННАЯ ПАНЕЛЬ</span>
+                <button class="schedule-editor-dialog__close" type="button" data-schedule-close-manage data-schedule-close-editor data-schedule-modal-close aria-label="Закрыть управление расписанием" data-schedule-i18n-aria-label="modal.close">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+                </button>
+              </div>
+              <div class="schedule-editor-dialog__content">
+                <div class="schedule-section-head schedule-section-head--editor">
+                  <div>
+                    <h2 id="schedule-manage-dialog-title" tabindex="-1" data-schedule-i18n="editor.title">УПРАВЛЕНИЕ РАСПИСАНИЕМ</h2>
+                  </div>
+                </div>
+
+                <div class="schedule-editor-list-panel">
+                  <h3 data-schedule-i18n="list.title">Занятия в расписании</h3>
+                  <div class="schedule-editor-list" data-schedule-editor-list></div>
+                </div>
+
+                <section class="schedule-tools" aria-labelledby="schedule-tools-title">
+                  <div><h3 id="schedule-tools-title" data-schedule-i18n="tools.title">Резервная копия</h3><p data-schedule-i18n="tools.text">Экспортируйте JSON перед крупными изменениями. Импорт проверяется до сохранения.</p></div>
+                  <div class="schedule-tools__actions">
+                    <button type="button" data-schedule-export data-schedule-i18n="tools.export">Экспорт JSON</button>
+                    <button type="button" data-schedule-restore data-schedule-i18n="tools.restore">Вернуть резервную копию</button>
+                    <button type="button" class="schedule-danger" data-schedule-reset data-schedule-i18n="tools.reset">Вернуть исходное</button>
+                  </div>
+                  <label class="schedule-import-label"><span data-schedule-i18n="tools.importLabel">JSON для импорта</span><textarea rows="7" data-schedule-import-text data-schedule-i18n-placeholder="tools.importPlaceholder" placeholder="Вставьте экспортированный JSON сюда"></textarea></label>
+                  <div class="schedule-tools__actions">
+                    <button type="button" data-schedule-import-text-button data-schedule-i18n="tools.importText">Импортировать текст</button>
+                    <label class="schedule-file-button"><span data-schedule-i18n="tools.importFile">Или выбрать JSON-файл</span><input type="file" accept="application/json,.json" data-schedule-import></label>
+                  </div>
+                </section>
+                <p class="schedule-alert" role="alert" tabindex="-1" data-schedule-import-error></p>
+              </div>
+            </div>
+          </dialog>
+        </div>
+      </main>
+
+      <div class="schedule-status" role="status" aria-live="polite" aria-atomic="true" data-schedule-status></div>
+      <footer class="schedule-footer"><div class="schedule-shell"><span>© 2026 DZHIKAEVA · KONKIRO</span><a href="mailto:Dzhikaevalex@gmail.com">Dzhikaevalex@gmail.com</a></div></footer>
+    </div>
+
+    <script id="site-i18n-pack" type="application/json">{"code":"ru","locale":"ru_EE","path":"/schedule/","meta":{"title":"Редактор расписания — DZHIKAEVA","description":"Защищённая панель управления расписанием тренировок."},"strings":{},"dynamic":{}}</script>
+    <script src="/i18n.js?v=20260913-page-config-v1" defer></script>
+    <script src="/schedule-dates.js?v=20260915-cloud-v1" defer></script>
+    <script src="/schedule-data.js?v=20260916-schedule-ux-v8" defer></script>
+    <script src="/schedule-widget.js?v=20260916-schedule-ux-v8" defer></script>
+    <script src="/schedule-calendar.js?v=20260916-schedule-ux-v8" defer></script>
+    <script src="/schedule-app.js?v=20260916-schedule-ux-v8" defer></script>
+  </body>
+</html>

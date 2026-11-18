@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cookie, хранилище браузера, карты, видео и другие внешние сервисы на сайте DZHIKAEVA.">
+    <meta name="theme-color" content="#0b0b0c">
+    <meta name="robots" content="noindex, follow">
+    <meta name="referrer" content="no-referrer">
+    <title>Cookie и внешние сервисы — DZHIKAEVA</title>
+    <link rel="icon" href="assets/brand-mark.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="legal.css?v=20260903-svg-icons">
+  </head>
+  <body class="legal-page">
+    <a class="legal-skip" href="#main">Перейти к документу</a>
+    <header class="legal-header">
+      <div class="legal-container legal-header__inner">
+        <a class="legal-brand" href="./#top" aria-label="DZHIKAEVA — на главную">
+          <img src="assets/brand-mark.svg" width="40" height="40" alt="">
+          <span><strong>DZHIKAEVA</strong><small>KICKBOXING</small></span>
+        </a>
+        <a class="legal-back" href="./#top">← На главную</a>
+      </div>
+    </header>
+
+    <main class="legal-container" id="main" tabindex="-1">
+      <header class="legal-intro">
+        <p class="legal-eyebrow">Документы / 02</p>
+        <h1>Cookie и внешние сервисы</h1>
+        <p class="legal-lead">Что хранится в браузере и какие подключения происходят при просмотре сайта.</p>
+        <p class="legal-updated">Редакция от <time datetime="2026-09-08">8 сентября 2026 года</time></p>
+      </header>
+
+      <nav class="legal-tabs" aria-label="Документы">
+        <a href="privacy.html">Конфиденциальность</a>
+        <a href="cookies.html" aria-current="page">Cookie и сервисы</a>
+      </nav>
+
+      <div class="legal-layout">
+        <aside class="legal-toc">
+          <p>На этой странице</p>
+          <nav aria-label="Содержание сведений о cookie">
+            <ul>
+              <li><a href="#storage">Хранилище браузера</a></li>
+              <li><a href="#external">Внешние подключения</a></li>
+              <li><a href="#analytics">Аналитика</a></li>
+              <li><a href="#controls">Ваши настройки</a></li>
+              <li><a href="#questions">Вопросы</a></li>
+            </ul>
+          </nav>
+        </aside>
+
+        <article class="legal-content" aria-label="Сведения о cookie и внешних сервисах">
+          <section id="storage">
+            <h2>01. Хранилище браузера</h2>
+            <p>Cookie — небольшие записи, которые браузер может хранить и передавать серверу. Собственный код сайта использует память вкладки и localStorage. Cookie Google Analytics могут появиться только после того, как посетитель явно разрешит аналитику.</p>
+            <div class="legal-table-wrap" role="region" aria-label="Сведения о хранилище браузера" tabindex="0">
+              <table>
+                <caption>Что использует собственный код сайта</caption>
+                <thead><tr><th scope="col">Запись</th><th scope="col">Назначение</th><th scope="col">Срок</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <th scope="row"><code>dzhikaeva-loader-seen</code><br>sessionStorage</th>
+                    <td>Отметка «1», чтобы повторно не показывать стартовую анимацию в той же вкладке. Не содержит имени, телефона или анкеты.</td>
+                    <td>Сессия вкладки. Обычно завершается при её закрытии; восстановление сессии зависит от браузера.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><code>dzhikaeva-analytics-consent</code><br>localStorage</th>
+                    <td>Выбор «разрешить аналитику» или «только необходимые». Нужен, чтобы сайт не спрашивал о том же при каждом открытии и не загружал Google Analytics без разрешения.</td>
+                    <td>До изменения выбора через «Настройки аналитики» или удаления данных сайта в браузере.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row"><code>_ga</code>, <code>_ga_*</code><br>cookie Google Analytics</th>
+                    <td>Помогают отличать посещения и собирать статистику использования сайта. Создаются Google Analytics только после явного разрешения аналитики; рекламное хранилище сайтом не включается.</td>
+                    <td>По настройкам Google Analytics, но не дольше срока, заданного сервисом или браузером. Их можно удалить через настройки аналитики на сайте или данные сайта в браузере.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Черновик формы</th>
+                    <td>Ответы, введённые в открытой странице. Собственный код не записывает их в cookie, localStorage или sessionStorage.</td>
+                    <td>Пока доступна открытая страница. Автозаполнение и восстановление формы браузером работают независимо.</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">События интерфейса</th>
+                    <td>Временные записи о шагах формы, выбранной группе и нажатиях в памяти страницы. Имя и телефон в эти события не включаются.</td>
+                    <td>Время жизни страницы; отдельного постоянного хранилища для них нет.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section id="external">
+            <h2>02. Внешние подключения</h2>
+            <p>Запрос к другому сервису может передать ему IP-адрес и сведения о браузере, времени и запрашиваемом ресурсе, даже без cookie. На главной странице используются следующие подключения:</p>
+            <ul>
+              <li><strong>Vercel — размещение сайта.</strong> Получает запросы к страницам и файлам. Технические журналы и обработка описаны в <a href="https://vercel.com/legal/privacy-notice" rel="noreferrer">политике Vercel</a>.</li>
+              <li><strong>Google Fonts — шрифты.</strong> Подключаются при загрузке главной страницы через fonts.googleapis.com и fonts.gstatic.com. См. <a href="https://policies.google.com/privacy" rel="noreferrer">политику Google</a>.</li>
+              <li><strong>UNPKG — библиотека карты Leaflet.</strong> Файлы библиотеки загружаются автоматически с unpkg.com. UNPKG использует сеть Cloudflare; сведения об обработке технических запросов приведены в <a href="https://www.cloudflare.com/privacypolicy/" rel="noreferrer">политике Cloudflare</a>.</li>
+              <li><strong>OpenStreetMap — изображение карты.</strong> При автоматической инициализации карты запрашиваются фрагменты с tile.openstreetmap.org, даже если вы не нажимали на карту. См. <a href="https://osmfoundation.org/wiki/Privacy_Policy" rel="noreferrer">политику OpenStreetMap Foundation</a>.</li>
+              <li><strong>YouTube — встроенное видео.</strong> Плеер youtube-nocookie.com загружается отложенно средствами браузера, обычно при приближении к блоку видео. Возможны дополнительные подключения к YouTube API. Режим повышенной конфиденциальности не означает отсутствие сетевых запросов. См. <a href="https://policies.google.com/privacy" rel="noreferrer">политику Google / YouTube</a>.</li>
+              <li><strong>Google Analytics 4 — аналитика использования.</strong> Подключается только после явного нажатия «Разрешить аналитику». Используется поток с идентификатором <code>G-JWLZRCFZ2M</code>. До разрешения загрузчик аналитики не запрашивается и события в Google Analytics не отправляются. См. <a href="https://policies.google.com/privacy" rel="noreferrer">политику Google</a>.</li>
+              <li><strong>WhatsApp, Instagram и Google Maps.</strong> Открываются по соответствующим ссылкам. Кнопка заявки передаёт WhatsApp подготовленный текст ещё до отправки сообщения тренеру. См. <a href="https://www.whatsapp.com/legal/privacy-policy-eea" rel="noreferrer">политику WhatsApp</a>, <a href="https://privacycenter.instagram.com/policy/" rel="noreferrer">политику Instagram</a> и <a href="https://policies.google.com/privacy" rel="noreferrer">политику Google</a>.</li>
+            </ul>
+            <p>Ссылка E-mail открывает почтовое приложение; письмо отправляется только по вашему действию. На самих страницах документов внешние шрифты, карты, видео и счётчики не подключены: здесь загружаются только локальные стили и логотип.</p>
+          </section>
+
+          <section id="analytics">
+            <h2>03. Аналитика</h2>
+            <p>На сайте настроен Google Analytics 4 с идентификатором измерения <code>G-JWLZRCFZ2M</code> в базовом режиме согласия. До явного разрешения посетителя загрузчик Google Analytics не загружается, запросы к нему не выполняются и события ему не отправляются. При выборе «Только необходимые» аналитика остаётся отключённой.</p>
+            <p>После разрешения могут передаваться безопасные категории событий: просмотр страницы, раздела или слайда; нажатия на кнопки записи и контакты; открытие FAQ; взаимодействие с картой и видео; открытие формы, номер шага, выбор вариантов, ошибка обязательного поля, подготовка заявки и переход к WhatsApp. Для оценки заявки могут передаваться общие значения выбранной категории, города и цели, а завершённая подготовка обращения отмечается событием <code>generate_lead</code>.</p>
+            <p><strong>Имя, телефон, возраст, текст анкеты и подготовленный текст сообщения в Google Analytics не отправляются.</strong> Событие подготовки заявки не означает, что посетитель действительно отправил сообщение в WhatsApp. Технические сведения запроса, включая IP-адрес и характеристики браузера, могут быть доступны Google при загрузке аналитики после согласия.</p>
+          </section>
+
+          <section id="controls">
+            <h2>04. Ваши настройки</h2>
+            <p>Выбор аналитики можно в любой момент изменить через кнопку «Настройки аналитики» внизу главной страницы. При отказе сайт прекращает загружать и использовать Google Analytics и удаляет доступные ему аналитические cookie. Новый выбор хранится локально в браузере. Отзыв согласия не удаляет сведения, уже переданные Google до его отзыва.</p>
+            <p>В настройках браузера также можно просмотреть и удалить данные сайта, ограничить сторонние cookie и управлять разрешениями. После удаления служебной отметки стартовая анимация может показаться снова, а после удаления выбора аналитики сайт попросит выбрать настройку повторно. Блокировка отдельных ресурсов может повлиять на карту, видео или шрифты.</p>
+            <p>Согласие на Google Analytics не управляет другими внешними ресурсами: некоторые из них подключаются автоматически, как описано выше. Ограничение cookie в браузере не блокирует все сетевые подключения и не удаляет данные, уже переданные другим сервисам.</p>
+            <p class="legal-note">Эта страница сообщает о текущей работе сайта, но не заменяет запрос согласия там, где он требуется. Подробности требований к дополнительным cookie опубликованы <a href="https://www.aki.ee/isikuandmed/kkk/interneti-ja-veebitegevused" rel="noreferrer">Инспекцией по защите данных Эстонии</a>.</p>
+          </section>
+
+          <section id="questions">
+            <h2>05. Вопросы о данных</h2>
+            <p>Напишите Александре на <a href="mailto:Dzhikaevalex@gmail.com">Dzhikaevalex@gmail.com</a>. Подробнее о заявке, сведениях ребёнка и ваших правах — в <a href="privacy.html">политике конфиденциальности</a>.</p>
+          </section>
+        </article>
+      </div>
+    </main>
+
+    <footer class="legal-footer">
+      <div class="legal-container">
+        <p>© 2026 DZHIKAEVA · KICKBOXING</p>
+        <nav aria-label="Ссылки внизу страницы">
+          <a href="privacy.html">Конфиденциальность</a>
+          <a href="cookies.html" aria-current="page">Cookie и сервисы</a>
+          <a href="./#top">На главную <svg class="ui-icon ui-icon--arrow-up-right" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="m7 17 10-10M7 7h10v10"></path></svg></a>
+        </nav>
+      </div>
+    </footer>
+  </body>
+</html>

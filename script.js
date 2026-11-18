@@ -3,6 +3,13 @@ const pageRoot = document.documentElement;
 const pageParams = new URLSearchParams(window.location.search);
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const siteLoader = document.querySelector("[data-site-loader]");
+const siteText = (key, fallback, params = {}) => {
+  const translated = window.siteI18n?.t?.(key, params, fallback);
+  if (typeof translated === "string") return translated;
+  return String(fallback || key).replace(/\{([A-Za-z0-9_.-]+)\}/g, (placeholder, name) => (
+    Object.prototype.hasOwnProperty.call(params, name) ? String(params[name]) : placeholder
+  ));
+};
 
 const initSiteLoader = () => {
   if (!siteLoader || !pageRoot.classList.contains("loader-active")) {
@@ -22,7 +29,9 @@ const initSiteLoader = () => {
   let finishing = false;
 
   const renderProgress = (value) => {
-    currentProgress = Math.min(Math.max(value, 0), 100);
+    // A frame timestamp can precede the timer that started the finish phase.
+    // Never let that timing jitter reveal red again inside the filled glove.
+    currentProgress = Math.min(Math.max(currentProgress, value, 0), 100);
     const roundedProgress = Math.round(currentProgress);
 
     siteLoader.style.setProperty("--loader-progress", `${currentProgress.toFixed(2)}%`);
@@ -44,8 +53,7 @@ const initSiteLoader = () => {
     if (finishing) return;
     const elapsed = now - startedAt;
     const targetProgress = Math.min(92, 9 + elapsed / 15);
-    currentProgress += (targetProgress - currentProgress) * 0.075;
-    renderProgress(currentProgress);
+    renderProgress(currentProgress + (targetProgress - currentProgress) * 0.075);
     progressFrame = window.requestAnimationFrame(tickProgress);
   };
 
@@ -82,7 +90,7 @@ const initSiteLoader = () => {
     const finishStartedFrom = currentProgress;
 
     const finishFrame = (now) => {
-      const progress = finishDuration === 0 ? 1 : Math.min((now - finishStartedAt) / finishDuration, 1);
+      const progress = finishDuration === 0 ? 1 : Math.max(0, Math.min((now - finishStartedAt) / finishDuration, 1));
       const easedProgress = 1 - Math.pow(1 - progress, 3);
       renderProgress(finishStartedFrom + (100 - finishStartedFrom) * easedProgress);
 
@@ -138,7 +146,12 @@ const setMenuState = (isOpen) => {
   pageRoot.classList.toggle("nav-open", isOpen);
   document.body.classList.toggle("nav-open", isOpen);
   navToggle.setAttribute("aria-expanded", String(isOpen));
-  navToggle.setAttribute("aria-label", isOpen ? "Закрыть меню" : "Открыть меню");
+  navToggle.setAttribute(
+    "aria-label",
+    isOpen
+      ? siteText("nav.closeMenu", "Закрыть меню")
+      : siteText("nav.openMenu", "Открыть меню"),
+  );
   nav.setAttribute("aria-hidden", String(!isOpen && isMobileNavViewport()));
 
   if (isOpen && isMobileNavViewport()) {
@@ -160,6 +173,17 @@ navToggle?.addEventListener("click", () => {
 
 nav?.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", () => setMenuState(false));
+});
+
+window.addEventListener("site:languagechange", () => {
+  if (!navToggle) return;
+  const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+  navToggle.setAttribute(
+    "aria-label",
+    isOpen
+      ? siteText("nav.closeMenu", "Закрыть меню")
+      : siteText("nav.openMenu", "Открыть меню"),
+  );
 });
 
 document.addEventListener("keydown", (event) => {
@@ -250,7 +274,7 @@ if (
       headerWhatsApp.classList.add("is-open");
       whatsappBackdrop.classList.add("is-visible");
       headerWhatsAppTrigger.setAttribute("aria-expanded", "true");
-      headerWhatsAppTrigger.setAttribute("aria-label", "Закрыть WhatsApp");
+      headerWhatsAppTrigger.setAttribute("aria-label", siteText("whatsapp.close", "Закрыть WhatsApp"));
     });
 
     if (!wasOpen) {
@@ -267,7 +291,7 @@ if (
     headerWhatsApp.classList.remove("is-open");
     whatsappBackdrop.classList.remove("is-visible");
     headerWhatsAppTrigger.setAttribute("aria-expanded", "false");
-    headerWhatsAppTrigger.setAttribute("aria-label", "Открыть WhatsApp");
+    headerWhatsAppTrigger.setAttribute("aria-label", siteText("whatsapp.open", "Открыть WhatsApp"));
 
     whatsappHideTimer = window.setTimeout(() => {
       if (isWhatsAppOpen) return;
@@ -334,6 +358,14 @@ if (
   desktopWhatsAppMedia.addEventListener("change", () => {
     closeHeaderWhatsApp({ immediate: true });
   });
+  window.addEventListener("site:languagechange", () => {
+    headerWhatsAppTrigger.setAttribute(
+      "aria-label",
+      isWhatsAppOpen
+        ? siteText("whatsapp.close", "Закрыть WhatsApp")
+        : siteText("whatsapp.open", "Открыть WhatsApp"),
+    );
+  });
 }
 
 const revealItems = document.querySelectorAll(".reveal");
@@ -361,6 +393,7 @@ const createSmoothScrollController = () => {
     target: window.scrollY,
     rendered: window.scrollY,
     frame: 0,
+    lastFrameTime: 0,
     protectedUntil: 0,
   };
 
@@ -372,6 +405,7 @@ const createSmoothScrollController = () => {
   const stop = (syncToViewport = true) => {
     if (state.frame) window.cancelAnimationFrame(state.frame);
     state.frame = 0;
+    state.lastFrameTime = 0;
     state.protectedUntil = 0;
     root.classList.remove("is-scroll-gliding");
 
@@ -382,7 +416,7 @@ const createSmoothScrollController = () => {
     }
   };
 
-  const render = () => {
+  const render = (now) => {
     const distance = state.target - state.current;
 
     if (Math.abs(distance) < 0.35) {
@@ -393,8 +427,11 @@ const createSmoothScrollController = () => {
       return;
     }
 
-    const ease = Math.abs(distance) > 900 ? 0.16 : 0.12;
-    state.current += distance * ease;
+    // Ease by elapsed time, not per frame: the glide feels the same at 60, 120 or 144 Hz.
+    const elapsed = state.lastFrameTime ? Math.min(now - state.lastFrameTime, 64) : 1000 / 60;
+    state.lastFrameTime = now;
+    const response = Math.abs(distance) > 900 ? 105 : 135;
+    state.current += distance * (1 - Math.exp(-elapsed / response));
     state.rendered = state.current;
     window.scrollTo(0, state.current);
     state.frame = window.requestAnimationFrame(render);
@@ -520,6 +557,172 @@ const smoothScrollController = !reduceMotion && window.matchMedia("(pointer: fin
   ? createSmoothScrollController()
   : null;
 
+const GOOGLE_ANALYTICS_ID = "G-JWLZRCFZ2M";
+const ANALYTICS_CONSENT_KEY = "dzhikaeva-analytics-consent";
+const analyticsHosts = new Set(["aleksi1.ee", "www.aleksi1.ee"]);
+const analyticsEnabled = !staticPreview
+  && pageParams.get("analytics") !== "0"
+  && (analyticsHosts.has(window.location.hostname) || window.__analyticsTestMode === true);
+const analyticsConsentSettings = (granted) => ({
+  ad_storage: "denied",
+  ad_user_data: "denied",
+  ad_personalization: "denied",
+  analytics_storage: granted ? "granted" : "denied",
+});
+let analyticsConsent = (() => {
+  try {
+    const storedConsent = window.localStorage.getItem(ANALYTICS_CONSENT_KEY);
+    return storedConsent === "granted" || storedConsent === "denied" ? storedConsent : "unset";
+  } catch {
+    return "unset";
+  }
+})();
+let googleAnalyticsRequested = false;
+
+window.dataLayer = window.dataLayer || [];
+window.gtag = window.gtag || function gtag() {
+  window.dataLayer.push(arguments);
+};
+window.gtag("consent", "default", analyticsConsentSettings(analyticsConsent === "granted"));
+window.gtag("set", "ads_data_redaction", true);
+window.gtag("set", "url_passthrough", false);
+
+const loadGoogleAnalytics = () => {
+  if (!analyticsEnabled || analyticsConsent !== "granted" || googleAnalyticsRequested) return;
+  googleAnalyticsRequested = true;
+
+  const analyticsScript = document.createElement("script");
+  analyticsScript.async = true;
+  analyticsScript.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(GOOGLE_ANALYTICS_ID)}`;
+  analyticsScript.dataset.googleAnalytics = GOOGLE_ANALYTICS_ID;
+  document.head.append(analyticsScript);
+
+  window.gtag("js", new Date());
+  window.gtag("config", GOOGLE_ANALYTICS_ID, {
+    allow_google_signals: false,
+    allow_ad_personalization_signals: false,
+    anonymize_ip: true,
+    cookie_expires: 31536000,
+    cookie_flags: "SameSite=Lax;Secure",
+    page_location: `${window.location.origin}${window.location.pathname}`,
+    send_page_view: true,
+  });
+};
+
+const clearGoogleAnalyticsCookies = () => {
+  let availableCookies = "";
+  try {
+    availableCookies = document.cookie || "";
+  } catch {
+    // Some embedded browsers block cookie access altogether. Consent changes
+    // must remain usable even when there is nothing we can remove ourselves.
+    return;
+  }
+
+  const cookieNames = availableCookies
+    .split(";")
+    .map((cookie) => cookie.split("=")[0]?.trim())
+    .filter((name) => /^_(?:ga|gid|gat)(?:_|$)/.test(name));
+  const hostname = window.location.hostname;
+  const rootHostname = hostname.split(".").length > 2 ? hostname.split(".").slice(-2).join(".") : hostname;
+  const domains = new Set(["", hostname, `.${hostname}`, rootHostname, `.${rootHostname}`]);
+
+  cookieNames.forEach((name) => {
+    domains.forEach((domain) => {
+      const domainPart = domain ? `; Domain=${domain}` : "";
+      try {
+        document.cookie = `${name}=; Max-Age=0; Path=/${domainPart}; SameSite=Lax`;
+      } catch {
+        // Cookie writes can throw SecurityError in privacy-restricted webviews.
+      }
+    });
+  });
+};
+
+const setAnalyticsConsent = (choice) => {
+  analyticsConsent = choice === "granted" ? "granted" : "denied";
+  try {
+    window.localStorage.setItem(ANALYTICS_CONSENT_KEY, analyticsConsent);
+  } catch {
+    // The choice still applies for the current page when storage is unavailable.
+  }
+
+  window.gtag("consent", "update", analyticsConsentSettings(analyticsConsent === "granted"));
+  if (analyticsConsent === "granted") loadGoogleAnalytics();
+  else clearGoogleAnalyticsCookies();
+  window.dispatchEvent(new CustomEvent("analytics:consent", { detail: { choice: analyticsConsent } }));
+};
+
+const GOOGLE_ANALYTICS_EVENT_SPECS = Object.freeze({
+  header_whatsapp_open: ["method"],
+  cta_click: ["cta", "destination"],
+  swipe_cta_complete: ["cta", "method"],
+  section_view: ["section", "heat"],
+  hero_slide_view: ["slide", "label"],
+  hero_slide_request: ["slide", "source"],
+  faq_open: ["question"],
+  quiz_step_view: ["step", "step_name"],
+  group_selected: ["group"],
+  signup_modal_open: ["cta", "group"],
+  signup_modal_close: ["step", "group"],
+  quiz_choice: ["question", "choice"],
+  quiz_step_complete: ["step", "step_name"],
+  form_start: ["group"],
+  form_invalid: ["field"],
+  lead_submit: ["group", "city", "purpose", "quiz_version"],
+  whatsapp_handoff: ["mode"],
+  whatsapp_fallback: ["mode", "reason"],
+  coach_video_start: ["video"],
+  coach_video_complete: ["video"],
+  location_map_focus: ["city"],
+  location_map_fit_all: [],
+});
+const GOOGLE_ANALYTICS_EVENT_NAMES = Object.freeze({
+  signup_modal_open: "lead_form_open",
+  signup_modal_close: "lead_form_close",
+  quiz_step_view: "lead_form_step_view",
+  quiz_choice: "lead_form_choice",
+  quiz_step_complete: "lead_form_step_complete",
+  form_start: "lead_form_start",
+  form_invalid: "lead_form_invalid",
+  lead_submit: "lead_form_submit",
+});
+const analyticsEventHistory = new Map();
+
+const sendGoogleAnalyticsEvent = (eventName, payload) => {
+  if (!analyticsEnabled || analyticsConsent !== "granted") return;
+  const allowedParameters = GOOGLE_ANALYTICS_EVENT_SPECS[eventName];
+  if (!allowedParameters) return;
+
+  if (eventName === "form_invalid") {
+    const signature = `${eventName}:${payload.field || "unknown"}`;
+    const now = window.performance.now();
+    if (now - (analyticsEventHistory.get(signature) || -Infinity) < 1000) return;
+    analyticsEventHistory.set(signature, now);
+  }
+
+  loadGoogleAnalytics();
+  const analyticsPayload = {};
+  allowedParameters.forEach((parameter) => {
+    const value = payload[parameter];
+    if (typeof value === "string") analyticsPayload[parameter] = value.slice(0, 100);
+    else if (typeof value === "number" && Number.isFinite(value)) analyticsPayload[parameter] = value;
+    else if (typeof value === "boolean") analyticsPayload[parameter] = value;
+  });
+
+  window.gtag("event", GOOGLE_ANALYTICS_EVENT_NAMES[eventName] || eventName, analyticsPayload);
+  if (eventName === "lead_submit") {
+    window.gtag("event", "generate_lead", {
+      lead_source: "whatsapp_form",
+      group: analyticsPayload.group,
+      city: analyticsPayload.city,
+      purpose: analyticsPayload.purpose,
+    });
+  }
+};
+
+if (analyticsConsent === "granted") loadGoogleAnalytics();
+
 const trackFunnelEvent = (eventName, payload = {}) => {
   const details = {
     event: eventName,
@@ -527,14 +730,90 @@ const trackFunnelEvent = (eventName, payload = {}) => {
     timestamp: Date.now(),
     ...payload,
   };
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push(details);
+  window.funnelEvents = window.funnelEvents || [];
+  window.funnelEvents.push(details);
+  sendGoogleAnalyticsEvent(eventName, payload);
   window.dispatchEvent(new CustomEvent("funnel:interaction", { detail: details }));
-
-  if (typeof window.clarity === "function") {
-    window.clarity("event", eventName);
-  }
 };
+
+const analyticsConsentBanner = document.querySelector("[data-analytics-consent]");
+const analyticsConsentAccept = analyticsConsentBanner?.querySelector("[data-analytics-accept]");
+const analyticsConsentReject = analyticsConsentBanner?.querySelector("[data-analytics-reject]");
+const analyticsConsentClose = analyticsConsentBanner?.querySelector("[data-analytics-close]");
+const analyticsSettingsButtons = [...document.querySelectorAll("[data-analytics-settings]")];
+let analyticsConsentHideTimer = 0;
+let analyticsConsentReturnFocus = null;
+
+const hideAnalyticsConsent = () => {
+  if (!analyticsConsentBanner || analyticsConsentBanner.hidden) return;
+  const shouldRestoreFocus = analyticsConsentBanner.contains(document.activeElement);
+  const returnFocus = analyticsConsentReturnFocus;
+  window.clearTimeout(analyticsConsentHideTimer);
+  analyticsConsentBanner.classList.remove("is-visible");
+  analyticsSettingsButtons.forEach((button) => button.setAttribute("aria-expanded", "false"));
+  analyticsConsentHideTimer = window.setTimeout(() => {
+    analyticsConsentBanner.hidden = true;
+    if (shouldRestoreFocus) returnFocus?.focus({ preventScroll: true });
+    analyticsConsentReturnFocus = null;
+  }, reduceMotion ? 0 : 220);
+};
+
+const showAnalyticsConsent = ({ focus = false } = {}) => {
+  if (!analyticsEnabled || !analyticsConsentBanner) return;
+  if (focus) {
+    const activeElement = document.activeElement;
+    analyticsConsentReturnFocus = activeElement instanceof HTMLElement && activeElement !== document.body
+      ? activeElement
+      : document.querySelector(".site-header .brand, .site-header a");
+  }
+  window.clearTimeout(analyticsConsentHideTimer);
+  analyticsConsentBanner.hidden = false;
+  analyticsConsentBanner.dataset.consentChoice = analyticsConsent;
+  analyticsSettingsButtons.forEach((button) => button.setAttribute("aria-expanded", "true"));
+  window.requestAnimationFrame(() => {
+    analyticsConsentBanner.classList.add("is-visible");
+    if (focus) analyticsConsentAccept?.focus({ preventScroll: true });
+  });
+};
+
+if (analyticsEnabled && analyticsConsentBanner) {
+  analyticsSettingsButtons.forEach((button) => {
+    button.hidden = false;
+    button.setAttribute("aria-controls", analyticsConsentBanner.id);
+    button.setAttribute("aria-expanded", "false");
+    button.addEventListener("click", () => showAnalyticsConsent({ focus: true }));
+  });
+  analyticsConsentAccept?.addEventListener("click", () => {
+    setAnalyticsConsent("granted");
+    hideAnalyticsConsent();
+  });
+  analyticsConsentReject?.addEventListener("click", () => {
+    setAnalyticsConsent("denied");
+    hideAnalyticsConsent();
+  });
+  analyticsConsentClose?.addEventListener("click", hideAnalyticsConsent);
+  analyticsConsentBanner.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") hideAnalyticsConsent();
+  });
+
+  if (analyticsConsent === "unset") {
+    if (pageRoot.classList.contains("loader-active")) {
+      window.addEventListener("site:ready", () => showAnalyticsConsent({ focus: true }), { once: true });
+    } else {
+      window.requestAnimationFrame(() => showAnalyticsConsent({ focus: true }));
+    }
+  }
+}
+
+window.addEventListener("site:languagechange", () => {
+  if (!analyticsEnabled || analyticsConsent !== "granted") return;
+  loadGoogleAnalytics();
+  window.gtag("event", "page_view", {
+    page_location: `${window.location.origin}${window.location.pathname}${window.location.search}`,
+    page_path: `${window.location.pathname}${window.location.search}`,
+    page_title: document.title,
+  });
+});
 
 if (staticPreview) {
   document.documentElement.classList.add("static-preview");
@@ -626,6 +905,7 @@ const pathWipeMotionEnabled = !staticPreview
   && !reduceMotion
   && "IntersectionObserver" in window
   && typeof Element.prototype.animate === "function";
+const quickStartMobile = window.matchMedia("(max-width: 880px)");
 
 // Keep the existing wide curtain for the signup section.
 const pathWipeKeyframes = Array.from({ length: 61 }, (_, index) => {
@@ -651,6 +931,7 @@ const createQuickStartContentMotion = (section) => {
   let observer = null;
   let gateOpen = false;
   let gateTimer = null;
+  let gateStartedAt = 0;
   let tempo = 1;
   let stopped = false;
 
@@ -687,9 +968,8 @@ const createQuickStartContentMotion = (section) => {
 
   const revealVisibleItems = () => {
     if (!gateOpen || stopped) return;
-    if (mobile.matches && records.some(({ animation }) => animation)) return;
     const batch = records.filter(({ element, visible }) => visible && element.dataset.quickRevealState === "ready");
-    (mobile.matches ? batch.slice(0, 1) : batch).forEach((record, order) => {
+    batch.forEach((record, order) => {
       if (stopped) return;
       record.element.dataset.quickRevealState = "active";
       try {
@@ -698,9 +978,9 @@ const createQuickStartContentMotion = (section) => {
           { opacity: 0, transform: `translate3d(0, ${record.index === 0 ? 24 : 32}px, 0)` },
           { opacity: 1, transform: "translate3d(0, 0, 0)" },
         ], {
-          duration: mobile.matches ? 1300 : 900 * tempo,
-          delay: mobile.matches ? 0 : order * 130 * tempo,
-          easing: mobile.matches ? "cubic-bezier(0.25, 0.1, 0.25, 1)" : "cubic-bezier(0.22, 1, 0.36, 1)",
+          duration: mobile.matches ? 650 : 900 * tempo,
+          delay: mobile.matches ? order * 60 : order * 130 * tempo,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
           fill: "both",
         });
         record.animation = animation;
@@ -716,28 +996,34 @@ const createQuickStartContentMotion = (section) => {
     });
   };
 
+  const openGate = () => {
+    gateTimer = null;
+    gateOpen = true;
+    revealVisibleItems();
+  };
+
   const observeItems = () => {
     if (stopped) return;
+    // A resize into mobile must not keep the longer desktop entrance delay.
+    if (mobile.matches && gateTimer !== null && !gateOpen) {
+      window.clearTimeout(gateTimer);
+      gateTimer = window.setTimeout(openGate, Math.max(0, 150 - (performance.now() - gateStartedAt)));
+    }
     observer?.disconnect();
     const header = document.querySelector(".site-header")?.getBoundingClientRect().height || 0;
-    const actions = document.querySelector(".mobile-actions")?.getBoundingClientRect().height || 0;
-    const threshold = mobile.matches ? 0.25 : 0.08;
+    const threshold = mobile.matches ? 0.01 : 0.08;
+    const mobileLead = Math.min(180, Math.max(100, window.innerHeight * 0.2));
     observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         const record = records.find(({ element }) => element === entry.target);
         if (!record) return;
         record.visible = entry.isIntersecting && entry.intersectionRatio >= threshold;
-        if (mobile.matches && !entry.isIntersecting && record.animation) {
-          const animation = record.animation;
-          record.animation = null;
-          record.element.dataset.quickRevealState = "ready";
-          animation.cancel();
-        }
       });
       revealVisibleItems();
     }, {
       threshold: [0, threshold],
-      rootMargin: mobile.matches ? `-${header + 12}px 0px -${actions + 24}px 0px` : "0px",
+      // Start before the card reaches the screen, not after a quarter is visible.
+      rootMargin: mobile.matches ? `-${header + 12}px 0px ${mobileLead}px 0px` : "0px",
     });
     records.forEach((record) => {
       record.visible = false;
@@ -779,11 +1065,9 @@ const createQuickStartContentMotion = (section) => {
     begin: (motionTempo) => {
       if (stopped || gateOpen || gateTimer !== null) return;
       tempo = motionTempo;
-      // Let the grid start opening before the title and cards rise into view.
-      gateTimer = window.setTimeout(() => {
-        gateOpen = true;
-        revealVisibleItems();
-      }, 900 * tempo);
+      gateStartedAt = performance.now();
+      // Mobile copy is ready behind the opening strips; later cards preload independently.
+      gateTimer = window.setTimeout(openGate, mobile.matches ? 150 : 900 * tempo);
     },
     skip: finishAll,
     revealTarget,
@@ -873,7 +1157,8 @@ pathWipeSections.forEach((section) => {
   const maybeStartPathWipe = () => {
     if (state !== "ready" || pageRoot.classList.contains("loader-active")) return;
     const rect = section.getBoundingClientRect();
-    if (rect.top <= window.innerHeight * 0.75 + 1 && rect.bottom > 0) startPathWipe();
+    const entryLine = isGridWipe && quickStartMobile.matches ? 0.95 : 0.75;
+    if (rect.top <= window.innerHeight * entryLine + 1 && rect.bottom > 0) startPathWipe();
   };
 
   const onMotionPreferenceChange = (event) => {
@@ -919,8 +1204,9 @@ pathWipeSections.forEach((section) => {
     if (state !== "ready") return;
     observer?.disconnect();
     // IntersectionObserver resolves percent margins against width, not height.
+    const hiddenBottom = isGridWipe && quickStartMobile.matches ? 0.05 : 0.25;
     observer = new IntersectionObserver(maybeStartPathWipe, {
-      rootMargin: `0px 0px -${window.innerHeight * 0.25}px 0px`,
+      rootMargin: `0px 0px -${window.innerHeight * hiddenBottom}px 0px`,
     });
     observer.observe(section);
     maybeStartPathWipe();
@@ -1350,7 +1636,8 @@ document.querySelectorAll(".swipe-button").forEach((button) => {
   if (!orb || !label) return;
   const isQuizAction = button.hasAttribute("data-quiz-next");
   const isDirectRoute = button.hasAttribute("data-swipe-route");
-  const usesTouchIntent = isQuizAction || isDirectRoute;
+  const isSubmitAction = button instanceof HTMLButtonElement && button.type === "submit" && Boolean(button.form);
+  const usesTouchIntent = isQuizAction || isDirectRoute || isSubmitAction;
 
   let pointerId = null;
   let dragStartX = 0;
@@ -1389,10 +1676,10 @@ document.querySelectorAll(".swipe-button").forEach((button) => {
   };
 
   const completeSwipe = (method) => {
-    if (button.dataset.swipeState === "completing") return;
+    if (button.disabled || button.dataset.swipeState === "completing") return;
     // Form validation happens before the completion animation; links keep their
     // existing navigation path. A swipe never doubles as a second native click.
-    if (isQuizAction && !button.dispatchEvent(new CustomEvent("swipe:before", { cancelable: true }))) {
+    if ((isQuizAction || isSubmitAction) && !button.dispatchEvent(new CustomEvent("swipe:before", { cancelable: true }))) {
       resetSwipe();
       return;
     }
@@ -1420,8 +1707,11 @@ document.querySelectorAll(".swipe-button").forEach((button) => {
 
     // Open external routes inside the original click/key/pointer gesture so
     // a new tab is allowed, while the visual completion can finish separately.
-    if (isDirectRoute) {
-      navigateFromSwipeButton(button);
+    if (isDirectRoute || isSubmitAction) {
+      // requestSubmit preserves the form's validation/submission path without
+      // synthesizing another click or losing the browser's popup permission.
+      if (isSubmitAction) button.form.requestSubmit(button);
+      else navigateFromSwipeButton(button);
       resetTimer = window.setTimeout(resetSwipe, reduceMotion ? 0 : 520);
       return;
     }
@@ -1466,18 +1756,35 @@ document.querySelectorAll(".swipe-button").forEach((button) => {
     if (wasDragged) suppressClickUntil = performance.now() + 500;
   };
 
-  const accessibleLabel = label.textContent.trim();
-  button.setAttribute(
-    "aria-label",
-    usesTouchIntent ? accessibleLabel : `${accessibleLabel}. Нажмите или протяните круглую кнопку вправо`,
-  );
-  if (usesTouchIntent) button.setAttribute("aria-description", "Нажмите или протяните круглую кнопку вправо");
+  const updateAccessibleSwipeLabel = () => {
+    const accessibleLabel = label.textContent.trim();
+    button.setAttribute(
+      "aria-label",
+      usesTouchIntent
+        ? accessibleLabel
+        : siteText(
+          "swipe.instruction",
+          "{label}. Нажмите или протяните круглую кнопку вправо",
+          { label: accessibleLabel },
+        ),
+    );
+    if (usesTouchIntent) {
+      button.setAttribute(
+        "aria-description",
+        siteText("swipe.touchDescription", "Нажмите или протяните круглую кнопку вправо"),
+      );
+    }
+  };
+  updateAccessibleSwipeLabel();
+  window.addEventListener("site:languagechange", () => {
+    window.requestAnimationFrame(updateAccessibleSwipeLabel);
+  });
   setSwipeProgress(0, "idle");
   button.addEventListener("swipe:reset", resetSwipe);
 
   orb.addEventListener("pointerdown", (event) => {
     if (!event.isPrimary || (event.pointerType === "mouse" && event.button !== 0)) return;
-    if (button.dataset.swipeState === "completing" || pointerId !== null) return;
+    if (button.disabled || button.dataset.swipeState === "completing" || pointerId !== null) return;
 
     window.clearTimeout(resetTimer);
     pointerId = event.pointerId;
@@ -1593,6 +1900,51 @@ if ("IntersectionObserver" in window && funnelSections.length) {
 }
 
 if (hero) {
+  const mobileOffer = hero.querySelector(".broadcast-offer__copy");
+  const mobileProof = hero.querySelector(".broadcast-offer__proof");
+  const mobileHeadline = hero.querySelector(".broadcast-offer h1 > :first-child");
+  const heroAthlete = hero.querySelector(".hero-scene__athlete");
+  let mobileOfferFrame = 0;
+  // Distance from the top of the hero, from layout offsets (no transforms).
+  const topWithinHero = (element) => {
+    let top = 0;
+    for (let node = element; node && node !== hero; node = node.offsetParent) top += node.offsetTop;
+    return top;
+  };
+  const syncMobileOfferPosition = () => {
+    mobileOfferFrame = 0;
+    if (!mobileOffer || !mobileProof) return;
+    const portraitMobile = window.matchMedia("(max-width: 880px) and (orientation: portrait)").matches;
+    const previousOffset = Number.parseFloat(hero.style.getPropertyValue("--mobile-offer-offset")) || 0;
+    // Layout offsets exclude the entrance animation. Reserve a real gap above the proof cards.
+    const baseBottom = mobileOffer.offsetTop - previousOffset + mobileOffer.offsetHeight;
+    const available = mobileProof.offsetTop - baseBottom - 20;
+    const offset = portraitMobile ? Math.max(0, Math.min(100, available)) : 0;
+    hero.style.setProperty("--mobile-offer-offset", `${offset}px`);
+    // On phones Sasha stays fully visible down to the top line of the headline and
+    // fades out below it (hero-scene.css); where that line falls on her depends on
+    // the screen, so measure it.
+    if (mobileHeadline && heroAthlete) {
+      // The tight line height lets the letters rise above their line box.
+      const headlineStyle = window.getComputedStyle(mobileHeadline);
+      const overhang = (Number.parseFloat(headlineStyle.fontSize) - Number.parseFloat(headlineStyle.lineHeight)) / 2 || 0;
+      const fadeStart = topWithinHero(mobileHeadline) - Math.max(0, overhang) - topWithinHero(heroAthlete);
+      hero.style.setProperty("--athlete-fade-start", `${Math.round(fadeStart)}px`);
+    }
+  };
+  const queueMobileOfferPosition = () => {
+    if (!mobileOfferFrame) mobileOfferFrame = window.requestAnimationFrame(syncMobileOfferPosition);
+  };
+  if (mobileOffer && mobileProof) {
+    if ("ResizeObserver" in window) {
+      const layoutObserver = new ResizeObserver(queueMobileOfferPosition);
+      [hero, mobileOffer, mobileProof].forEach((element) => layoutObserver.observe(element));
+    }
+    window.addEventListener("resize", queueMobileOfferPosition, { passive: true });
+    document.fonts?.ready.then(queueMobileOfferPosition);
+    syncMobileOfferPosition();
+  }
+
   const heroSlides = [...hero.querySelectorAll("[data-hero-slide]")];
   const heroGotoButtons = [...hero.querySelectorAll("[data-hero-goto]")];
   const heroLive = hero.querySelector("[data-hero-live]");
@@ -1608,22 +1960,37 @@ if (hero) {
     targetX: 0,
     targetY: 0,
     frame: 0,
+    lastFrameTime: 0,
     scrollFrame: 0,
   };
 
-  const syncParallax = () => {
-    heroState.currentX += (heroState.targetX - heroState.currentX) * 0.08;
-    heroState.currentY += (heroState.targetY - heroState.currentY) * 0.08;
+  // Write a custom property only when its value changes. Each write invalidates
+  // styles, and most scroll frames below the hero would repeat the same values.
+  const writtenStyles = new WeakMap();
+  const setStyleVar = (element, name, value) => {
+    let values = writtenStyles.get(element);
+    if (!values) {
+      values = new Map();
+      writtenStyles.set(element, values);
+    }
+    if (values.get(name) === value) return;
+    values.set(name, value);
+    element.style.setProperty(name, value);
+  };
 
-    hero.style.setProperty("--hero-shift-x", `${heroState.currentX.toFixed(2)}px`);
-    hero.style.setProperty("--hero-shift-y", `${heroState.currentY.toFixed(2)}px`);
+  // Only the layers marked with data-parallax follow the pointer, so a pointer move
+  // restyles those few elements instead of the whole hero.
+  const syncParallax = (now) => {
+    const elapsed = heroState.lastFrameTime ? Math.min(now - heroState.lastFrameTime, 64) : 1000 / 60;
+    heroState.lastFrameTime = now;
+    const follow = 1 - Math.exp(-elapsed / 200);
+    heroState.currentX += (heroState.targetX - heroState.currentX) * follow;
+    heroState.currentY += (heroState.targetY - heroState.currentY) * follow;
 
     parallaxItems.forEach((item) => {
       const depth = Number(item.dataset.parallaxDepth || "1");
-      const moveX = (heroState.currentX * depth * 0.5).toFixed(2);
-      const moveY = (heroState.currentY * depth * 0.5).toFixed(2);
-      item.style.setProperty("--parallax-item-x", `${moveX}px`);
-      item.style.setProperty("--parallax-item-y", `${moveY}px`);
+      setStyleVar(item, "--parallax-item-x", `${(heroState.currentX * depth * 0.5).toFixed(2)}px`);
+      setStyleVar(item, "--parallax-item-y", `${(heroState.currentY * depth * 0.5).toFixed(2)}px`);
     });
 
     if (
@@ -1635,11 +2002,19 @@ if (hero) {
     }
 
     heroState.frame = 0;
+    heroState.lastFrameTime = 0;
   };
 
   const queueParallax = () => {
     if (heroState.frame) return;
     heroState.frame = window.requestAnimationFrame(syncParallax);
+  };
+
+  const updateHeroLiveText = (index) => {
+    if (!heroLive || index < 0) return;
+    heroLive.textContent = index === 0
+      ? siteText("hero.live.offer", "Кадр 1 из 2: набор в секцию")
+      : siteText("hero.live.trust", "Кадр 2 из 2: опыт Александры и доверие");
   };
 
   const updateHeroSlideState = (index) => {
@@ -1666,11 +2041,7 @@ if (hero) {
       button.setAttribute("aria-current", buttonIndex === index ? "true" : "false");
     });
 
-    if (heroLive) {
-      heroLive.textContent = index === 0
-        ? "Кадр 1 из 2: набор в секцию"
-        : "Кадр 2 из 2: опыт Александры и доверие";
-    }
+    updateHeroLiveText(index);
 
     if (!staticPreview && !viewedHeroSlides.has(index)) {
       viewedHeroSlides.add(index);
@@ -1680,6 +2051,8 @@ if (hero) {
       });
     }
   };
+
+  window.addEventListener("site:languagechange", () => updateHeroLiveText(heroState.activeSlide));
 
   const syncPreviewUrl = (index) => {
     if (!staticPreview) return;
@@ -1739,24 +2112,24 @@ if (hero) {
     const slideTwoSubjectScale = 0.84 + (slideTwoCopyOpacity * 0.07);
     const slideTwoFxOpacity = clamp((progress - 0.34) / 0.34) * 0.42;
 
-    hero.style.setProperty("--hero-progress", progress.toFixed(3));
-    hero.style.setProperty("--story-progress", progress.toFixed(3));
-    hero.style.setProperty("--hero-secondary-progress", secondaryProgress.toFixed(3));
-    hero.style.setProperty("--slide-one-opacity", slideOneOpacity.toFixed(3));
-    hero.style.setProperty("--slide-one-scale", slideOneScale.toFixed(3));
-    hero.style.setProperty("--slide-two-opacity", slideTwoOpacity.toFixed(3));
-    hero.style.setProperty("--slide-two-copy-opacity", slideTwoCopyOpacity.toFixed(3));
-    hero.style.setProperty("--slide-two-copy-shift", `${((1 - slideTwoCopyOpacity) * 64).toFixed(2)}px`);
-    hero.style.setProperty("--slide-two-photo-opacity", slideTwoPhotoOpacity.toFixed(3));
-    hero.style.setProperty("--slide-two-scene-opacity", slideTwoSceneOpacity.toFixed(3));
-    hero.style.setProperty("--slide-two-subject-shift", `${slideTwoSubjectShift.toFixed(2)}px`);
-    hero.style.setProperty("--slide-two-subject-scale", slideTwoSubjectScale.toFixed(3));
-    hero.style.setProperty("--slide-two-fx-opacity", slideTwoFxOpacity.toFixed(3));
+    setStyleVar(hero, "--hero-progress", progress.toFixed(3));
+    setStyleVar(hero, "--story-progress", progress.toFixed(3));
+    setStyleVar(hero, "--hero-secondary-progress", secondaryProgress.toFixed(3));
+    setStyleVar(hero, "--slide-one-opacity", slideOneOpacity.toFixed(3));
+    setStyleVar(hero, "--slide-one-scale", slideOneScale.toFixed(3));
+    setStyleVar(hero, "--slide-two-opacity", slideTwoOpacity.toFixed(3));
+    setStyleVar(hero, "--slide-two-copy-opacity", slideTwoCopyOpacity.toFixed(3));
+    setStyleVar(hero, "--slide-two-copy-shift", `${((1 - slideTwoCopyOpacity) * 64).toFixed(2)}px`);
+    setStyleVar(hero, "--slide-two-photo-opacity", slideTwoPhotoOpacity.toFixed(3));
+    setStyleVar(hero, "--slide-two-scene-opacity", slideTwoSceneOpacity.toFixed(3));
+    setStyleVar(hero, "--slide-two-subject-shift", `${slideTwoSubjectShift.toFixed(2)}px`);
+    setStyleVar(hero, "--slide-two-subject-scale", slideTwoSubjectScale.toFixed(3));
+    setStyleVar(hero, "--slide-two-fx-opacity", slideTwoFxOpacity.toFixed(3));
 
     parallaxItems.forEach((item) => {
       const depth = Number(item.dataset.parallaxDepth || "1");
       const scrollOffset = reduceMotion ? 0 : -(progress * 34 * depth);
-      item.style.setProperty("--parallax-scroll-y", `${scrollOffset.toFixed(2)}px`);
+      setStyleVar(item, "--parallax-scroll-y", `${scrollOffset.toFixed(2)}px`);
     });
 
     // Keep a dead zone around the crossover so small layout/scroll corrections
@@ -1974,10 +2347,14 @@ faqDetails.forEach((detail) => {
 const groupSelect = document.querySelector("#lead-group");
 const ageInput = document.querySelector("#lead-age");
 const nameInput = document.querySelector("#lead-name");
+const nameLabel = document.querySelector("[data-lead-name-label]");
+const parentNameInput = document.querySelector("#lead-parent-name");
+const parentNameField = document.querySelector("[data-parent-name-field]");
 const groupSummary = document.querySelector("[data-group-summary]");
 const citySummary = document.querySelector("[data-quiz-city-summary]");
 const purposeSummary = document.querySelector("[data-quiz-purpose-summary]");
 const leadForm = document.querySelector("[data-lead-form]");
+const submitLabel = leadForm?.querySelector("[data-submit-label]");
 const quizForm = document.querySelector("[data-quiz-form]");
 const quizSteps = Array.from(document.querySelectorAll("[data-quiz-step]"));
 const quizProgress = document.querySelector("[data-quiz-progress]");
@@ -1986,9 +2363,11 @@ const signupDialog = document.querySelector("[data-signup-modal]");
 const signupModalContent = signupDialog?.querySelector("[data-signup-modal-content]");
 const signupPanel = document.querySelector("[data-signup-panel]");
 let signupModalSession = null;
+let whatsappSubmitPending = false;
+let whatsappSubmitResetTimer = 0;
 
 const GROUP_LABELS = {
-  children: "Силламяэ, дети и подростки 6–16 лет",
+  children: "KONKIRO SILLAMÄE, дети и подростки 6–16 лет",
   narva: "Нарва, дети 5–6 лет и старше",
   young: "младшая группа до 4 лет, суббота 10:00",
   individual: "индивидуальная тренировка",
@@ -1996,7 +2375,7 @@ const GROUP_LABELS = {
 };
 
 const GROUP_SUMMARIES = {
-  children: "Силламяэ · дети и подростки 6–16 лет",
+  children: "KONKIRO SILLAMÄE · дети и подростки 6–16 лет",
   narva: "Нарва · дети 5–6+",
   young: "Младшая группа · до 4 лет",
   individual: "Индивидуально · дети или взрослые",
@@ -2004,7 +2383,7 @@ const GROUP_SUMMARIES = {
 };
 
 const CITY_LABELS = {
-  sillamae: "Силламяэ · ESN, Kalda 14",
+  sillamae: "KONKIRO SILLAMÄE · на базе ESN, Kalda 14",
   narva: "Нарва · KONKIRO, Rakvere 22D",
   flexible: "Подобрать город вместе с Александрой",
 };
@@ -2016,6 +2395,25 @@ const PURPOSE_LABELS = {
   try: "Спокойно попробовать без давления",
 };
 
+const getGroupLabel = (group) => (
+  GROUP_LABELS[group] ? siteText(`group.label.${group}`, GROUP_LABELS[group]) : ""
+);
+const getGroupSummary = (group) => (
+  GROUP_SUMMARIES[group] ? siteText(`group.summary.${group}`, GROUP_SUMMARIES[group]) : ""
+);
+const getCityLabel = (city) => (
+  CITY_LABELS[city] ? siteText(`city.${city}`, CITY_LABELS[city]) : ""
+);
+const getPurposeLabel = (purpose) => (
+  PURPOSE_LABELS[purpose] ? siteText(`purpose.${purpose}`, PURPOSE_LABELS[purpose]) : ""
+);
+const updateWhatsAppSubmitLabel = () => {
+  if (!submitLabel) return;
+  submitLabel.textContent = whatsappSubmitPending
+    ? siteText("whatsapp.status.opening", "Открываем WhatsApp...")
+    : siteText("whatsapp.status.ready", "Открыть WhatsApp");
+};
+
 const QUIZ_STEP_NAMES = ["participant", "city", "purpose", "contact"];
 let currentQuizStep = 0;
 
@@ -2023,7 +2421,7 @@ const setSelectedGroup = (group) => {
   if (!groupSelect || !GROUP_LABELS[group]) return;
 
   groupSelect.value = group;
-  if (groupSummary) groupSummary.textContent = GROUP_SUMMARIES[group];
+  if (groupSummary) groupSummary.textContent = getGroupSummary(group);
 };
 
 const getQuizChoice = (name) => (
@@ -2037,13 +2435,54 @@ const setQuizChoice = (name, value) => {
   if (input) input.checked = true;
 };
 
+const isChildSignup = () => {
+  const participant = getQuizChoice("participant");
+  if (participant === "child") return true;
+  // An explicit adult choice wins over an age left in the form draft.
+  if (participant !== "individual") return false;
+  const age = Number(ageInput?.value);
+  return Number.isInteger(age) && age >= 1 && age <= 16;
+};
+
+const syncParentNameField = () => {
+  const needsParent = isChildSignup();
+  if (parentNameField) {
+    parentNameField.hidden = !needsParent;
+    parentNameField.closest(".signup-quiz__contact-fields")?.classList.toggle("is-child-signup", needsParent);
+  }
+  if (parentNameInput) {
+    parentNameInput.required = needsParent;
+    // Keep the draft in the shared form, but exclude it from adult submissions.
+    parentNameInput.disabled = !needsParent;
+    parentNameInput.setCustomValidity(needsParent && !parentNameInput.value.trim()
+      ? siteText("quiz.validation.parentName", "Укажите имя родителя.") : "");
+  }
+  if (nameLabel) {
+    nameLabel.textContent = needsParent
+      ? siteText("quiz.nameLabel.child", "Имя ребёнка")
+      : siteText("quiz.nameLabel.adult", "Ваше имя");
+  }
+  if (nameInput) nameInput.autocomplete = needsParent ? "off" : "name";
+};
+
 const updateQuizReview = () => {
+  syncParentNameField();
   const city = getQuizChoice("city");
   const purpose = getQuizChoice("purpose");
 
-  if (citySummary) citySummary.textContent = CITY_LABELS[city] || "Выберите город";
-  if (purposeSummary) purposeSummary.textContent = PURPOSE_LABELS[purpose] || "Выберите цель";
+  if (citySummary) {
+    citySummary.textContent = getCityLabel(city) || siteText("quiz.cityFallback", "Выберите город");
+  }
+  if (purposeSummary) {
+    purposeSummary.textContent = getPurposeLabel(purpose) || siteText("quiz.purposeFallback", "Выберите цель");
+  }
 };
+
+window.addEventListener("site:languagechange", () => {
+  if (groupSelect?.value) setSelectedGroup(groupSelect.value);
+  updateQuizReview();
+  updateWhatsAppSubmitLabel();
+});
 
 const syncGroupFromQuiz = () => {
   const participantInput = quizForm?.querySelector('input[name="participant"]:checked');
@@ -2121,6 +2560,7 @@ const showQuizStep = (stepIndex, { focus = true, track = true } = {}) => {
 };
 
 const validateQuizStep = (stepIndex) => {
+  syncParentNameField();
   const step = quizSteps[stepIndex];
   if (!step) return false;
 
@@ -2221,6 +2661,10 @@ function openSignupModal(trigger) {
     return false;
   }
   trackFunnelEvent("signup_modal_open", { cta: trigger.dataset.cta || "unknown", group: group || groupSelect?.value });
+  trackFunnelEvent("quiz_step_view", {
+    step: currentQuizStep + 1,
+    step_name: QUIZ_STEP_NAMES[currentQuizStep],
+  });
   return true;
 }
 
@@ -2242,6 +2686,12 @@ function restoreSignupPanel() {
 }
 
 function closeSignupModal() {
+  if (signupModalSession) {
+    trackFunnelEvent("signup_modal_close", {
+      step: currentQuizStep + 1,
+      group: groupSelect?.value || "unknown",
+    });
+  }
   signupDialog?.close();
   restoreSignupPanel();
 }
@@ -2320,6 +2770,8 @@ ageInput?.addEventListener("input", () => {
   updateQuizReview();
 });
 
+parentNameInput?.addEventListener("input", syncParentNameField);
+
 quizForm?.querySelectorAll("[data-quiz-next]").forEach((button) => {
   button.addEventListener("swipe:before", (event) => {
     const stepIndex = Number(button.closest("[data-quiz-step]")?.dataset.quizStep);
@@ -2352,6 +2804,78 @@ updateQuizReview();
 
 if (leadForm) leadForm.noValidate = true;
 
+const firstInvalidQuizStep = () => {
+  syncParentNameField();
+  return quizSteps.findIndex((step) => (
+    Array.from(step.querySelectorAll("[required]")).some((control) => !control.checkValidity())
+  ));
+};
+
+const prefersWhatsAppApp = () => {
+  if (typeof navigator.userAgentData?.mobile === "boolean") {
+    return navigator.userAgentData.mobile;
+  }
+
+  return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+    || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+};
+
+const openWhatsAppChat = (message) => {
+  const encodedMessage = encodeURIComponent(message);
+  const webUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+  const useApp = prefersWhatsAppApp();
+  const appUrl = `whatsapp://send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
+  const primaryUrl = useApp ? appUrl : webUrl;
+
+  // The cancelable event lets automated checks inspect the intended handoff
+  // without launching an external application. It has no effect in production.
+  const handoffEvent = new CustomEvent("whatsapp:handoff", {
+    cancelable: true,
+    detail: { mode: useApp ? "app" : "web", primaryUrl, fallbackUrl: webUrl },
+  });
+  if (!document.dispatchEvent(handoffEvent)) return;
+
+  trackFunnelEvent("whatsapp_handoff", { mode: useApp ? "app" : "web" });
+
+  if (!useApp) {
+    // A completed drag emits one protective trailing click in WebKit. Let that
+    // event finish before the reliable same-tab web handoff begins.
+    window.setTimeout(() => window.location.assign(webUrl), 0);
+    return;
+  }
+
+  let fallbackTimer = 0;
+  const cleanup = () => {
+    window.clearTimeout(fallbackTimer);
+    document.removeEventListener("visibilitychange", handleVisibilityChange);
+    window.removeEventListener("pagehide", cleanup);
+  };
+  const handleVisibilityChange = () => {
+    if (document.hidden) cleanup();
+  };
+
+  document.addEventListener("visibilitychange", handleVisibilityChange);
+  window.addEventListener("pagehide", cleanup, { once: true });
+  fallbackTimer = window.setTimeout(() => {
+    cleanup();
+    if (!document.hidden) {
+      trackFunnelEvent("whatsapp_fallback", { mode: "web", reason: "app_not_opened" });
+      window.location.assign(webUrl);
+    }
+  }, 2600);
+
+  try {
+    // The native scheme skips the WhatsApp landing page and opens the chat
+    // composer directly when the app is installed. The timer above keeps a
+    // working wa.me route for browsers without WhatsApp.
+    window.location.assign(appUrl);
+  } catch {
+    cleanup();
+    trackFunnelEvent("whatsapp_fallback", { mode: "web", reason: "scheme_error" });
+    window.location.assign(webUrl);
+  }
+};
+
 leadForm?.addEventListener(
   "focusin",
   () => trackFunnelEvent("form_start", { group: groupSelect?.value || "children" }),
@@ -2368,6 +2892,7 @@ leadForm?.addEventListener(
 
 leadForm?.addEventListener("submit", (event) => {
   event.preventDefault();
+  const submitControl = event.submitter;
 
   if (currentQuizStep < quizSteps.length - 1) {
     if (!validateQuizStep(currentQuizStep)) return;
@@ -2378,11 +2903,10 @@ leadForm?.addEventListener("submit", (event) => {
     return;
   }
 
-  const firstInvalidStep = quizSteps.findIndex((step) => (
-    Array.from(step.querySelectorAll("[required]")).some((control) => !control.checkValidity())
-  ));
+  const firstInvalidStep = firstInvalidQuizStep();
 
   if (firstInvalidStep >= 0) {
+    submitControl?.dispatchEvent(new Event("swipe:reset"));
     showQuizStep(firstInvalidStep);
     window.requestAnimationFrame(() => validateQuizStep(firstInvalidStep));
     return;
@@ -2390,6 +2914,7 @@ leadForm?.addEventListener("submit", (event) => {
 
   const formData = new FormData(leadForm);
   const name = String(formData.get("name") || "").trim();
+  const parentName = String(formData.get("parentName") || "").trim();
   const contact = String(formData.get("contact") || "").trim();
   const age = String(formData.get("age") || "").trim();
   const group = String(formData.get("group") || "children");
@@ -2397,20 +2922,34 @@ leadForm?.addEventListener("submit", (event) => {
   const purpose = String(formData.get("purpose") || "try");
 
   const messageLines = [
-    "Здравствуйте, Александра! Хочу оставить заявку на занятия по кикбоксингу.",
+    siteText(
+      "whatsapp.message.intro",
+      "Здравствуйте, Александра! Хочу оставить заявку на занятия по кикбоксингу.",
+    ),
     "",
-    `Группа: ${GROUP_LABELS[group] || group}`,
-    `Где удобно: ${CITY_LABELS[city] || city}`,
-    `Цель тренировки: ${PURPOSE_LABELS[purpose] || purpose}`,
-    `Возраст участника: ${age}`,
-    `Меня зовут: ${name}`,
-    `Телефон / WhatsApp для связи: ${contact}`,
+    siteText("whatsapp.message.city", "Где удобно: {city}", { city: getCityLabel(city) || city }),
+    siteText(
+      "whatsapp.message.purpose",
+      "Цель тренировки: {purpose}",
+      { purpose: getPurposeLabel(purpose) || purpose },
+    ),
+    siteText("whatsapp.message.age", "Возраст участника: {age}", { age }),
+    ...(isChildSignup()
+      ? [
+        siteText("whatsapp.message.childName", "Имя ребёнка: {name}", { name }),
+        siteText("whatsapp.message.parentName", "Имя родителя: {parentName}", { parentName }),
+      ]
+      : [siteText("whatsapp.message.adultName", "Меня зовут: {name}", { name })]),
+    siteText("whatsapp.message.contact", "Телефон / WhatsApp для связи: {contact}", { contact }),
   ];
 
-  messageLines.push("", "Подскажите, пожалуйста, какая группа подходит и как попасть на первую тренировку.");
-
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(messageLines.join("\n"))}`;
-  const submitLabel = leadForm.querySelector("[data-submit-label]");
+  messageLines.push(
+    "",
+    siteText(
+      "whatsapp.message.timeQuestion",
+      "Подскажите, пожалуйста, в какое время можно прийти на первую тренировку?",
+    ),
+  );
 
   trackFunnelEvent("lead_submit", {
     group,
@@ -2419,19 +2958,15 @@ leadForm?.addEventListener("submit", (event) => {
     quiz_version: "4_step",
   });
 
-  if (submitLabel) submitLabel.textContent = "Открываем WhatsApp...";
+  whatsappSubmitPending = true;
+  updateWhatsAppSubmitLabel();
+  openWhatsAppChat(messageLines.join("\n"));
 
-  const whatsappLink = document.createElement("a");
-  whatsappLink.href = whatsappUrl;
-  whatsappLink.target = "_blank";
-  whatsappLink.rel = "noopener noreferrer";
-  document.body.append(whatsappLink);
-  whatsappLink.click();
-  whatsappLink.remove();
-
-  window.setTimeout(() => {
-    if (submitLabel) submitLabel.textContent = "Открыть WhatsApp";
-  }, 1800);
+  window.clearTimeout(whatsappSubmitResetTimer);
+  whatsappSubmitResetTimer = window.setTimeout(() => {
+    whatsappSubmitPending = false;
+    updateWhatsAppSubmitLabel();
+  }, 3000);
 });
 
 document.querySelectorAll("[data-training-video]").forEach((trainingVideo) => {
@@ -2500,6 +3035,8 @@ if (newsVideoFrame instanceof HTMLIFrameElement) {
     let consumed = false;
     let observer = null;
     let apiTimer = 0;
+    let videoStartTracked = false;
+    let videoCompleteTracked = false;
     newsVideoFrame.dataset.newsAutoplay = "waiting";
     const embedUrl = new URL(newsVideoFrame.src);
     if (/^https?:$/.test(window.location.protocol)) {
@@ -2552,10 +3089,20 @@ if (newsVideoFrame instanceof HTMLIFrameElement) {
             onStateChange(event) {
               // A manual start/pause also consumes the automatic attempt.
               if (event.data === 1) {
+                if (!videoStartTracked) {
+                  videoStartTracked = true;
+                  trackFunnelEvent("coach_video_start", { video: "esn_story" });
+                }
                 finishAutoplay("playing");
               }
               if (event.data === 2) finishAutoplay("paused");
-              if (event.data === 0) finishAutoplay("ended");
+              if (event.data === 0) {
+                if (!videoCompleteTracked) {
+                  videoCompleteTracked = true;
+                  trackFunnelEvent("coach_video_complete", { video: "esn_story" });
+                }
+                finishAutoplay("ended");
+              }
             },
             onAutoplayBlocked() {
               finishAutoplay("blocked");
@@ -2646,7 +3193,7 @@ if (locationMapShell) {
     sillamae: {
       index: "01",
       city: "Силламяэ",
-      name: "Молодёжный центр ESN",
+      name: "KONKIRO SILLAMÄE · ESN",
       address: "Kalda 14 · 2-й этаж",
       coordinates: [59.396944, 27.767222],
       route: "https://www.google.com/maps/dir/?api=1&destination=Kalda+14%2C+Sillam%C3%A4e%2C+Estonia",
@@ -2659,6 +3206,17 @@ if (locationMapShell) {
       coordinates: [59.385046, 28.192737],
       route: "https://www.google.com/maps/dir/?api=1&destination=Rakvere+22D%2C+Narva%2C+Estonia",
     },
+  };
+
+  const getLocalizedLocation = (locationId) => {
+    const location = locations[locationId];
+    if (!location) return null;
+    return {
+      ...location,
+      city: siteText(`map.${locationId}.city`, location.city),
+      name: siteText(`map.${locationId}.name`, location.name),
+      address: siteText(`map.${locationId}.address`, location.address),
+    };
   };
 
   let trainingMap = null;
@@ -2674,7 +3232,7 @@ if (locationMapShell) {
   });
 
   const renderLocationState = (locationId) => {
-    const location = locations[locationId];
+    const location = getLocalizedLocation(locationId);
     if (!location) return;
 
     activeLocation = locationId;
@@ -2685,19 +3243,25 @@ if (locationMapShell) {
       button.setAttribute("aria-pressed", String(button.dataset.locationSelect === locationId));
     });
 
-    if (mapCity) mapCity.textContent = `${location.index} / ${location.city}`;
+    if (mapCity) {
+      mapCity.textContent = siteText(
+        "map.cityLabel",
+        "{index} / {city}",
+        { index: location.index, city: location.city },
+      );
+    }
     if (mapName) mapName.textContent = location.name;
     if (mapAddress) mapAddress.textContent = location.address;
     if (mapRoute) mapRoute.href = location.route;
 
     Object.entries(locationMarkers).forEach(([markerId, marker]) => {
-      marker.setIcon(createLocationIcon(locations[markerId], markerId === locationId));
+      marker.setIcon(createLocationIcon(getLocalizedLocation(markerId), markerId === locationId));
       marker.setZIndexOffset(markerId === locationId ? 1000 : 0);
     });
   };
 
   const focusLocation = (locationId, { moveMap = true, track = false } = {}) => {
-    const location = locations[locationId];
+    const location = getLocalizedLocation(locationId);
     if (!location) return;
     renderLocationState(locationId);
 
@@ -2751,7 +3315,10 @@ if (locationMapShell) {
   if (!locationMapElement || !window.L) {
     locationMapShell.classList.add("is-fallback");
     if (mapFallback) {
-      mapFallback.querySelector("strong").textContent = "Карта временно недоступна";
+      mapFallback.querySelector("strong").textContent = siteText(
+        "map.unavailable",
+        "Карта временно недоступна",
+      );
     }
   } else {
     try {
@@ -2768,17 +3335,31 @@ if (locationMapShell) {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       }).addTo(trainingMap);
 
-      window.L.control.zoom({ position: "topright" }).addTo(trainingMap);
+      window.L.control.zoom({
+        position: "topright",
+        zoomInTitle: siteText("map.zoomIn", "Приблизить"),
+        zoomOutTitle: siteText("map.zoomOut", "Отдалить"),
+      }).addTo(trainingMap);
 
-      Object.entries(locations).forEach(([locationId, location]) => {
+      Object.keys(locations).forEach((locationId) => {
+        const location = getLocalizedLocation(locationId);
+        const markerTitle = siteText(
+          "map.markerTitle",
+          "{name}, {address}",
+          { name: location.name, address: location.address },
+        );
         const marker = window.L.marker(location.coordinates, {
           icon: createLocationIcon(location, locationId === activeLocation),
           keyboard: true,
           riseOnHover: true,
-          title: `${location.name}, ${location.address}`,
+          title: markerTitle,
         }).addTo(trainingMap);
 
-        marker.bindTooltip(`${location.index} · ${location.city}`, {
+        marker.bindTooltip(siteText(
+          "map.tooltip",
+          "{index} · {city}",
+          { index: location.index, city: location.city },
+        ), {
           className: "location-tooltip",
           direction: "top",
           opacity: 1,
@@ -2802,26 +3383,56 @@ if (locationMapShell) {
     } catch (error) {
       locationMapShell.classList.add("is-fallback");
       if (mapFallback) {
-        mapFallback.querySelector("strong").textContent = "Карта временно недоступна";
+        mapFallback.querySelector("strong").textContent = siteText(
+          "map.unavailable",
+          "Карта временно недоступна",
+        );
       }
       console.warn("Location map could not be initialized", error);
     }
   }
+
+  const refreshLocationLanguage = () => {
+    renderLocationState(activeLocation);
+    Object.entries(locationMarkers).forEach(([locationId, marker]) => {
+      const location = getLocalizedLocation(locationId);
+      const markerTitle = siteText(
+        "map.markerTitle",
+        "{name}, {address}",
+        { name: location.name, address: location.address },
+      );
+      marker.options.title = markerTitle;
+      marker._icon?.setAttribute("title", markerTitle);
+      marker._icon?.setAttribute("aria-label", markerTitle);
+      marker.setTooltipContent?.(siteText(
+        "map.tooltip",
+        "{index} · {city}",
+        { index: location.index, city: location.city },
+      ));
+    });
+
+    const zoomInLabel = siteText("map.zoomIn", "Приблизить");
+    const zoomOutLabel = siteText("map.zoomOut", "Отдалить");
+    const zoomInButton = locationMapShell.querySelector(".leaflet-control-zoom-in");
+    const zoomOutButton = locationMapShell.querySelector(".leaflet-control-zoom-out");
+    [
+      [zoomInButton, zoomInLabel],
+      [zoomOutButton, zoomOutLabel],
+    ].forEach(([button, label]) => {
+      if (!button) return;
+      button.setAttribute("title", label);
+      button.setAttribute("aria-label", label);
+    });
+
+    const fallbackLabel = mapFallback?.querySelector("strong");
+    if (fallbackLabel) {
+      fallbackLabel.textContent = siteText("map.unavailable", "Карта временно недоступна");
+    }
+  };
+
+  window.addEventListener("site:languagechange", refreshLocationLanguage);
 }
 
 document.querySelectorAll("[data-year]").forEach((year) => {
   year.textContent = String(new Date().getFullYear());
-});
-
-document.querySelectorAll("[data-champion-ribbon]").forEach((ribbon) => {
-  const toggle = ribbon.querySelector("[data-champion-ribbon-toggle]");
-  if (!toggle) return;
-  toggle.hidden = false;
-  toggle.addEventListener("click", () => {
-    const paused = ribbon.classList.toggle("is-paused");
-    toggle.setAttribute("aria-pressed", String(paused));
-    toggle.setAttribute("aria-label", paused
-      ? "Продолжить бегущую строку «Чемпион»"
-      : "Приостановить бегущую строку «Чемпион»");
-  });
 });

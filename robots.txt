@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aleksi1.ee/sitemap.xml

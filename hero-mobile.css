@@ -1,0 +1,12 @@
+/* Phone hero layout. The opening artwork itself lives in hero-scene.css. */
+@media (max-width: 880px) {
+  .broadcast-slide--open .broadcast-offer__copy {
+    top: var(--mobile-offer-offset, 0px);
+  }
+}
+
+@media (max-width: 880px) and (max-height: 620px) and (orientation: portrait) {
+  .broadcast-slide--open .broadcast-offer {
+    padding-bottom: 56px;
+  }
+}

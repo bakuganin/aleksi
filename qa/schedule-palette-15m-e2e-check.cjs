@@ -20,16 +20,18 @@ assert.ok(adminPassword, 'Set SCHEDULE_ADMIN_PASSWORD (or TEST_ADMIN_PASSWORD) f
 
 const selectors = Object.freeze({
   app: '[data-schedule-app]',
-  calendarMode: 'button[data-schedule-mode="schedule"]',
-  editorMode: 'button[data-schedule-mode="editor"]',
   calendarPanel: '[data-schedule-panel="schedule"]',
-  editorPanel: '[data-schedule-panel="editor"]',
+  sessionDialog: '[data-schedule-session-dialog]',
+  manageDialog: '[data-schedule-manage-dialog]',
+  create: '[data-calendar-create]',
+  modalClose: '[data-schedule-modal-close]',
   calendar: '[data-schedule-calendar]',
   calendarGrid: '[data-calendar-grid]',
   calendarCard: '[data-calendar-card]',
   calendarSlot: '[data-calendar-slot]',
   palette: '[data-schedule-palette]',
   paletteCard: '[data-schedule-palette-card][data-template-id]',
+  paletteSelect: '[data-schedule-palette-select]',
   form: '[data-schedule-form]',
   save: '[data-schedule-save]',
 });
@@ -98,11 +100,23 @@ async function waitForEditorPage(page) {
 }
 
 async function selectMode(page, mode) {
-  const button = page.locator(mode === 'editor' ? selectors.editorMode : selectors.calendarMode);
-  await button.click();
-  const panel = page.locator(mode === 'editor' ? selectors.editorPanel : selectors.calendarPanel);
-  await panel.waitFor({ state: 'visible' });
-  return panel;
+  if (mode === 'editor') {
+    const dialog = page.locator(selectors.sessionDialog);
+    if (!await dialog.isVisible()) await page.locator(selectors.create).click();
+    await dialog.waitFor({ state: 'visible' });
+    return dialog;
+  }
+
+  for (const dialogSelector of [selectors.sessionDialog, selectors.manageDialog]) {
+    const dialog = page.locator(dialogSelector);
+    if (await dialog.isVisible()) {
+      await dialog.locator(selectors.modalClose).click();
+      await dialog.waitFor({ state: 'hidden' });
+    }
+  }
+  const calendar = page.locator(selectors.calendarPanel);
+  await calendar.waitFor({ state: 'visible' });
+  return calendar;
 }
 
 async function snapshotLocalStorage(page) {
@@ -118,6 +132,13 @@ async function restoreLocalStorage(page, snapshot) {
   }, snapshot);
   await page.reload({ waitUntil: 'domcontentloaded' });
   await waitForEditorPage(page);
+  // Offline QA has no Supabase connection, so startup may legitimately flip
+  // the transient sync flag back to pending. Restore the captured bytes once
+  // the app has finished booting; the context is closed immediately after.
+  await page.evaluate((stored) => {
+    localStorage.clear();
+    Object.entries(stored).forEach(([key, value]) => localStorage.setItem(key, value));
+  }, snapshot);
   assert.deepEqual(
     await snapshotLocalStorage(page),
     snapshot,
@@ -177,9 +198,32 @@ async function inspectPaletteLayout(page) {
   const cards = palette.locator(selectors.paletteCard);
   assert.ok(await cards.count() >= 1, 'Editable calendar needs at least one draggable training template in its side palette');
   const first = cards.first();
-  assert.equal(await first.getAttribute('draggable'), 'true', 'Desktop palette cards must expose native drag-and-drop');
+  assert.equal(await first.evaluate((node) => node.draggable), false, 'Only the dedicated handle may start template dragging');
+  assert.equal(await first.locator(selectors.paletteSelect).evaluate((node) => node.draggable), false, 'Template content must not be draggable');
+  assert.equal(
+    await first.locator('time').count(),
+    0,
+    'Reusable training cards must not display a scheduled start or end time',
+  );
   const cardBox = await first.boundingBox();
   assert.ok(cardBox && cardBox.height >= 44 && cardBox.height <= 132, `Palette cards should be compact touch targets; got ${cardBox?.height}px`);
+  const handle = first.locator('[data-schedule-palette-drag-handle]');
+  const handleBox = await handle.boundingBox();
+  assert.ok(
+    handleBox && cardBox && handleBox.width >= 44 && handleBox.width <= 64 && handleBox.width < cardBox.width * 0.4,
+    `The drag handle must be a narrow left rail; card=${cardBox?.width}px, handle=${handleBox?.width}px`,
+  );
+  assert.ok(Math.abs(handleBox.x - cardBox.x) <= 2, 'The drag rail must stay on the left edge of the card');
+  assert.equal(await handle.evaluate((node) => getComputedStyle(node).touchAction), 'none', 'Only the drag rail may block touch panning');
+  const handleBackground = await handle.evaluate((node) => getComputedStyle(node).backgroundColor);
+  assert.notEqual(handleBackground, 'rgb(237, 23, 48)', 'The drag handle must use a quiet background instead of the bright brand red');
+
+  const edit = first.locator('[data-schedule-palette-edit]');
+  const editBox = await edit.boundingBox();
+  assert.ok(editBox && editBox.width >= 44 && editBox.height >= 44, 'Template edit icon needs a 44px touch target');
+  assert.ok(Math.abs((editBox.x + editBox.width) - (cardBox.x + cardBox.width)) <= 2, 'Template edit icon must stay on the right edge');
+  assert.ok(Math.abs(editBox.y - cardBox.y) <= 2, 'Template edit icon must stay in the top-right corner');
+  assert.equal(await edit.locator('svg').count(), 1, 'Template edit action must be represented by an icon');
 }
 
 async function inspectQuarterHourGrid(page) {
@@ -255,28 +299,32 @@ async function inspectHourLabelGeometry(page) {
   );
 }
 
-async function createSourceSessionAndFindPaletteCard(page, marker) {
-  await selectMode(page, 'editor');
-  const form = page.locator(selectors.form);
-  await form.waitFor({ state: 'visible' });
-  await form.locator('[name="group-preset"]').selectOption('custom');
-  const translations = form.locator('[data-schedule-language-details]');
-  if (!await translations.evaluate((node) => node.open)) await translations.locator('summary').click();
-  await form.locator('[name="start"]').fill('10:00');
-  await form.locator('[name="end"]').fill('10:45');
-  await form.locator('[name="venue"]').selectOption('sillamae');
-  await form.locator('[name="status"]').selectOption('active');
-  for (const code of ['ru', 'et', 'en']) {
-    await form.locator(`[name="title-${code}"]`).fill(marker);
-    await form.locator(`[name="audience-${code}"]`).fill(`QA ${code.toUpperCase()}`);
-  }
-  await form.locator(selectors.save).click();
+async function createSourceTemplateAndFindPaletteCard(page, marker) {
   await selectMode(page, 'schedule');
+  const templateId = `qa-palette-${Date.now()}`;
+  const sessionCountBefore = await page.evaluate(() => window.DzhikaevaSchedule.getSessions().length);
+  await page.evaluate(({ id, title }) => {
+    window.DzhikaevaSchedule.upsertTemplate({
+      id,
+      venue: 'sillamae',
+      title: { ru: title, et: title, en: title },
+      audience: { ru: 'QA RU', et: 'QA ET', en: 'QA EN' },
+      durationMinutes: 45,
+    });
+  }, { id: templateId, title: marker });
 
-  const paletteCard = page.locator(selectors.paletteCard).filter({ hasText: marker });
+  assert.equal(
+    await page.evaluate(() => window.DzhikaevaSchedule.getSessions().length),
+    sessionCountBefore,
+    'Creating a reusable training card must not create a scheduled session',
+  );
+  const paletteCard = page.locator(`${selectors.paletteCard}[data-template-id="${templateId}"]`);
   await paletteCard.waitFor({ state: 'visible' });
-  const templateId = await paletteCard.getAttribute('data-template-id');
-  assert.ok(templateId, 'A training card created from an editor session needs a stable data-template-id');
+  assert.equal(
+    await paletteCard.locator('time').count(),
+    0,
+    'A reusable training card must stay time-free until it is placed in the calendar',
+  );
   return { paletteCard, templateId };
 }
 
@@ -294,9 +342,15 @@ async function latestNewSessionEvent(page) {
 }
 
 async function saveDraftAsWeekly(page, templateId, expected) {
-  const editorPanel = page.locator(selectors.editorPanel);
-  await editorPanel.waitFor({ state: 'visible' });
-  const form = editorPanel.locator(selectors.form);
+  const sessionDialog = page.locator(selectors.sessionDialog);
+  await sessionDialog.waitFor({ state: 'visible' });
+  const form = sessionDialog.locator(selectors.form);
+  assert.equal(await form.getAttribute('data-schedule-form-mode'), 'template-placement', 'Dropped card must open streamlined template placement');
+  assert.equal(collapse(await form.locator('[data-schedule-form-heading]').innerText()), expected.marker, 'Dropped card heading must use the add icon and its template name');
+  assert.equal(await form.locator('[data-schedule-form-heading]').evaluate((node) => node.classList.contains('schedule-form__placement-heading')), true, 'Dropped card heading must use the circular add icon');
+  assert.equal(collapse(await form.locator('[data-schedule-form-subtitle]').textContent()), 'Группа · QA RU', 'Dropped card heading must show its saved group');
+  assert.equal(await form.locator('[name="group-preset"]').isHidden(), true, 'Dropped card must not ask for a ready-made group again');
+  assert.equal(await form.locator('[data-schedule-language-details]').isHidden(), true, 'Dropped card must not expose language text editing');
   assert.equal(await form.locator('[name="start"]').inputValue(), expected.start, 'Dropped card must prefill the exact quarter-hour start');
   assert.equal(await form.locator('[name="date"]').inputValue(), expected.date, 'Dropped card must prefill the target date');
   assert.equal(await form.locator('[name="repeat-weekly"]').isChecked(), false, 'A concrete placement should default to a one-off session');
@@ -319,17 +373,18 @@ async function saveDraftAsWeekly(page, templateId, expected) {
   }
   await form.locator('[name="starts-on"]').fill(expected.date);
   await form.locator(selectors.save).click();
+  await sessionDialog.waitFor({ state: 'hidden' });
   await page.locator(selectors.calendarPanel).waitFor({ state: 'visible' });
   const placed = page.locator(
     `${selectors.calendarCard}[data-occurrence-date="${expected.date}"]`,
-  ).filter({ hasText: expected.marker });
+  ).filter({ hasText: expected.marker }).filter({ hasText: expected.start });
   await placed.waitFor({ state: 'visible' });
   assert.match(collapse(await placed.innerText()), new RegExp(expected.start.replace(':', '\\:')), 'Placed weekly card must render at the exact drop time');
 }
 
 async function inspectDesktopTemplateDrag(page) {
   const marker = `PALETTE QA DESKTOP ${Date.now()}`;
-  const { paletteCard, templateId } = await createSourceSessionAndFindPaletteCard(page, marker);
+  const { paletteCard, templateId } = await createSourceTemplateAndFindPaletteCard(page, marker);
   const target = page.locator('[data-calendar-day="1"] [data-calendar-slot][data-time="11:15"]');
   assert.equal(await target.count(), 1, 'Desktop calendar needs one Monday 11:15 drop slot');
   const expected = {
@@ -340,13 +395,23 @@ async function inspectDesktopTemplateDrag(page) {
   };
   assert.match(expected.date, /^\d{4}-\d{2}-\d{2}$/, 'Desktop drop target needs an exact ISO date');
   await installNewSessionEventProbe(page);
-  await paletteCard.dragTo(target);
+  const handle = paletteCard.locator('[data-schedule-palette-drag-handle]');
+  await target.scrollIntoViewIfNeeded();
+  await handle.scrollIntoViewIfNeeded();
+  const handleBox = await handle.boundingBox();
+  const targetBox = await target.boundingBox();
+  assert.ok(handleBox && targetBox, 'Template drag needs visible handle and target geometry');
+  await page.mouse.move(handleBox.x + handleBox.width / 2, handleBox.y + handleBox.height / 2);
+  await page.mouse.down();
+  await page.mouse.move(handleBox.x + handleBox.width / 2 + 12, handleBox.y + handleBox.height / 2 + 4, { steps: 4 });
+  await page.mouse.move(targetBox.x + targetBox.width / 2, targetBox.y + targetBox.height / 2, { steps: 24 });
+  await page.mouse.up();
   await saveDraftAsWeekly(page, templateId, expected);
 }
 
 async function inspectMobileSelectAndTap(page) {
   const marker = `PALETTE QA MOBILE ${Date.now()}`;
-  const { paletteCard, templateId } = await createSourceSessionAndFindPaletteCard(page, marker);
+  const { paletteCard, templateId } = await createSourceTemplateAndFindPaletteCard(page, marker);
   await paletteCard.scrollIntoViewIfNeeded();
   const paletteBox = await paletteCard.boundingBox();
   const viewport = page.viewportSize();
@@ -356,8 +421,46 @@ async function inspectMobileSelectAndTap(page) {
     'Mobile palette card must remain inside the viewport without horizontal clipping',
   );
 
+  const paletteList = page.locator('[data-schedule-palette-list]');
+  const mobileTouchContract = await paletteList.evaluate((node) => ({
+    touchAction: getComputedStyle(node).touchAction,
+    overscrollY: getComputedStyle(node).overscrollBehaviorY,
+  }));
+  assert.notEqual(mobileTouchContract.touchAction, 'pan-x', 'Palette content must allow vertical page panning');
+  assert.notEqual(mobileTouchContract.touchAction, 'none', 'Palette content must not trap all touch gestures');
+  assert.equal(mobileTouchContract.overscrollY, 'auto', 'Vertical overscroll must chain to the page');
+
+  const handle = paletteCard.locator('[data-schedule-palette-drag-handle]');
+  assert.equal(await handle.evaluate((node) => getComputedStyle(node).touchAction), 'none', 'Only the drag rail may capture touch gestures');
+  await handle.tap({ force: true });
+  assert.equal(
+    await paletteCard.getAttribute('data-schedule-palette-selected'),
+    null,
+    'Tapping the drag rail without moving must not select the template',
+  );
+
+  const mainBox = await paletteCard.locator(selectors.paletteSelect).boundingBox();
+  assert.ok(mainBox, 'Template content must remain visible for the vertical swipe check');
+  const scrollBefore = await page.evaluate(() => window.scrollY);
+  const cdp = await page.context().newCDPSession(page);
+  const touchX = mainBox.x + Math.min(mainBox.width / 2, 80);
+  const touchStartY = mainBox.y + mainBox.height / 2;
+  const touchEndY = Math.max(70, touchStartY - 130);
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchStart', touchPoints: [{ x: touchX, y: touchStartY }] });
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchMove', touchPoints: [{ x: touchX, y: touchEndY }] });
+  await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+  await page.waitForTimeout(250);
+  assert.ok(await page.evaluate(() => window.scrollY) > scrollBefore, 'A vertical swipe started on template content must scroll the page');
+
+  // Start the placement gesture from a fresh document so DevTools' synthetic
+  // swipe stream cannot suppress the next compatibility click.
+  await waitForEditorPage(page);
+  await selectMode(page, 'schedule');
+  await paletteCard.waitFor({ state: 'visible' });
+  await paletteCard.scrollIntoViewIfNeeded();
+
   await installNewSessionEventProbe(page);
-  await paletteCard.click();
+  await paletteCard.locator(selectors.paletteSelect).tap();
   const selected = await paletteCard.evaluate((node) => (
     node.getAttribute('aria-pressed') === 'true'
     || node.getAttribute('data-schedule-palette-selected') === 'true'
@@ -375,9 +478,15 @@ async function inspectMobileSelectAndTap(page) {
   await target.scrollIntoViewIfNeeded();
   await target.click({ force: true });
 
-  const editorPanel = page.locator(selectors.editorPanel);
-  await editorPanel.waitFor({ state: 'visible' });
-  const form = editorPanel.locator(selectors.form);
+  const sessionDialog = page.locator(selectors.sessionDialog);
+  await sessionDialog.waitFor({ state: 'visible' });
+  const form = sessionDialog.locator(selectors.form);
+  assert.equal(await form.getAttribute('data-schedule-form-mode'), 'template-placement', 'Mobile template tap must open streamlined placement');
+  assert.equal(collapse(await form.locator('[data-schedule-form-heading]').innerText()), marker, 'Mobile placement heading must use the add icon and its template name');
+  assert.equal(await form.locator('[data-schedule-form-heading]').evaluate((node) => node.classList.contains('schedule-form__placement-heading')), true, 'Mobile placement heading must use the circular add icon');
+  assert.equal(collapse(await form.locator('[data-schedule-form-subtitle]').textContent()), 'Группа · QA RU', 'Mobile placement heading must show its saved group');
+  assert.equal(await form.locator('[name="group-preset"]').isHidden(), true, 'Mobile placement must hide the redundant group selector');
+  assert.equal(await form.locator('[data-schedule-language-details]').isHidden(), true, 'Mobile placement must hide language text editing');
   assert.equal(await form.locator('[name="start"]').inputValue(), '11:45', 'Select-card + tap must prefill 11:45 exactly');
   assert.equal(await form.locator('[name="date"]').inputValue(), expected.date, 'Mobile placement must preserve the tapped date');
   assert.equal(await form.locator('[name="repeat-weekly"]').isChecked(), false, 'Mobile placement must allow recurrence choice and default to once');
@@ -386,6 +495,7 @@ async function inspectMobileSelectAndTap(page) {
   assert.equal(detail?.start, '11:45', 'Mobile placement event must retain the tapped quarter-hour');
 
   await form.locator(selectors.save).click();
+  await sessionDialog.waitFor({ state: 'hidden' });
   await page.locator(selectors.calendarPanel).waitFor({ state: 'visible' });
   const placed = page.locator(
     `${selectors.calendarCard}[data-occurrence-date="${expected.date}"]`,
